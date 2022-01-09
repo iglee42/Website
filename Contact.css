@@ -57,4 +57,56 @@
   .u-section-1 .u-sheet-1 {
     min-height: 571px;
   }
+} .u-section-2 {
+  background-image: url("images/background.png");
+  background-position: 50% 50%;
+}
+
+.u-section-2 .u-sheet-1 {
+  min-height: 545px;
+}
+
+.u-section-2 .u-text-1 {
+  font-weight: 700;
+  margin: 61px auto 0;
+}
+
+.u-section-2 .u-form-1 {
+  width: 570px;
+  margin: 29px auto 60px;
+}
+
+.u-section-2 .u-input-1 {
+  text-transform: uppercase;
+  background-image: none;
+}
+
+.u-section-2 .u-input-2 {
+  text-transform: uppercase;
+  background-image: none;
+}
+
+.u-section-2 .u-input-3 {
+  text-transform: uppercase;
+  background-image: none;
+}
+
+.u-section-2 .u-btn-1 {
+  letter-spacing: 1px;
+  border-style: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-image: none;
+}
+
+@media (max-width: 767px) {
+  .u-section-2 .u-form-1 {
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-2 .u-form-1 {
+    width: 340px;
+  }
 }
