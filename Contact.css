@@ -21,6 +21,15 @@
 
 .u-section-1 .u-carousel-item-1 {
   margin-right: 0;
+  --effect-scale: 1.25;
+}
+
+.u-section-1 .u-back-slide-1 {
+  transition-duration: 0.75s;
+}
+
+.u-section-1 .u-back-image-1 {
+  left: -50px;
 }
 
 .u-section-1 .u-over-slide-1 {
@@ -31,6 +40,15 @@
 
 .u-section-1 .u-carousel-item-2 {
   margin-right: 0;
+  --effect-scale: 1.25;
+}
+
+.u-section-1 .u-back-slide-2 {
+  transition-duration: 0.75s;
+}
+
+.u-section-1 .u-back-image-2 {
+  left: -50px;
 }
 
 .u-section-1 .u-over-slide-2 {

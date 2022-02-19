@@ -1,5 +1,6 @@
  .u-section-1 {
-  background-image: none;
+  background-image: url("images/backgroundforge.jpg");
+  background-position: 50% 50%;
 }
 
 .u-section-1 .u-sheet-1 {
@@ -24,6 +25,7 @@
 
 .u-section-1 .u-list-item-1 {
   background-position: 50% 50%;
+  background-image: none;
 }
 
 .u-section-1 .u-container-layout-1 {
@@ -45,14 +47,14 @@
 }
 
 .u-section-1 .u-text-4 {
-  margin: 27px 12px 0;
+  margin: 43px 12px 0;
 }
 
 .u-section-1 .u-btn-1 {
   background-image: none;
   border-style: none;
   font-weight: 700;
-  margin: 66px 0 0 auto;
+  margin: 50px 0 0 auto;
   padding: 10px 17px 10px 16px;
 }
 
@@ -92,14 +94,14 @@
 }
 
 .u-section-1 .u-text-7 {
-  margin: 27px 12px 0;
+  margin: 43px 12px 0;
 }
 
 .u-section-1 .u-btn-3 {
   background-image: none;
   border-style: none;
   font-weight: 700;
-  margin: 66px 0 0 auto;
+  margin: 50px 0 0 auto;
   padding: 10px 17px 10px 16px;
 }
 
