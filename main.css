@@ -83,6 +83,7 @@ body {
 }
 .nav-item a{
     color:black;
+    text-decoration: none;
     transition: all 0.5s;
 }
 .nav-item .active.social{
@@ -105,7 +106,7 @@ body {
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 10;
     margin-left: 30px;
 }
   
@@ -121,14 +122,18 @@ body {
   
 .dropdown-content.show {display:block;}
 
+.curseforge {
+    transform: translate(-5px,7px);
+}
 
 footer {
     position: relative;
+    top: 10px;
     bottom: 0px;
     left: 0px;
     text-align: center;
     box-sizing: border-box;
-    height: 114px;
+    height: auto;
     background-color: white;
     font-size: 18px;
     line-height: 28.8px;

@@ -89,7 +89,7 @@ function sendContactForm(form){
             sendIcon.style.transform = "translate(-5px) scaleX(2)";
         }, 200);
         setTimeout(() => {
-            sendIcon.style.transform = "translateY(-150%)";
+            sendIcon.style.transform = "translate(150%,-150%)";
             btn.style.background = "#cc0000"
             btn.style.borderColor = "#990000"
         }, 1400);
@@ -139,14 +139,14 @@ function sendContactForm(form){
         setTimeout(() => {
             btn.style.transform = "scaleX(0.5)";
             btn.style.borderRadius = "30px";
-            sendIcon.style.transform = "translate(-5px) scaleX(2)";
+            sendIcon.style.transform = "translate(-5px,-5px) scaleX(2)";
             const request = new XMLHttpRequest();
             request.open("POST","https://ptb.discord.com/api/webhooks/1072148511249944606/YZ1s85izw4wd3p0IFAEtNxJr43VV5q2tJ4p945VtMUDOrwK9cXN_9_FYZiBvn2ZPCtVz");
             request.setRequestHeader('Content-type', 'application/json');
             request.send(getHook(subjectField.value,pseudoField.value,mailField.value,messageField.value,discordField.value))
         }, 200);
         setTimeout(() => {
-            sendIcon.style.transform = "translateY(-200%)";
+            sendIcon.style.transform = "translate(200%,-200%)";
             btn.style.background = "#26872a"
             btn.style.borderColor = "#206623"
         }, 1800);

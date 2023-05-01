@@ -1,0 +1,31 @@
+#logo-img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+#pages-selection-div{
+    position: relative;
+    top: 10px;
+    border-top-width: 2px;
+    border-top-style: solid;
+    border-top-color: rgb(218, 217, 220);
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page-selection{
+    text-align: center;
+    font-size: 30px;
+    text-decoration: none;
+    color: black;
+}
+
+.page-selection-img{
+    width: 200px;
+    height: 200px;
+
+}
