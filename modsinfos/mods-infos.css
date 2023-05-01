@@ -34,15 +34,21 @@
     color: black;
 
     width: 200px;
-    height: 225px;
+    height: 235px;
+}
+
+.page-selection span{
+    position: relative;
+    left: -35px;
+    top: 195px;
 }
 
 .page-selection img{
     position: relative;
-    top: 60px;
-    left: 33px;
-    width: 100px;
-    height: 100px;
+    top: 80px;
+    left: 35px;
+    width: 75px;
+    height: 75px;
     z-index: 1;
 }
 
