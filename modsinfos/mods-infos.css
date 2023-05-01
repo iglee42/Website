@@ -1,6 +1,9 @@
+#infos-nav-bar {
+    display: block;
+}
 #logo-img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     display: block;
     margin-left: auto;
     margin-right: auto 
@@ -18,14 +21,28 @@
 }
 
 .page-selection{
+    display: flex;
+    justify-content: center;
+
+    background:  no-repeat center/80% url("../images/modsinfos/logo.png");
+
+    background-size: 200px 200px;
+
     text-align: center;
     font-size: 30px;
     text-decoration: none;
     color: black;
-}
 
-.page-selection-img{
     width: 200px;
-    height: 200px;
-
+    height: 225px;
 }
+
+.page-selection img{
+    position: relative;
+    top: 60px;
+    left: 33px;
+    width: 100px;
+    height: 100px;
+    z-index: 1;
+}
+
