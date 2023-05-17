@@ -1,6 +1,7 @@
 body {
     font-family: "Oswald", sans-serif;
 }
+
 .nav-bar {
     margin-top: 0px;
     margin-left: 0px;
@@ -10,7 +11,8 @@ body {
     position: sticky;
     justify-content: center;
 }
-.nav-logo{
+
+.nav-logo {
     width: 100px;
     height: 100px;
 }
@@ -22,6 +24,7 @@ body {
     margin-top: 0px;
     transition: all 1s;
 }
+
 .hover_logo {
     position: fixed;
     height: 100px;
@@ -31,7 +34,8 @@ body {
     opacity: 0;
     transition: all 1s;
 }
-.nav-logo:hover .no_hover_logo{
+
+.nav-logo:hover .no_hover_logo {
     transform: translate(-90px);
 }
 
@@ -39,19 +43,22 @@ body {
     opacity: 1;
     transform: translate(-90px);
 }
+
 .nav-list-right {
     position: absolute;
     float: right;
     right: 80px;
     top: 10px;
 }
+
 .nav-list-left {
     position: absolute;
     float: left;
     left: 20px;
     top: 10px;
 }
-.nav-item{
+
+.nav-item {
     display: inline;
     padding-left: 40px;
     font-size: 30px;
@@ -67,10 +74,11 @@ body {
     opacity: 1;
 }
 
-.nav-item .nav-arrow.fa-rotate-90{
+.nav-item .nav-arrow.fa-rotate-90 {
     opacity: 1;
 }
-#french-flag{
+
+#french-flag {
     transform: translateY(12px);
 }
 
@@ -78,38 +86,43 @@ body {
     opacity: 0;
     transition: all 0.5s;
 }
+
 .nav-item .active .nav-icon {
     opacity: 1;
 }
-.nav-item a{
-    color:black;
+
+.nav-item a {
+    color: black;
     text-decoration: none;
     transition: all 0.5s;
 }
-.nav-item .active.social{
+
+.nav-item .active.social {
     color: #f50000;
 }
 
-.nav-item .active.projects{
+.nav-item .active.projects {
     color: #43d800;
 }
-.nav-item .active.resources{
+
+.nav-item .active.resources {
     color: #e7c669;
 }
-.nav-item .active.contact{
+
+.nav-item .active.contact {
     color: #324bd8;
 }
-  
+
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 10;
     margin-left: 30px;
 }
-  
+
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
@@ -117,13 +130,17 @@ body {
     display: block;
     font-size: 25px;
 }
-  
-.dropdown-content a:hover {background-color: #ddd;}
-  
-.dropdown-content.show {display:block;}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-content.show {
+    display: block;
+}
 
 .curseforge {
-    transform: translate(-5px,7px);
+    transform: translate(-5px, 7px);
 }
 
 footer {
@@ -142,11 +159,17 @@ footer {
     border-top-width: 2px;
     border-top-style: solid;
     border-top-color: rgb(218, 217, 220);
+    z-index: -1;
 }
 
-footer .rights{
-    color:black;
+footer .rights {
+    color: black;
     position: relative;
     font-size: 30px;
     padding-top: 20px;
+}
+
+h1{
+    font-size: 75px;
+    text-decoration: underline;
 }
