@@ -1,8 +1,11 @@
-#infos-nav-bar {
+.infos-nav-bar {
     display: block;
+    height: fit-content;
+    position:sticky;
+    top: 0px;
 }
 
-#logo-img {
+.logo-img {
     width: 150px;
     height: 150px;
     display: block;
@@ -11,22 +14,23 @@
     transition: all 0.5s linear;
 }
 
-#logo-img:hover {
+.logo-img:hover {
     transform: rotate(180deg);
 }
 
-.page-infos{
+.page-infos {
     height: 280px;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
 
     border-top-width: 2px;
     border-top-style: solid;
     border-top-color: rgb(218, 217, 220);
 }
 
+.page-infos p{
+    font-size: 25px;
+}
 #pages-selection-div {
     position: relative;
     top: 10px;
@@ -38,6 +42,7 @@
     height: 210px;
     justify-content: space-between;
 }
+
 
 .page-selection {
     display: block;
