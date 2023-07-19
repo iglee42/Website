@@ -62,7 +62,7 @@ function sendForm() {
 
         let discord = 0;
         if (discordField.value !== "") {
-            discord = parseInt(discordField.value)
+            discord = BigInt(discordField.value)
         }
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "http://50.20.249.21:3000/idea");
@@ -72,7 +72,7 @@ function sendForm() {
             modId: parseInt(document.getElementById("mod-sel").selectedOptions[0].value),
             title: pseudoField.value,
             description: descField.value,
-            discordId: discord
+            discordId: discord.toString()
         })
         xhr.send(body);
         xhr.onload = () => {
