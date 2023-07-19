@@ -1,0 +1,61 @@
+body {
+    font-family: "Oswald", sans-serif;
+}
+
+form button {
+    width: 150px;
+    background-color: #00458e;
+    border-color: #023872;
+    display: block;
+    height: 50px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 2px;
+    border-bottom-color: #023872;
+    text-align: center;
+    resize: vertical;
+    min-height: 40px;
+    max-height: 240px;
+    border-radius: 10px;
+    font-size: 30px;
+    overflow: hidden;
+    transition: all 0.25s;
+}
+
+
+form button span,
+form button i {
+    color: white;
+    transition: all 0.5s ease-in-out;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    height: auto;
+    background-color: white;
+    font-size: 18px;
+    line-height: 28.8px;
+    overflow: hidden;
+    width: 100%;
+    border-top-width: 2px;
+    border-top-style: solid;
+    border-top-color: rgb(218, 217, 220);
+    z-index: -1;
+}
+
+footer .rights {
+    color: black;
+    position: relative;
+    font-size: 30px;
+    padding-top: 20px;
+}
+
+h1{
+    font-size: 75px;
+    text-decoration: underline;
+}
