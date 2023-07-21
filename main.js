@@ -3,6 +3,17 @@ window.onload = function () {
     xhr.open("GET", "http://50.20.249.21:3000/mods");
     xhr.send();
     xhr.responseType = "json";
+    xhr.timeout = 1000;
+
+    xhr.ontimeout = () => {
+        if (xhr.status == 0) {
+            document.querySelector("form").style.display = "none"
+            let disabledText = document.createElement("p");
+            disabledText.textContent = "The server is off retry later !"
+            disabledText.className += "text-center fs-3 mt-3"
+            document.querySelector("#main-div").appendChild(disabledText)
+        }
+    }
     xhr.onload = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
             const data = xhr.response;
@@ -26,11 +37,10 @@ window.onload = function () {
 
 }
 function sendForm() {
-    console.log("Submiteeds")
+    console.log("Submited")
     var form = document.querySelector("form");
     console.log("Valider");
     let mod = document.getElementById("mod-sel");
-    console.log(mod)
     let pseudoField = document.getElementById("title");
     let descField = document.getElementById("description");
     let discordField = document.getElementById("discord");
@@ -50,13 +60,21 @@ function sendForm() {
         error = "Please Enter a Description"
     }
     if (discordField.value.length > 0) {
-        if (!/\d{ 18 }/.test(discordField.value)) {
-            if (discordField.length < 18 || discordField.length > 18) {
+        if (/\d+/.test(discordField.value)) {
+            console.log(discordField.value.length)
+            if (discordField.value.length < 18 || discordField.value.length > 18) {
                 isValid = false;
                 error = "Please Enter a Valid Discord Identifier"
+                console.log("Length Not valid")
             }
+        } else {
+            console.log("Text not valid")
+            isValid = false;
+            error = "Please Enter a Valid Discord Identifier"
         }
     }
+
+    console.log("Valid : " + isValid)
 
     if (isValid) {
 
@@ -67,7 +85,7 @@ function sendForm() {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "http://50.20.249.21:3000/idea");
         xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
-        
+
         body = JSON.stringify({
             modId: parseInt(document.getElementById("mod-sel").selectedOptions[0].value),
             title: pseudoField.value,
@@ -82,7 +100,7 @@ function sendForm() {
                 console.log(`Error: ${xhr.status}`);
             }
         };
-        
+
     } else {
         alert(error)
     }
