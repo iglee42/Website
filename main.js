@@ -1,7 +1,7 @@
 window.onload = function() { 
-    var leftLinks = document.getElementById("nav-list-left").getElementsByTagName("a")
-    var rightLinks = document.getElementById("nav-list-right").getElementsByTagName("a")
-    var full_path = location.href.split("#")[0];
+    const leftLinks = document.getElementById("nav-list-left").getElementsByTagName("a")
+    const rightLinks = document.getElementById("nav-list-right").getElementsByTagName("a")
+    const full_path = location.href.split("#")[0];
 
     // Loop through each link.
     for(i = 0; i<leftLinks.length; i++) {
@@ -20,7 +20,7 @@ function mouseEnter(element) {
     element.className += " active"
 }
 function mouseExit(element) {
-    var classes = element.className;
+    const classes = element.className;
     element.className = classes.substr(0,classes.length - 7)
 }
 
