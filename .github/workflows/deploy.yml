@@ -20,3 +20,4 @@ jobs:
           localDir: '.'                              # Required, Absolute or relative to cwd.
           remoteDir: '/var/www/html'                             # Required, Absolute path only.
           exclude: '.git*,.DS_Store,images/'  
+
