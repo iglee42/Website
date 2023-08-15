@@ -19,5 +19,5 @@ jobs:
           forceUpload: true                          # Optional, Force uploading all files, Default to false(upload only newer files).
           localDir: '.'                              # Required, Absolute or relative to cwd.
           remoteDir: '/var/www/html'                             # Required, Absolute path only.
-          exclude: '.git*,.DS_Store,images/'  
+          exclude: '.git*,.DS_Store,images/*'  
 
