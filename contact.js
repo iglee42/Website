@@ -1,5 +1,5 @@
 window.onload = function() {
-    var form = document.querySelector("form");
+    const form = document.querySelector("form");
     form.onsubmit = submitted.bind(form);
 }
 
@@ -7,14 +7,14 @@ function submitted(event) {
     event.preventDefault();
 }
 function sendContactForm(form){
-    var hasEmptyField = false;
-    var discordFieldValid = true;
-    var mailFieldValid = true;
-    var pseudoField = form.getElementsByClassName("pseudo").item(0);
-    var mailField = form.getElementsByClassName("mail").item(0);
-    var discordField = form.getElementsByClassName("discord").item(0);
-    var subjectField = form.getElementsByClassName("subject").item(0);
-    var messageField = form.getElementsByClassName("message").item(0);
+    const hasEmptyField = false;
+    const discordFieldValid = true;
+    const mailFieldValid = true;
+    const pseudoField = form.getElementsByClassName("pseudo").item(0);
+    const mailField = form.getElementsByClassName("mail").item(0);
+    const discordField = form.getElementsByClassName("discord").item(0);
+    const subjectField = form.getElementsByClassName("subject").item(0);
+    const messageField = form.getElementsByClassName("message").item(0);
     if (pseudoField.value.length == 0){
         pseudoField.className += " empty";
         hasEmptyField = true;
@@ -64,7 +64,7 @@ function sendContactForm(form){
         }, 2500);
     }
     if (hasEmptyField) {
-        var errorLabel = form.getElementsByClassName("errorMsg").item(0);
+        let errorLabel = form.getElementsByClassName("errorMsg").item(0);
         if (mailFieldValid) {
             if (discordFieldValid) {
                 errorLabel.textContent = "Please complete all fields";
@@ -164,7 +164,7 @@ function sendContactForm(form){
     }
 }
 function checkCharsLimit(txtArea) {
-    var maxChars = 6*33;
+    const maxChars = 6*33;
     while(txtArea.value.length > maxChars) 
     { 
       txtArea.value = txtArea.value.substr(0,txtArea.value.length-1); 
