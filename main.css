@@ -22,7 +22,7 @@ form button {
 }
 
 form .blue-button {
-    width: 150;
+    width: 150px;
     border-bottom-width: 2px;
     background-color: #00458e;
     border-color: #023872;
@@ -88,4 +88,10 @@ footer .rights {
 h1 {
     font-size: 75px;
     text-decoration: underline;
+}
+
+.fa-check,
+.fa-xmark {
+    display: none;
+    transform: scaleX(2) translateY(150%);
 }
