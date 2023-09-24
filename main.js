@@ -100,6 +100,7 @@ function sendForm() {
     let error = "";
     let isValid = true;
 
+
     if (mod.selectedIndex <= 0) {
         isValid = false;
         error = "Please Choose a valid Mod"
@@ -118,7 +119,9 @@ function sendForm() {
     if (isValid) {
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://50.20.249.21:3000/idea");
+        xhr.open("POST", "http://iglee.fr:3000/idea");
+        xhr.overrideMimeType("text/plain")
+        xhr.setRequestHeader('X-Requested-With', 'xmlhttprequest');
         xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
 
         body = JSON.stringify({
@@ -129,15 +132,127 @@ function sendForm() {
         })
         xhr.send(body);
         xhr.onload = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log("Send");
+            if (xhr.status == 200) {
+                console.log("Ok")
+                successAnimation(form)
             } else {
-                console.log(`Error: ${xhr.status}`);
+                failAnimation(form)
             }
         };
+        xhr.onerror = () => {
+            failAnimation(form)
+        }
 
     } else {
-        alert(error)
+        failAnimation(form)
     }
 
+}
+
+function successAnimation(form) {
+    console.log("send animation")
+    const btn = form.querySelector(".blue-button");
+    const text = btn.querySelector("span");
+    const sendIcon = btn.querySelector(".fa-paper-plane");
+    const checkIcon = btn.querySelector(".fa-check");
+    text.style.visibility = "hidden";
+    text.style.width = "0px";
+    text.style.height = "0px";
+    text.style.fontSize = "0px";
+    setTimeout(() => {
+        btn.style.width = "75px";
+        btn.style.borderRadius = "30px";
+        sendIcon.style.transform = "translate(-5px)";
+    }, 200);
+    setTimeout(() => {
+        sendIcon.style.transform = "translate(150%,-150%)";
+        btn.style.background = "#26872a"
+        btn.style.borderColor = "#206623"
+    }, 1400);
+    setTimeout(() => {
+        sendIcon.style.display = "none";
+        checkIcon.style.display = "block";
+    }, 1700);
+    setTimeout(() => {
+        checkIcon.style.transform = "translateY(-37px)";
+    }, 1750);
+    setTimeout(() => {
+        checkIcon.style.transform = "";
+        setTimeout(() => {
+            sendIcon.style.display = "";
+            checkIcon.style.display = "";
+        }, 200);
+        setTimeout(() => {
+            sendIcon.style.transform = "";
+            btn.style.background = ""
+            btn.style.borderColor = ""
+        }, 1400);
+        setTimeout(() => {
+            btn.style.width = "150px";
+            btn.style.borderRadius = "";
+            sendIcon.style.transform = "";
+        }, 1700);
+        setTimeout(() => {
+            text.style.visibility = "";
+            text.style.width = "";
+            text.style.height = "";
+            text.style.fontSize = "";
+        }, 1750);
+        setTimeout(() => {
+            form.reset()
+            window.location.search = ""
+            window.location.reload();
+        }, 1900);
+    }, 3000);
+}
+function failAnimation(form) {
+    console.log("send animation")
+    const btn = form.querySelector(".blue-button");
+    const text = btn.querySelector("span");
+    const sendIcon = btn.querySelector(".fa-paper-plane");
+    const checkIcon = btn.querySelector(".fa-xmark");
+    text.style.visibility = "hidden";
+    text.style.width = "0px";
+    text.style.height = "0px";
+    text.style.fontSize = "0px";
+    setTimeout(() => {
+        btn.style.width = "75px";
+        btn.style.borderRadius = "30px";
+        sendIcon.style.transform = "translate(-5px)";
+    }, 200);
+    setTimeout(() => {
+        sendIcon.style.transform = "translate(150%,-150%)";
+        btn.style.background = "#cc0000"
+        btn.style.borderColor = "#990000"
+    }, 1400);
+    setTimeout(() => {
+        sendIcon.style.display = "none";
+        checkIcon.style.display = "block";
+    }, 1700);
+    setTimeout(() => {
+        checkIcon.style.transform = "translateY(-37px)";
+    }, 1750);
+    setTimeout(() => {
+        checkIcon.style.transform = "";
+        setTimeout(() => {
+            sendIcon.style.display = "";
+            checkIcon.style.display = "";
+        }, 200);
+        setTimeout(() => {
+            sendIcon.style.transform = "";
+            btn.style.background = ""
+            btn.style.borderColor = ""
+        }, 1400);
+        setTimeout(() => {
+            btn.style.width = "150px";
+            btn.style.borderRadius = "";
+            sendIcon.style.transform = "";
+        }, 1700);
+        setTimeout(() => {
+            text.style.visibility = "";
+            text.style.width = "";
+            text.style.height = "";
+            text.style.fontSize = "";
+        }, 1750);
+    }, 3000);
 }
