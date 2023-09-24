@@ -3,16 +3,14 @@ body {
 }
 
 form button {
-    width: 150px;
-    background-color: #00458e;
-    border-color: #023872;
+    width: auto;
+
     display: block;
     height: 50px;
     border-top-width: 0px;
     border-left-width: 0px;
     border-right-width: 0px;
-    border-bottom-width: 2px;
-    border-bottom-color: #023872;
+    border-bottom-width: 0px;
     text-align: center;
     resize: vertical;
     min-height: 40px;
@@ -21,6 +19,38 @@ form button {
     font-size: 30px;
     overflow: hidden;
     transition: all 0.25s;
+}
+
+form .blue-button {
+    width: 150;
+    border-bottom-width: 2px;
+    background-color: #00458e;
+    border-color: #023872;
+    border-bottom-color: #023872;
+}
+
+form #discord-button {
+    width: 360px;
+    display: block;
+    height: 50px;
+    border-top-width: 5px;
+    border-left-width: 5px;
+    border-right-width: 5px;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 30px;
+    overflow: hidden;
+    transition: all 0.25s;
+    background-color: #5065F2;
+    font-family: "proxima-nova", sans-serif;
+    color: white;
+}
+
+#discord-link:visited,
+#discord-link:link,
+#discord-link:hover,
+#discord-link:active {
+    text-decoration: none;
 }
 
 
@@ -55,7 +85,7 @@ footer .rights {
     padding-top: 20px;
 }
 
-h1{
+h1 {
     font-size: 75px;
     text-decoration: underline;
 }
