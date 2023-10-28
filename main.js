@@ -1,5 +1,5 @@
-var isLogged = false
-var discordId = BigInt("0")
+let isLogged = false
+let discordId = BigInt("0")
 
 window.onload = function () {
 
@@ -12,7 +12,7 @@ window.onload = function () {
     xhr.ontimeout = () => {
         if (xhr.status == 0) {
             document.querySelector("form").style.display = "none"
-            let disabledText = document.createElement("p");
+            const disabledText = document.createElement("p");
             disabledText.textContent = "The server is off retry later !"
             disabledText.className += "text-center fs-3 mt-3"
             document.querySelector("#main-div").appendChild(disabledText)
@@ -20,9 +20,9 @@ window.onload = function () {
     }
     xhr.onload = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            const data = xhr.response;
-            let keys = Object.keys(data)
-            let modSel = document.getElementById("mod-sel")
+            let data = xhr.response;
+            const keys = Object.keys(data)
+            const modSel = document.getElementById("mod-sel")
             keys.forEach(m => {
                 let option = document.createElement("option")
                 option.value = data[m].id
@@ -45,9 +45,9 @@ window.onload = function () {
         discordButton.style.display = "none"
     }
     if (isLogged) {
-        var data = "code=" + parameters.get("code") + "&client_id=1127179485515624478&client_secret=WqRFMJ4u93K1rYCdbYpPSJ66iISE7OvT&grant_type=authorization_code&redirect_uri=http%3A%2F%2Figlee.fr";
+        let data = "code=" + parameters.get("code") + "&client_id=1127179485515624478&client_secret=WqRFMJ4u93K1rYCdbYpPSJ66iISE7OvT&grant_type=authorization_code&redirect_uri=http%3A%2F%2Figlee.fr";
 
-        var discordXHR = new XMLHttpRequest();
+        let discordXHR = new XMLHttpRequest();
 
 
         discordXHR.open("POST", "https://discord.com/api/oauth2/token");
@@ -55,7 +55,7 @@ window.onload = function () {
 
         discordXHR.send(data);
         discordXHR.onload = () => {
-            var discordJson = JSON.parse(discordXHR.responseText);
+            let discordJson = JSON.parse(discordXHR.responseText);
             getDiscordUsername(discordJson.access_token, discordJson.token_type);
             console.log(`Error: ${xhr.status}`);
         }
@@ -64,7 +64,7 @@ window.onload = function () {
 
 
 function getDiscordUsername(token, tokenType) {
-    var xhr = new XMLHttpRequest();
+    // const xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
 
 
@@ -74,7 +74,7 @@ function getDiscordUsername(token, tokenType) {
     xhr.send();
 
     xhr.onload = () => {
-        var discordJson = JSON.parse(xhr.responseText)
+        let discordJson = JSON.parse(xhr.responseText)
         if (discordJson.global_name === undefined) {
             let discordButton = document.querySelector("#discord-link")
             discordButton.style.display = "block"
@@ -92,7 +92,7 @@ function getDiscordUsername(token, tokenType) {
 
 function sendForm() {
     console.log("Submited")
-    var form = document.querySelector("form");
+    const form = document.querySelector("form");
     console.log("Valider");
     let mod = document.getElementById("mod-sel");
     let pseudoField = document.getElementById("title");
@@ -118,7 +118,7 @@ function sendForm() {
 
     if (isValid) {
 
-        const xhr = new XMLHttpRequest();
+        // const xhr = new XMLHttpRequest();
         xhr.open("POST", "http://iglee.fr:3000/idea");
         xhr.overrideMimeType("text/plain")
         xhr.setRequestHeader('X-Requested-With', 'xmlhttprequest');
@@ -154,7 +154,7 @@ function successAnimation(form) {
     const btn = form.querySelector(".blue-button");
     const text = btn.querySelector("span");
     const sendIcon = btn.querySelector(".fa-paper-plane");
-    const checkIcon = btn.querySelector(".fa-check");
+    let checkIcon = btn.querySelector(".fa-check");
     text.style.visibility = "hidden";
     text.style.width = "0px";
     text.style.height = "0px";
@@ -207,10 +207,10 @@ function successAnimation(form) {
 }
 function failAnimation(form) {
     console.log("send animation")
-    const btn = form.querySelector(".blue-button");
-    const text = btn.querySelector("span");
-    const sendIcon = btn.querySelector(".fa-paper-plane");
-    const checkIcon = btn.querySelector(".fa-xmark");
+    // const btn = form.querySelector(".blue-button");
+    // const text = btn.querySelector("span");
+    // const sendIcon = btn.querySelector(".fa-paper-plane");
+    let checkIcon = btn.querySelector(".fa-xmark");
     text.style.visibility = "hidden";
     text.style.width = "0px";
     text.style.height = "0px";
