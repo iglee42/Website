@@ -1,8 +1,8 @@
+const form = document.querySelector("form"); //define before it's need to be called (called line two)
 const sendBtn = form.querySelector(".blue-button");
 const sendText = sendBtn.querySelector("span");
 const sendIcon = sendBtn.querySelector(".fa-paper-plane");
 const xhr = new XMLHttpRequest();
-const form = document.querySelector("form");
 
 
 let isLogged = false
