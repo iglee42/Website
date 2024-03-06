@@ -15,6 +15,6 @@ jobs:
               server: ${{ secrets.SERVER_IP }}
               port: ${{ secrets.FTP_PORT }}
               local_path: './*'
-              remote_path: '/var/www/html'
+              remote_path: '/var/www/idea_website'
               password: ${{ secrets.FTP_PASSWORD }}
               ssh_private_key: ${{ secrets.FTP_PASSWORD }}
