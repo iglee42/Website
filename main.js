@@ -9,8 +9,14 @@ let isLogged = false
 let discordId = BigInt("0")
 
 window.onload = function () {
+    //Disable website
+    document.querySelector("form").style.display = "none"
+    const disabledText = document.createElement("p");
+    disabledText.textContent = "The website is depreciated. \nThe new website is under construction"
+    disabledText.className += "text-center fs-3 mt-3"
+    document.querySelector("#main-div").appendChild(disabledText)
     //When load, check if the server is online and get mods
-    xhr.open("GET", "http://50.20.249.21:3000/mods");
+    /*xhr.open("GET", "http://50.20.249.21:3000/mods");
     xhr.send();
     xhr.responseType = "json";
     xhr.timeout = 1000;
@@ -73,7 +79,7 @@ window.onload = function () {
             getDiscordUsername(discordJson.access_token, discordJson.token_type);
             console.log(`Error: ${xhr.status}`);
         }
-    }
+    }*/
 }
 
 
