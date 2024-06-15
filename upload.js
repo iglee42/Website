@@ -65,6 +65,8 @@ function uploadFile(file,type) {
     var url = 'https://iglee.fr:3000/textures/'+type
     var xhr = new XMLHttpRequest()
     var formData = new FormData()
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
+
     xhr.open('POST', url, true)
 
     // Update progress (can be used to show progress indicator)
