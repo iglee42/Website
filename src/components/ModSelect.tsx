@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef, useImperativeHandle, FormEvent } from "react";
+import { FaChevronDown, FaQuestion } from "react-icons/fa"
+import { Mod } from "../types/mod";
 
-export const ModSelect = () => {
 
-    type Mod = {
-        id: number;
-        name: string;
-        logoUrl: string;
-        disabled: boolean;
-    }
+export const ModSelect = forwardRef((props, ref) => {
+
+    
     const [mods, setMods] = useState<Mod[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedMod, setSelectedMod] = useState<Mod | null>(null);
 
+    useImperativeHandle(ref, () => ({
+        getSelectedMod(){
+            return selectedMod;
+        }
+    }))
     useEffect(() => {
         async function fetchMods() {
                 const response = await fetch('https://iglee.fr:3000/mods');
@@ -24,7 +27,6 @@ export const ModSelect = () => {
         fetchMods();
     },[])
 
-    console.log(typeof mods)
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -34,7 +36,9 @@ export const ModSelect = () => {
         document.getElementById("select-content")?.classList.add("hidden")
     };
 
-    function switchOptions() {
+    function switchOptions(e: FormEvent<any>) {
+        e.preventDefault();
+        e.stopPropagation();
         var content = document.getElementById("select-content")
         if (content?.classList.contains("hidden")) {
             content.classList.remove("hidden")
@@ -43,17 +47,23 @@ export const ModSelect = () => {
         }
     }
     const select = (
-        <div className="relative w-1/2 flex items-center flex-col">
-                <button className="form-select g-gray-50 border border-gray-300 rounded-lg p-2.5 w-full" aria-label="Select a mod" id="mod-sel" onClick={switchOptions}>
+        <div className="relative w-1/2 flex items-center flex-col" >
+            <button className="form-select bg-gray-50 border border-gray-300 rounded-lg p-2.5 w-full flex justify-between items-center" aria-label="Select a mod" id="mod-sel" onClick={switchOptions}>
+                <div className="flex items-center">
                     {selectedMod ? (
                         <div className="flex items-center">
                             <img src={selectedMod.logoUrl} alt={selectedMod.name} className="h-6 w-6 mr-2" />
                             {selectedMod.name}
                         </div>
                     ) : (
-                        "Choose A Mod"
+                        <div className="flex items-center">
+                            <FaQuestion className="h-6 w-6 mr-2" size="2xs" />
+                            Choose A Mod
+                        </div>
                     )}
-                </button>
+                </div>
+                <FaChevronDown className="h-5 w-5 ml-2" />
+            </button>
             <div className=" hidden absolute mt-2 bg-white shadow-lg rounded-md w-full z-10 top-full " id="select-content">
                     {mods.map((mod) => (
                         <div
@@ -70,6 +80,6 @@ export const ModSelect = () => {
     )
 
     return select;
-}
+})
 
 

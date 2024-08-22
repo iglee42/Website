@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.transi-all {
+  transition: all 0.5s;
+}
+
+.transi-opa {
+  transition: opacity 0.5s !important; 
+}

@@ -27,13 +27,7 @@
 .invisible {
     opacity: 0
 }
-.transi-all {
-    transition: all 0.5s;
-}
 
-.transi-opa {
-    transition: opacity 0.5s;
-}
 
 .nav-logo:hover .normal-logo {
     transform: translate(-90px);
