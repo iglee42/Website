@@ -31,8 +31,8 @@
     transition: all 0.5s;
 }
 
-.rcs-color {
-    color: #e7c669;
+.transi-opa {
+    transition: opacity 0.5s;
 }
 
 .nav-logo:hover .normal-logo {
@@ -42,4 +42,8 @@
 .nav-logo:hover .hover-logo {
     opacity: 1;
     transform: translate(-90px);
+}
+
+.contact{
+    color: #324bd8
 }
