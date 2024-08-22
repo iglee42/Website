@@ -1,0 +1,20 @@
+on: [push]
+
+jobs:
+    deploy_job:
+      runs-on: ubuntu-latest
+      name: deploy
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: deploy file
+          uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+          with:
+              sftp_only: true
+              username: ${{ secrets.FTP_USERNAME }}
+              server: ${{ secrets.SERVER_IP }}
+              port: ${{ secrets.FTP_PORT }}
+              local_path: './*'
+              remote_path: '/var/www/idea_website'
+              password: ${{ secrets.FTP_PASSWORD }}
+              ssh_private_key: ${{ secrets.FTP_PASSWORD }}
