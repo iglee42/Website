@@ -3,6 +3,7 @@ import { ModSelect } from "../components/ModSelect";
 import { FaPaperPlane } from "react-icons/fa";
 import '../css/suggestion.css'
 
+
 export const Suggestions = () => {
 
 
@@ -45,7 +46,26 @@ export const Suggestions = () => {
             setError("Please enter a description")
             return;
         } 
-        sendAnimation(true)
+        var http = new XMLHttpRequest();
+        var url = "https://iglee.fr:3000/suggestion";
+        http.open("POST", url, true);
+        http.setRequestHeader("Content-type", "application/json");
+
+        http.onreadystatechange = function () {
+            if (http.readyState === 4 && http.status === 201) {
+                sendAnimation(true)
+                setTimeout(()=>window.location.reload(),1000)
+            }
+        }
+        http.onerror = function () {
+            setError('Internal Error, Try Later')
+            sendAnimation(false)
+        }
+        http.send(JSON.stringify({
+            modID: modSelectRef.current.getSelectedMod().id,
+            title: titleField.value,
+            descrition: descField.value
+        }));
     }
 
     function sendAnimation(success: boolean) {
