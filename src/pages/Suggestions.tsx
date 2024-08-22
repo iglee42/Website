@@ -64,7 +64,7 @@ export const Suggestions = () => {
         http.send(JSON.stringify({
             modID: modSelectRef.current.getSelectedMod().id,
             title: titleField.value,
-            descrition: descField.value
+            description: descField.value
         }));
     }
 
