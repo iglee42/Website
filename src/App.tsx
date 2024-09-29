@@ -16,7 +16,7 @@ function App() {
         <Route path='/suggestions' element={<Suggestions />} />
         <Route path='/projects' element={<Projects />} />
       </Routes>
-      <footer className='absolute bottom-0 right-0 left-0 text-center border-t-2 border-t-black border-t-solid h-16 flex justify-center items-center'>
+      <footer className='bottom-0 right-0 left-0 text-center border-t-2 border-t-black border-t-solid h-16 flex justify-center items-center'>
         <Rights />
       </footer>
     </div>

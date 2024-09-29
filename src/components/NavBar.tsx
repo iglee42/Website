@@ -12,12 +12,12 @@ import useDropdownMenu from 'react-accessible-dropdown-menu-hook';
 export const NavBar = () => {
     const { buttonProps, itemProps, isOpen } = useDropdownMenu(3);
     return (
-        <nav className='flex justify-between items-center'>
+        <nav className='flex justify-between items-center mb-24'>
             <NavItem to='/suggestions' text='Suggestions' component={<FaLightbulb className=' mt-1 mr-2 opacity-0 transi-opa icon' />} />
             <NavItem to='/projects' text='Projects' component={<FaDownload className=' mt-1 mr-2 opacity-0 transi-opa icon' />} />
             <NavLink className='nav-logo' to='/'>
-                <img src={logo} alt='Logo' className='z-10 size-24 normal-logo transi-all' />
-                <img src={logoName} alt='Logo' className='fixed top-10 h-24 opacity-0 hover-logo transi-all' />
+                <img src={logo} alt='Logo' className='fixed top-8 z-40 size-24 normal-logo transi-all' />
+                <img src={logoName} alt='Logo' className='fixed top-8 z-30 h-24 opacity-0 hover-logo transi-all' />
             </NavLink>
             <button {...buttonProps} className={['navItem flex text-3xl relative transi-all', (isOpen ? "rcs-color":"")].join(" ")}>
                 <FaCode className={['mt-1 mr-2 opacity-0 icon transi-opa', (isOpen ? 'opacity-100' : '')].join(" ")} />
