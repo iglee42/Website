@@ -46,7 +46,7 @@ export const IdeasTable = forwardRef((props, ref) => {
     const select = (
         <div className="relative flex items-center flex-col mt-5 mb-5" >
             <div className="flex items-centers">
-                <button className="input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center" onClick={e => setSelectedStatus(0)}>Wainting</button>
+                <button className="input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center" onClick={e => setSelectedStatus(0)}>Waiting</button>
                 <button className="input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center" onClick={e => setSelectedStatus(1)}>Accepted</button>
                 <button className="input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center" onClick={e => setSelectedStatus(2)}>Refused/Duplicated</button>
             </div>
