@@ -1,5 +1,5 @@
 
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../images/logo.png';
 import logoName from '../images/logo_name.png';
 import curseforge from '../images/curseforge.svg';
@@ -32,10 +32,10 @@ export const NavBar = () => {
                         <FaGithub className='mr-2' />
                         Github
                     </a>
-                    <a {...itemProps[2]} className='flex items-center w-full pointer-events-none justify-center' href='/modsinfo/index.html'>
+                    <Link {...itemProps[2]} className='flex items-center w-full justify-center' to='/'>
                         <img src={curseforge} alt='Curseforge' className='mr-2' />
                         Mods Infos (WIP)
-                    </a>
+                    </Link>
                 </div>
             </button>
 

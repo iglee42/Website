@@ -10,7 +10,9 @@ export enum Status {
     WAITING = 0,
     ACCEPTED = 1,
     REFUSED = 2,
-    DUPLICATE = 3
+    DUPLICATE = 3,
+    IN_DEV = 4,
+    FINISHED = 5
 }
 
 export function getStatusByNumber(statusCode: number) {
