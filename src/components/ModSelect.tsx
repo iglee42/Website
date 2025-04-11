@@ -5,27 +5,27 @@ import { Mod } from "../types/mod";
 
 export const ModSelect = forwardRef((props, ref) => {
 
-    
+
     const [mods, setMods] = useState<Mod[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedMod, setSelectedMod] = useState<Mod | null>(null);
 
     useImperativeHandle(ref, () => ({
-        getSelectedMod(){
+        getSelectedMod() {
             return selectedMod;
         }
     }))
     useEffect(() => {
         async function fetchMods() {
-                const response = await fetch('https://iglee.fr:3000/mods');
-                if (response.ok) {
-                    const data = await response.json();
-                    setMods(data);
-                    setLoading(false);
-                }
+            const response = await fetch('https://api.iglee.fr/mods');
+            if (response.ok) {
+                const data = await response.json();
+                setMods(data);
+                setLoading(false);
+            }
         }
         fetchMods();
-    },[])
+    }, [])
 
     if (loading) {
         return <div>Loading...</div>;
@@ -65,18 +65,18 @@ export const ModSelect = forwardRef((props, ref) => {
                 <FaChevronDown className="h-5 w-5 ml-2" />
             </button>
             <div className=" hidden absolute mt-2 bg-white shadow-lg rounded-md w-full z-10 top-full " id="select-content">
-                    {mods.map((mod) => (
-                        <div
-                            key={mod.id}
-                            className="flex w-full items-center p-2 cursor-pointer hover:bg-gray-200"
-                            onClick={() => handleSelect(mod)}
-                        >
-                            <img src={mod.logoUrl} alt={mod.name} className="h-6 w-6 mr-2" />
-                            {mod.name}
-                        </div>
-                    ))}
-                </div>
+                {mods.map((mod) => (
+                    <div
+                        key={mod.id}
+                        className="flex w-full items-center p-2 cursor-pointer hover:bg-gray-200"
+                        onClick={() => handleSelect(mod)}
+                    >
+                        <img src={mod.logoUrl} alt={mod.name} className="h-6 w-6 mr-2" />
+                        {mod.name}
+                    </div>
+                ))}
             </div>
+        </div>
     )
 
     return select;

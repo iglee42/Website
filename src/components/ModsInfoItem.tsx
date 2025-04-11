@@ -14,7 +14,7 @@ export const ModsInfoItems = (props:Props) => {
     
     return (
         <button
-            className="w-24 aspect-square m-2 perspective"
+            className="size-24 aspect-square m-2 perspective"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={()=>props.onClick(props.item)}

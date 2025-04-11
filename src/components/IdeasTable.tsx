@@ -15,7 +15,7 @@ export const IdeasTable = forwardRef((props, ref) => {
 
     useEffect(() => {
         async function fetchIdeas() {
-            const response = await fetch('https://iglee.fr:3000/ideas');
+            const response = await fetch('https://api.iglee.fr/ideas');
             if (response.ok) {
                 const data = await response.json();
                 setIdeas(data);
@@ -23,7 +23,7 @@ export const IdeasTable = forwardRef((props, ref) => {
             }
         }
         async function fetchMods() {
-            const response = await fetch('https://iglee.fr:3000/mods');
+            const response = await fetch('https://api.iglee.fr/mods');
             if (response.ok) {
                 const data = await response.json();
                 setMods(data);
@@ -39,7 +39,7 @@ export const IdeasTable = forwardRef((props, ref) => {
     }
 
     let ideaPredicate = (idea: Idea) => {
-        return selectedStatus === 2 ? idea.status === 2 || idea.status === 3 : (selectedStatus === 1 ? idea.status === 1 || idea.status === 4 || idea.status === 5 : idea.status === selectedStatus) 
+        return selectedStatus === 2 ? idea.status === 2 || idea.status === 3 : (selectedStatus === 1 ? idea.status === 1 || idea.status === 4 || idea.status === 5 : idea.status === selectedStatus)
     }
 
 
