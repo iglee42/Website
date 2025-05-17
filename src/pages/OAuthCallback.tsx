@@ -25,7 +25,7 @@ function OAuthCallback() {
         } else {
             showError("Invalide Data");
         }
-    }, []);
+    }, [navigate]);
 
     return <p>Login...</p>;
 }
