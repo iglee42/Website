@@ -21,6 +21,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           server: ${{ secrets.SERVER_IP }}
           port: ${{ secrets.FTP_PORT }}
-          local_path: './*'
+          local_path: './build/*'
           remote_path: '/root/testDeployement'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
