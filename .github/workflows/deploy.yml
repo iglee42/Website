@@ -22,5 +22,5 @@ jobs:
           server: ${{ secrets.SERVER_IP }}
           port: ${{ secrets.FTP_PORT }}
           local_path: './build/*'
-          remote_path: '/root/testDeployement'
+          remote_path: '/var/www/html'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
