@@ -7,6 +7,7 @@ import { NavBar } from './components/NavBar';
 import { Rights } from './components/Rights';
 //import { ModsInfos } from './ModsInfosRooter';
 import { useGlobalState } from './Vars';
+import OAuthCallback from './pages/OAuthCallback';
 
 function App() {
   const isInfoError = useGlobalState("isInfoError")[0];
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/suggestions' element={<Suggestions />} />
         <Route path='/projects' element={<Projects />} />
+        <Route path='/oauth-callback' element={<OAuthCallback />} />
         {/*<Route path='/modsinfos/*' element={<ModsInfos />} />*/}
       </Routes>
       <div className='absolute left-0 z-50 w-full flex justify-center h-10 items-center transi-all' style={{ bottom: (showInfo ? '8px' : '-50px'), opacity: (showInfo ? 1 : 0) }}>
