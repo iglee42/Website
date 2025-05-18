@@ -3,7 +3,7 @@ import { ModSelect } from "../components/ModSelect";
 import { FaPaperPlane } from "react-icons/fa";
 import '../css/suggestion.css'
 import { IdeasTable } from "../components/IdeasTable";
-import { getUser, isLogged } from "../Utils";
+import { getUser, isLogged, showError } from "../Utils";
 
 
 export const Suggestions = () => {
@@ -11,21 +11,16 @@ export const Suggestions = () => {
 
 
     const [animationClass, setAnimationClass] = useState('');
-    const [error, setErrorInternal] = useState('');
 
     const modSelectRef = useRef<any>();
 
 
     function setError(error: string) {
-        setErrorInternal(error)
-        setTimeout(() => {
-            setErrorInternal('')
-        }, 3000)
+        showError(error)
     }
 
     function sendForm(event: FormEvent<any>) {
         event.preventDefault()
-        setErrorInternal('');
         clearTimeout(0)
 
         let form: HTMLFormElement = document.querySelector("#suggest-form")!
@@ -99,8 +94,8 @@ export const Suggestions = () => {
                     <textarea className="form-control w-3/4 p-2.5 bg-white rounded-r-lg focus:outline-none" aria-label="Description" id="description" rows={4}></textarea>
                 </div>
                 <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>There is no formatting on the description (No markdown)</i></p>
+                <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>You can login to be notified of the changes of your suggestion</i></p>
                 <button type="submit" className={`input-group mb-3 mt-3 flex w-1/4 border border-gray-300 rounded-lg p-2.5 justify-center ${animationClass}`} id="send-suggest"><FaPaperPlane className="h-5 w-5 mr-2 mt-1" id="send-icon" /> <span id="send-text">Send</span></button>
-                <p className={`input-group transi-all mb-3 mt-3 flex w-2/4 text-lg p-2.5 justify-center text-red-600 ${error.length > 0 ? 'translate-0' : '-translate-y-1/4'}`}>{error}</p>
             </form>
             <IdeasTable />
         </div>

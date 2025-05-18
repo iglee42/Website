@@ -52,11 +52,11 @@ export function showInfo(info: string) {
     setGlobalState('showInfo', true);
     setTimeout(() => {
         setGlobalState('showInfo', false)
-    }, 2000);
+    }, 3000);
 }
 export function showError(info: string) {
     setGlobalState('isInfoError', true);
-    setTimeout(() => setGlobalState('isInfoError', false), 1750);
+    setTimeout(() => setGlobalState('isInfoError', false), 3200);
     showInfo(info);
 }
 

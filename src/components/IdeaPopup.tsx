@@ -84,7 +84,7 @@ export function IdeaPopup(props: Props) {
                     <span className="text-gray-600 text-lg">{reactStringReplace(props.idea.description, '\n', (m, i) => <br />)}</span>
 
                     {hasUserPermission(1) ?
-                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                    <div className="flex justify-center items-center text-gray-900 text-lg w-full">
                             <StatusSelect statusEntries={statusEntries} onChange={handleSelectChange} currentIdea={props.idea} />
                             <button className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center`} onClick={handleUpdateButton}>Update Status</button>
                     </div> : <></>}
