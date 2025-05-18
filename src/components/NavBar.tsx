@@ -3,10 +3,13 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../images/logo.png';
 import logoName from '../images/logo_name.png';
 import curseforge from '../images/curseforge.svg';
-import { FaDownload, FaCode, FaDiscord, FaYoutube, FaGithub, FaPlay, FaLightbulb } from "react-icons/fa";
+import { FaDownload, FaCode, FaYoutube, FaGithub, FaPlay, FaLightbulb } from "react-icons/fa";
+import { FaArrowRightToBracket } from 'react-icons/fa6'
 import '../css/navbar.css'
 import { ReactElement } from 'react';
 import useDropdownMenu from 'react-accessible-dropdown-menu-hook';
+import { LoggedInfo } from './LoggedInfo';
+import { hasUserPermission, isLogged } from '../Utils';
 
 
 export const NavBar = () => {
@@ -32,7 +35,7 @@ export const NavBar = () => {
                         <FaGithub className='mr-2' />
                         Github
                     </a>
-                    <Link {...itemProps[2]} className='flex items-center w-full justify-center' to='/'>
+                    <Link {...itemProps[2]} className='flex items-center w-full justify-center' to={ process.env.NODE_ENV === "production" && !hasUserPermission(3) ? "/" : "/modsinfos"}> 
                         <img src={curseforge} alt='Curseforge' className='mr-2' />
                         Mods Infos (WIP)
                     </Link>
@@ -40,7 +43,12 @@ export const NavBar = () => {
             </button>
 
 
-            <NavItem to='https://discord.iglee.fr' text='Contact' component={<FaDiscord className=' mt-1 mr-2 icon' />} />
+            {/*<NavItem to='https://discord.iglee.fr' text='Contact' component={<FaDiscord className=' mt-1 mr-2 icon' />} />*/}
+
+            {!isLogged() ?
+                <NavItem to={'https://api.iglee.fr/login'} text="Login" component={<FaArrowRightToBracket className=' mt-1 mr-2 opacity-0 transi-opa icon' />}/>
+                : <LoggedInfo/>
+            }
 
         </nav>
     )

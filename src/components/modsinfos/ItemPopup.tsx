@@ -21,7 +21,7 @@ export function ItemPopup(props: Props) {
     return (
         <Popup onClose={props.onClose}>
             
-                <div className="relative p-4 flex flex-col items-center min-w-max">
+                <div className="relative p-4 flex flex-col items-center min-w-max w-full max-w-full">
                     <img
                         src={props.item.image_link}
                         alt={props.item.display_name}

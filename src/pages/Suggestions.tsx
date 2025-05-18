@@ -3,6 +3,7 @@ import { ModSelect } from "../components/ModSelect";
 import { FaPaperPlane } from "react-icons/fa";
 import '../css/suggestion.css'
 import { IdeasTable } from "../components/IdeasTable";
+import { getUser, isLogged } from "../Utils";
 
 
 export const Suggestions = () => {
@@ -65,7 +66,8 @@ export const Suggestions = () => {
         http.send(JSON.stringify({
             modID: modSelectRef.current.getSelectedMod().id,
             title: titleField.value,
-            description: descField.value
+            description: descField.value,
+            userId: isLogged() ? getUser()?.id : -1
         }));
     }
 

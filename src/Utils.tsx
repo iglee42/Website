@@ -1,3 +1,4 @@
+import { DiscordUser, parseDiscordUser } from "./types/discordUser";
 import { setGlobalState } from "./Vars";
 
 export function split(base: string, separator: string): string[] {
@@ -49,10 +50,91 @@ export function convertStringToArray(input: string): string[] {
 export function showInfo(info: string) {
     setGlobalState('info', info);
     setGlobalState('showInfo', true);
-    setTimeout(() => setGlobalState('showInfo', false), 1500);
+    setTimeout(() => {
+        setGlobalState('showInfo', false)
+    }, 2000);
 }
 export function showError(info: string) {
     setGlobalState('isInfoError', true);
     setTimeout(() => setGlobalState('isInfoError', false), 1750);
     showInfo(info);
+}
+
+export function isLogged(): boolean {
+   return getUser() !== null;
+}
+
+export function getUser(): DiscordUser | null {
+    let user = localStorage.getItem("user");
+    if (user) {
+        return parseDiscordUser(JSON.parse(user));
+    }
+    return null;
+}
+
+export function getCachedUsers(): DiscordUser[] {
+    let users = localStorage.getItem("cachedUsers");
+    if (users) {
+        return JSON.parse(users);
+    }
+    return [];
+}
+
+export function getCachedUserById(id: string): DiscordUser | null {
+    let users = getCachedUsers();
+    for (let user of users) {
+        if (user.id === id) {
+            return user;
+        }
+    }
+    return null;
+}
+
+export function isUserCached(id: string): boolean {
+    let users = getCachedUsers();
+    for (let user of users) {
+        if (user.id === id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function cacheUser(user: DiscordUser): void {
+    let users = getCachedUsers();
+    if (!isUserCached(user.id)) {
+        users.push(user);
+        localStorage.setItem("cachedUsers", JSON.stringify(users));
+    }
+}
+
+export async function getUserById(id: string): Promise<DiscordUser | null> {
+    if (isUserCached(id)) {
+        return getCachedUserById(id);
+    } else {
+        const response = await fetch('https://api.iglee.fr/discordUser?id=' + id);
+        if (response.ok) {
+            const data = await response.json();
+            const user = parseDiscordUser(data);
+            cacheUser(user);
+            return user;
+        }
+        console.warn("Failed to fetch user by ID");
+        return null;
+    }
+}
+
+export function getUserAvatarUrl(user: DiscordUser): string {
+    if (user.avatar === null || user.avatar === undefined) {
+        return "https://cdn.discordapp.com/embed/avatars/0.png";
+    }
+    return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
+}
+
+export function hasUserPermission(permission: number): boolean {
+    let user = getUser();
+    if (user) {
+        return user.permission >= permission;
+    }
+    return false;
 }

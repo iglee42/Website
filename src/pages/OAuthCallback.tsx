@@ -9,22 +9,20 @@ function OAuthCallback() {
         const params = new URLSearchParams(window.location.search);
         const data = params.get("data");
 
-        if (data) {
+        if (data && data !== null && data.length > 0) {
             try {
-                const json = atob(data); // base64 decode
+                const json = atob(data);
                 const user = JSON.parse(json);
                 localStorage.setItem("user", JSON.stringify(user));
 
-                // Redirige vers l'accueil ou un dashboard
                 navigate("/");
+                window.location.reload();
             } catch (err) {
                 console.error("Erreur de décodage", err);
                 navigate("/");
                 showError("Decoding error");
             }
-        } else {
-            showError("Invalide Data");
-        }
+        } 
     }, [navigate]);
 
     return <p>Login...</p>;
