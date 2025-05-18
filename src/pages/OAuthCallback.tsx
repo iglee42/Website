@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { showError } from "../Utils";
+import { showError, showInfo } from "../Utils";
 
 function OAuthCallback() {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ function OAuthCallback() {
                 localStorage.setItem("user", JSON.stringify(user));
 
                 navigate("/");
-                window.location.reload();
+                showInfo("Logged as " + user.username);
             } catch (err) {
                 console.error("Erreur de décodage", err);
                 navigate("/");
