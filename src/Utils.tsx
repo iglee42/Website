@@ -1,4 +1,6 @@
 import { DiscordUser, parseDiscordUser } from "./types/discordUser";
+import { Files } from "./types/files";
+import { Mod } from "./types/mod";
 import { setGlobalState } from "./Vars";
 
 export function split(base: string, separator: string): string[] {
@@ -137,4 +139,60 @@ export function hasUserPermission(permission: number): boolean {
         return user.permission >= permission;
     }
     return false;
+}
+export function formatDownloads(num: number): string {
+    if (num >= 1_000_000_000) {
+        return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+    }
+    if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    }
+    if (num >= 1_000) {
+        return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return num.toString();
+}
+
+export async function getFiles(mod: Mod, version: string | null, loader: string | null): Promise<Files | null> {
+    if (localStorage.getItem(mod.id + "") !== null) {
+        let storage: string = localStorage.getItem(mod.id + "") as string
+        let objects: Map<string, any> = new Map(Object.entries(JSON.parse(storage)))
+        let key: string = "v" + (version ? version + "-" : "") + (loader ? loader : "");
+        if (!objects.has(key)) {
+            await saveNewIntoCache(mod, version,loader,objects)
+        } else {
+            let files: Files = objects.get(key) as Files;
+            if (!files.expiration || files.expiration <= Date.now()) {
+                return await saveNewIntoCache(mod, version, loader, objects);
+            } else {
+                return objects.get(key) as Files
+            }
+        }
+    } else {
+        return await saveNewIntoCache(mod,version,loader,new Map());
+    }
+
+
+    async function saveNewIntoCache(mod: Mod, version: string | null, loader: string | null, old: Map<string, any>): Promise<Files | null> {
+        let response = await fetch("https://api.iglee.fr/mod-files?curseforgeId=" + mod.curseforgeId + "&modrinthId=" + mod.modrinthId + (version ? "&version=" + version : "") + (loader ? "&loader=" + loader : ""));
+        if (response.ok) {
+            let data = await response.json()
+            let ver: Files = JSON.parse(JSON.stringify(data.versions)) as Files
+            ver.expiration = Date.now() + 3_600_000 // 1H
+            let key: string = "v" + (version ? version + "-" : "") + (loader ? loader : "");
+            let toStore: Map<string, any> = old
+            toStore.set(key, ver)
+            const mapToObj = (m: Map<any, any>) => {
+                return Array.from(m).reduce((obj: any, [key, value]) => {
+                    obj[key] = value;
+                    return obj;
+                }, {});
+            };
+            localStorage.setItem(mod.id + "", JSON.stringify(mapToObj(toStore)))
+            return ver
+        }
+        return null
+    }
+
+    return null;
 }

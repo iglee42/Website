@@ -1,0 +1,174 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
+import { formatDownloads, getFiles, getUpperName, getUser, getUserAvatarUrl, getUserById, hasUserPermission, showError, showInfo } from "../Utils";
+import { Popup } from "./Popup";
+import { getIconByStatus, getStatusByNumber, Idea, Status } from "../types/idea";
+import { DiscordUser } from "../types/discordUser";
+import { Mod } from "../types/mod";
+import reactStringReplace from "react-string-replace";
+import StatusSelect, { StatusOption } from "./StatusSelect";
+import { getMinecraftVersion, Version } from "../types/version";
+import { VersionSelect } from "./VersionSelect";
+import { getModLoader, ModLoader } from "../types/modloader";
+import { ModLoaderSelect } from "./ModLoaderSelect";
+import curseforge from '../images/curseforge.svg';
+import { FaDownload } from "react-icons/fa";
+import '../css/button.css'
+import { Files } from "../types/files";
+import { CurseSVG, ModrinthSVG } from "./SVG";
+
+interface Props {
+    mod: Mod;
+    onClose: MouseEventHandler<HTMLButtonElement>;
+}
+
+export function DownloadPopup(props: Props) {
+
+    let mod = props.mod;
+    let [version, setVersionInternal] = useState<Version | null>(null);
+    let [modLoader, setModLoaderInternal] = useState<ModLoader | null>(null);
+    let [disableCurseforge, setDisableCurseforge] = useState(false);
+    let [disableModrinth, setDisableModrinth] = useState(false);
+    let [disableDl, setDisableDl] = useState(false);
+    let [response, setResponse] = useState<Files | null>(null)
+
+
+    function handleButton(e: MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    function handleDlButton(e: MouseEvent<HTMLButtonElement>) {
+        handleButton(e);
+        setDisableCurseforge(!disableCurseforge);
+        setDisableModrinth(!disableModrinth);
+    }
+    useEffect(()=>update(),[])
+
+
+    function update() {
+        async function tick() {
+            let data: Files | null = await getFiles(mod, version, modLoader);
+            if (data) {
+                setResponse(data)
+                if (data.curseforge) {
+                    setDisableCurseforge(false);
+                    document.getElementById("curseBtn")!.setAttribute("href", `curseforge://install?addonId=${data.curseforge.modId}&fileId=${data.curseforge.id}&source=cf_website`);
+                } else {
+                    setDisableCurseforge(true);
+                }
+                if (data.modrinth) {
+                    setDisableModrinth(false);
+                    document.getElementById("modrinthBtn")!.setAttribute("href", `modrinth://mod/${data.modrinth.project_id}`);
+                } else {
+                    setDisableModrinth(true);
+                }
+                if (data.jar) {
+                    setDisableDl(false);
+                    document.getElementById("dlBtn")!.setAttribute("href", data.jar);
+                } else {
+                    setDisableDl(true);
+                }
+            } else {
+                setDisableCurseforge(true)
+                setDisableModrinth(true);
+                setDisableDl(true);
+            }
+
+            if (disableCurseforge) {
+                document.getElementById("curseBtn")!.classList.add("pointer-events-none");
+            } else {
+                document.getElementById("curseBtn")!.classList.remove("pointer-events-none");
+            }
+
+            if (disableModrinth) {
+                document.getElementById("modrinthBtn")!.classList.add("pointer-events-none");
+            } else {
+                document.getElementById("modrinthBtn")!.classList.remove("pointer-events-none");
+            }
+
+            if (disableDl) {
+                document.getElementById("dlBtn")!.classList.add("pointer-events-none");
+            } else {
+                document.getElementById("dlBtn")!.classList.remove("pointer-events-none");
+            }
+        }
+        tick()
+    }
+
+    function setVersion(version: Version | null) {
+        setVersionInternal(version);
+        console.log("ver")
+        update();
+    }
+
+    function setModLoader(modLoader: ModLoader | null) {
+        setModLoaderInternal(modLoader);
+        console.log("loader")
+        update();
+    }
+
+    return (
+        <Popup onClose={props.onClose}>
+
+            <div className="relative p-4 items-center whitespace-normal break-words">
+                <div className="text-center mt-2">
+                    <h2 className="text-xl font-bold">Download {mod.name}</h2>
+                    <br />
+                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                        <span className="mr-4">Version :</span>
+                        <VersionSelect mod={mod} onChange={setVersion} />
+                    </div>
+                    <br />
+                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                        <span className="mr-4">Mod Loader :</span>
+                        <ModLoaderSelect mod={mod} onChange={setModLoader} />
+                    </div>
+                    <br/>
+                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                        {
+                            disableCurseforge || response === null || !response.curseforge ? <></> :
+                                <div className="relative bg-white rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center ">
+                                    <h3 className="font-semibold flex"><CurseSVG className="mr-1 mt-0.5 " fill="f16436"  /> Curseforge</h3>
+                                    <span className="w-full">
+                                        {
+                                            response.curseforge.fileName
+                                        }
+                                    </span>
+                                    <span className="w-full">
+                                        {
+                                            "Downloads : " + formatDownloads(response.curseforge.downloadCount)
+                                        }
+                                    </span>
+                                </div>
+                        }
+                        {
+                            disableModrinth || response === null || !response.modrinth ? <></> :
+                                <div className="relative bg-white rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center ml-4 ">
+                                    <h3 className="font-semibold flex"><ModrinthSVG className="rounded-full size-6 mt-1 mr-2" fill="1bd96a"/> Modrinth</h3>
+                                    <span className="w-full">
+                                        {
+                                            response.modrinth.files[0]?.filename
+                                        }
+                                    </span>
+                                    <span className="w-full">
+                                        {
+                                            "Downloads : " + formatDownloads(response.modrinth.downloads)
+                                        }
+                                    </span>
+                                </div>
+                        }
+                    </div>
+                    <br />
+                    <div className="flex justify-center items-center text-gray-900 text-lg rounded-lg bg-gray-200 w-full">
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center bg-white hover:bg-gray-200`} id="dlBtn" href=""><FaDownload className="size-8 mr-2" /> Download</a>
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center curse text-white`} id="curseBtn" style={{ backgroundColor: disableCurseforge ? "#a84625" : "" }} href=""><CurseSVG className="mr-2 mt-0.5 fill-white" fill="ffffff" />Curseforge</a>
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center modrinth text-white`} id="modrinthBtn" style={{ backgroundColor: disableModrinth ? "#12974a" : "" }} href=""><ModrinthSVG fill="ffffff" className="rounded-full size-7 mr-2" /> Modrinth</a>
+                    </div>
+                </div>
+            </div>
+        </Popup>
+    )
+}
+
+

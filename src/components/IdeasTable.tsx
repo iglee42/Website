@@ -117,13 +117,13 @@ export const IdeasTable = forwardRef((props, ref) => {
                             let formatted = moment(idea.created_at).format('L LT')
                             return (
                                 <tr key={idea.id} className=" border-y border-gray-400 text-center cursor-pointer" style={{ backgroundColor: hoveredIdea === idea ? "#eeeeee" : "#ffffff"} } onMouseEnter={()=>setHoveredIdea(idea)} onMouseLeave={()=>setHoveredIdea(null)} onClick={()=>setSelectedIdea(idea)}>
-                                    <td className="p-4"><img src={mod?.logoUrl} alt={mod?.name} className="w-32" /></td>
+                                    <td className="p-4"><img src={mod?.logoUrl} alt={mod?.name} className="w-1/2 h-full" /></td>
                                     <td className="p-4">{mod?.name}</td>
                                     <td className="p-4 w-1/4">{idea.title}</td>
                                     <td className="p-4 text-left">{reactStringReplace(idea.description, '\n', (m, i) => <br />)}</td>
                                     <td className="p-4">{formatted}</td>
                                     <td className="p-4"><div className="flex justify-center">{getIconByStatus(idea.status, "mr-2 mt-1 size-5")} {getStatusByNumber(idea.status)} </div></td>
-                                    {hasUserPermission(1) ? <td className="p-4 "><div className="items-center justify-center flex">{user ? <img src={getUserAvatarUrl(user)} alt="" className="rounded-full w-12" /> : <span></span>}{user ? user.global_name: "Unknown"} </div></td> : <></>}
+                                    {hasUserPermission(1) ? <td className="p-4"><div className="items-center justify-center flex">{user ? <img src={getUserAvatarUrl(user)} alt="" className="rounded-full w-12 mr-2" /> : <span></span>}{user ? user.global_name: "Unknown"} </div></td> : <></>}
                                 </tr>
                             )
                         })
