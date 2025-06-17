@@ -9,7 +9,7 @@ import '../css/navbar.css'
 import { ReactElement } from 'react';
 import useDropdownMenu from 'react-accessible-dropdown-menu-hook';
 import { LoggedInfo } from './LoggedInfo';
-import { hasUserPermission, isLogged } from '../Utils';
+import { getUser, hasUserPermission, isLogged } from '../Utils';
 
 
 export const NavBar = () => {
@@ -17,7 +17,7 @@ export const NavBar = () => {
     return (
         <nav className='flex justify-between items-center mb-24'>
             <NavItem to='/suggestions' text='Suggestions' component={<FaLightbulb className=' mt-1 mr-2 opacity-0 transi-opa icon' />} />
-            <NavItem to='/projects' text='Projects' component={<FaDownload className=' mt-1 mr-2 opacity-0 transi-opa icon' />} />
+            <NavItem to='/projects' text={getUser()?.id === "673240483408904212" || getUser()?.id === "432875607320297473" ? 'Project8GbDeRam' : 'Projects'} component={<FaDownload className=' mt-1 mr-2 opacity-0 transi-opa icon' />} />
             <NavLink className='nav-logo' to='/'>
                 <img src={logo} alt='Logo' className='fixed top-8 z-40 size-24 normal-logo transi-all' />
                 <img src={logoName} alt='Logo' className='fixed top-8 z-30 h-24 opacity-0 hover-logo transi-all' />

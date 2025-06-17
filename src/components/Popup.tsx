@@ -9,7 +9,7 @@ interface Props {
 export function Popup( props: Props ) {
     
     return (
-        <div className="fixed inset-0 flex flex-wrap w-full items-center justify-center bg-black bg-opacity-50 z-10 transi-all">
+        <div className="fixed inset-0 flex flex-wrap w-full items-center justify-center bg-black bg-opacity-50 z-50 transi-all">
             <div className="relative bg-white rounded-lg shadow-lg max-w-5xl flex flex-wrap ">
                 <div className="flex flex-wrap w-full">
                     {props.children}

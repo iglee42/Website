@@ -3,4 +3,8 @@ export type Mod = {
     name: string;
     logoUrl: string;
     disabled: boolean;
+    curseforgeId: number;
+    modrinthId: string;
+    downloads: number;
+    wiki: string;
 }
