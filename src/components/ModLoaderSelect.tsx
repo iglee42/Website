@@ -23,7 +23,7 @@ export const ModLoaderSelect = forwardRef<HTMLHtmlElement,Props>((props,ref) => 
             setLoading(false)
         }
         fetchVersions();
-    }, [])
+    }, [props.mod])
 
     if (loading) {
         return <div>Loading...</div>;

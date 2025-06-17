@@ -1,4 +1,4 @@
-import { useEffect, useState, forwardRef, useImperativeHandle, FormEvent } from "react";
+import { useEffect, useState, forwardRef, FormEvent } from "react";
 import { FaChevronDown, FaQuestion } from "react-icons/fa"
 import { Mod } from "../types/mod";
 import { getMinecraftVersion, Version } from "../types/version";
@@ -22,7 +22,7 @@ export const VersionSelect = forwardRef<HTMLHtmlElement,Props>((props,ref) => {
             setLoading(false)
         }
         fetchVersions();
-    }, [])
+    }, [props.mod])
 
     if (loading) {
         return <div>Loading...</div>;
