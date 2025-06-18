@@ -154,7 +154,6 @@ export function formatDownloads(num: number): string {
 }
 
 export async function getFiles(mod: Mod, version: string | null, loader: string | null): Promise<Files | null> {
-    console.log("Version : " + version + " | Modloader : " + loader)
     if (localStorage.getItem(mod.id + "") !== null) {
         let storage: string = localStorage.getItem(mod.id + "") as string
         let objects: Map<string, any> = new Map(Object.entries(JSON.parse(storage)))

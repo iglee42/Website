@@ -59,22 +59,23 @@ export function DownloadPopup(props: Props) {
                 setDisableDl(true);
             }
 
-            if (disableCurseforge) {
+            if (!data || !data?.curseforge) {
                 document.getElementById("curseBtn")!.classList.add("pointer-events-none");
             } else {
                 document.getElementById("curseBtn")!.classList.remove("pointer-events-none");
             }
 
-            if (disableModrinth) {
+            if (!data || !data?.modrinth) {
                 document.getElementById("modrinthBtn")!.classList.add("pointer-events-none");
             } else {
                 document.getElementById("modrinthBtn")!.classList.remove("pointer-events-none");
             }
 
-            if (disableDl) {
-                document.getElementById("dlBtn")!.classList.add("pointer-events-none");
+            if (!data || !data?.jar) {
+                document.getElementById("dlBtn")!.classList.add("pointer-events-none", 'bg-gray-400');
+
             } else {
-                document.getElementById("dlBtn")!.classList.remove("pointer-events-none");
+                document.getElementById("dlBtn")!.classList.remove("pointer-events-none", 'bg-gray-400');
             }
         }
         tick()
@@ -143,7 +144,7 @@ export function DownloadPopup(props: Props) {
                     </div>
                     <br />
                     <div className="flex justify-center items-center text-gray-900 text-lg rounded-lg bg-gray-200 w-full">
-                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center bg-white hover:bg-gray-200`} id="dlBtn" href=""><FaDownload className="size-8 mr-2" /> Download</a>
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center bg-white hover:bg-gray-200 `} id="dlBtn" href=""><FaDownload className="size-8 mr-2" /> Download</a>
                         <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center curse text-white`} id="curseBtn" style={{ backgroundColor: disableCurseforge ? "#a84625" : "" }} href=""><CurseSVG className="mr-2 mt-0.5 fill-white" fill="ffffff" />Curseforge</a>
                         <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center modrinth text-white`} id="modrinthBtn" style={{ backgroundColor: disableModrinth ? "#12974a" : "" }} href=""><ModrinthSVG fill="ffffff" className="rounded-full size-7 mr-2" /> Modrinth</a>
                     </div>
