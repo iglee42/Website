@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { formatDownloads, getFiles } from "../Utils";
 import { Popup } from "./Popup";
 import { Mod } from "../types/mod";
@@ -27,21 +27,10 @@ export function DownloadPopup(props: Props) {
     let [disableDl, setDisableDl] = useState(false);
     let [response, setResponse] = useState<Files | null>(null)
 
-
-    function handleButton(e: MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
-        e.stopPropagation()
-    }
-
-    function handleDlButton(e: MouseEvent<HTMLButtonElement>) {
-        handleButton(e);
-        setDisableCurseforge(!disableCurseforge);
-        setDisableModrinth(!disableModrinth);
-    }
-    useEffect(()=>update(),[])
+    useEffect(()=>update(null,null),[])
 
 
-    function update() {
+    function update(version: string | null, modLoader: string | null) {
         async function tick() {
             let data: Files | null = await getFiles(mod, version, modLoader);
             if (data) {
@@ -93,14 +82,12 @@ export function DownloadPopup(props: Props) {
 
     function setVersion(version: Version | null) {
         setVersionInternal(version);
-        console.log("ver")
-        update();
+        update(version, modLoader);
     }
 
     function setModLoader(modLoader: ModLoader | null) {
         setModLoaderInternal(modLoader);
-        console.log("loader")
-        update();
+        update(version, modLoader);
     }
 
     return (
