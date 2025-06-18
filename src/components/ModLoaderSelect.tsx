@@ -49,7 +49,7 @@ export const ModLoaderSelect = forwardRef<HTMLHtmlElement,Props>((props,ref) => 
     versions.forEach((v:string) => {
         let img: string = "";
         switch (v) {
-            case "forge": img = "https://pbs.twimg.com/profile_images/778706890914095109/fhMDH9o6_400x400.jpg"; break;
+            case "forge": img = "https://docs.minecraftforge.net/en/1.21.x/images/favicon.ico"; break;
             case "neoforge": img = "https://neoforged.net/img/authors/neoforged.png"; break;
         }
         imgs.set(v,img)
