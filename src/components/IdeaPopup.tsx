@@ -16,6 +16,7 @@ interface Props {
 export function IdeaPopup(props: Props) {
     let [user, setUser] = useState<DiscordUser | null>(null);
     let [status, setStatus] = useState(0);
+    let [comment, setComment] = useState(props.idea.comment || "");
 
     useEffect(() => {
         async function fetchUser() {
@@ -51,6 +52,30 @@ export function IdeaPopup(props: Props) {
         })
 
     }
+    function handleCommentButton(e: MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
+        e.stopPropagation()
+        fetch('https://api.iglee.fr/suggestion/comment', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                suggestionId: props.idea.id,
+                comment: comment,
+                userId: getUser()?.id,
+            })
+        }).then(res => {
+            if (res.ok) {
+                props.onClose(e);
+                props.idea.comment = comment;
+                showInfo("Idea comment updated");
+            } else {
+                showError("Failed to update idea comment");
+            }
+        })
+
+    }
 
     const statusEntries = Object.entries(Status)
         .filter(([key, value]) => typeof value === "number") as [keyof typeof Status, number][];
@@ -58,6 +83,9 @@ export function IdeaPopup(props: Props) {
         if (option) {
             setStatus(option.value);
         }
+    }
+    function handleCommentChange(comment: string | null): void {
+        setComment(comment || "");
     }
 
     return (
@@ -87,6 +115,12 @@ export function IdeaPopup(props: Props) {
                     <div className="flex justify-center items-center text-gray-900 text-lg w-full">
                             <StatusSelect statusEntries={statusEntries} onChange={handleSelectChange} currentIdea={props.idea} />
                             <button className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center`} onClick={handleUpdateButton}>Update Status</button>
+                        </div> : <></>}
+                    {hasUserPermission(1) ? <span className="text-gray-500 italic text-wrap">Il est conseillé de changer le commentaire avant le status car le changement de commentaire n'envoie pas de message sur discord</span> : <></>}
+                    {hasUserPermission(1) ?
+                    <div className="flex justify-center items-center text-gray-900 text-lg w-full">
+                            <textarea className="border border-gray-300 rounded-lg resize px-2"  onChange={e => handleCommentChange(e.target.value)} value={comment}></textarea>
+                            <button className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center`} onClick={handleCommentButton}>Update Comment</button>
                     </div> : <></>}
                 </div>
                 </div>

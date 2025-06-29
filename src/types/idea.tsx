@@ -10,6 +10,7 @@ export type Idea = {
     discord_id: string;
     created_at: Date;
     status: number;
+    comment: string;
 }
 export enum Status {
     WAITING = 0,

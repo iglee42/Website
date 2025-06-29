@@ -106,6 +106,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                         <th>Description</th>
                         <th>Created</th>
                         <th>Status</th>
+                        {ideas.filter(i => ideaPredicate(i)).some(idea=>idea.comment) ? <th>Comment</th>: <></>}
                         {hasUserPermission(1) ? <th>Created by</th> : <></>}
                     </tr>
                 </thead>
@@ -123,6 +124,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                                     <td className="p-4 text-left">{reactStringReplace(idea.description, '\n', (m, i) => <br />)}</td>
                                     <td className="p-4">{formatted}</td>
                                     <td className="p-4"><div className="flex justify-center">{getIconByStatus(idea.status, "mr-2 mt-1 size-5")} {getStatusByNumber(idea.status)} </div></td>
+                                    {ideas.filter(i => ideaPredicate(i)).some(idea => idea.comment) ? <td className="p-4">{reactStringReplace(idea.comment, '\n', (m, i) => <br />)}</td>: <></>}
                                     {hasUserPermission(1) ? <td className="p-4"><div className="items-center justify-center flex">{user ? <img src={getUserAvatarUrl(user)} alt="" className="rounded-full w-12 mr-2" /> : <span></span>}{user ? user.global_name: "Unknown"} </div></td> : <></>}
                                 </tr>
                             )
