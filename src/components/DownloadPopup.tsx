@@ -98,21 +98,21 @@ export function DownloadPopup(props: Props) {
                 <div className="text-center mt-2">
                     <h2 className="text-xl font-bold">Download {mod.name}</h2>
                     <br />
-                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                    <div className="flex justify-center items-center text-gray-900 dark:text-gray-100 text-lg">
                         <span className="mr-4">Version :</span>
                         <VersionSelect mod={mod} onChange={setVersion} />
                     </div>
                     <br />
-                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                    <div className="flex justify-center items-center text-gray-900 dark:text-gray-100 text-lg">
                         <span className="mr-4">Mod Loader :</span>
                         <ModLoaderSelect mod={mod} onChange={setModLoader} />
                     </div>
                     <br/>
-                    <div className="flex justify-center items-center text-gray-900 text-lg">
+                    <div className="flex justify-center items-center text-gray-900 dark:text-gray-100 text-lg">
                         {
                             disableCurseforge || response === null || !response.curseforge ? <></> :
-                                <div className="relative bg-white rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center ">
-                                    <h3 className="font-semibold flex"><CurseSVG className="mr-1 mt-0.5 " fill="f16436"  /> Curseforge</h3>
+                                <div className="relative bg-white dark:bg-black rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center">
+                                    <h3 className="font-semibold flex"><CurseSVG className="mr-1 mt-0.5" fill="f16436"  /> Curseforge</h3>
                                     <span className="w-full">
                                         {
                                             response.curseforge.fileName
@@ -127,7 +127,7 @@ export function DownloadPopup(props: Props) {
                         }
                         {
                             disableModrinth || response === null || !response.modrinth ? <></> :
-                                <div className="relative bg-white rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center ml-4 ">
+                                <div className="relative bg-white dark:bg-black rounded-lg shadow-md border max-w-5xl flex flex-wrap text-center justify-center ml-4">
                                     <h3 className="font-semibold flex"><ModrinthSVG className="rounded-full size-6 mt-1 mr-2" fill="1bd96a"/> Modrinth</h3>
                                     <span className="w-full">
                                         {
@@ -143,10 +143,10 @@ export function DownloadPopup(props: Props) {
                         }
                     </div>
                     <br />
-                    <div className="flex justify-center items-center text-gray-900 text-lg rounded-lg bg-gray-200 w-full">
-                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center bg-white hover:bg-gray-200 `} id="dlBtn" href=""><FaDownload className="size-8 mr-2" /> Download</a>
-                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center curse text-white`} id="curseBtn" style={{ backgroundColor: disableCurseforge ? "#a84625" : "" }} href=""><CurseSVG className="mr-2 mt-0.5 fill-white" fill="ffffff" />Curseforge</a>
-                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 rounded-lg p-2.5 justify-center modrinth text-white`} id="modrinthBtn" style={{ backgroundColor: disableModrinth ? "#12974a" : "" }} href=""><ModrinthSVG fill="ffffff" className="rounded-full size-7 mr-2" /> Modrinth</a>
+                    <div className="flex justify-center items-center text-gray-900 dark:text-gray-100 text-lg rounded-lg bg-gray-200 dark:bg-gray-800 w-full">
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center bg-white dark:bg-black hover:bg-gray-200`} id="dlBtn" href=""><FaDownload className="size-8 mr-2" /> Download</a>
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center curse text-white dark:text-black`} id="curseBtn" style={{ backgroundColor: disableCurseforge ? "#a84625" : "" }} href=""><CurseSVG className="mr-2 mt-0.5 fill-white" fill="ffffff" />Curseforge</a>
+                        <a className={`input-group mb-1 mt-1 flex ml-4 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center modrinth text-white dark:text-black`} id="modrinthBtn" style={{ backgroundColor: disableModrinth ? "#12974a" : "" }} href=""><ModrinthSVG fill="ffffff" className="rounded-full size-7 mr-2" /> Modrinth</a>
                     </div>
                 </div>
             </div>

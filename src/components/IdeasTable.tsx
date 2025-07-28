@@ -92,14 +92,14 @@ export const IdeasTable = forwardRef((props, ref) => {
             {selectedIdea && <IdeaPopup idea={selectedIdea} mods={mods} onClose={() => setSelectedIdea(null)} />}
             
             <div className="flex items-centers">
-                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center ${selectedStatus === 0 ? 'bg-gray-300 shadow-inner' : ''}`} onClick={e => setSelectedStatus(0)}>Waiting</button>
-                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center ${selectedStatus === 1 ? 'bg-gray-300 shadow-inner' : ''}`} onClick={e => setSelectedStatus(1)}>Accepted/In Dev/Finished</button>
-                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 rounded-lg p-2.5 justify-center ${selectedStatus === 2 ? 'bg-gray-300 shadow-inner' : ''}`} onClick={e => setSelectedStatus(2)}>Refused/Duplicated</button>
+                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 dark:border-gray-700 dark:text-white rounded-lg p-2.5 justify-center ${selectedStatus === 0 ? 'bg-gray-300 dark:bg-gray-700 shadow-inner' : ''}`} onClick={e => setSelectedStatus(0)}>Waiting</button>
+                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 dark:border-gray-700 dark:text-white rounded-lg p-2.5 justify-center ${selectedStatus === 1 ? 'bg-gray-300 dark:bg-gray-700 shadow-inner' : ''}`} onClick={e => setSelectedStatus(1)}>Accepted/In Dev/Finished</button>
+                <button className={`input-group mb-3 mt-3 ml-3 flex border border-gray-300 dark:border-gray-700 dark:text-white rounded-lg p-2.5 justify-center ${selectedStatus === 2 ? 'bg-gray-300 dark:bg-gray-700 shadow-inner' : ''}`} onClick={e => setSelectedStatus(2)}>Refused/Duplicated</button>
             </div>
             {ideas.filter(i => ideaPredicate(i)).length === 0 && <h1>There is no ideas in this category</h1>}
             {ideas.filter(i => ideaPredicate(i)).length > 0 && <table className="table-fixed">
                 <thead>
-                    <tr className="mb-5">
+                    <tr className="mb-5 dark:text-white">
                         <th></th>
                         <th>Mod</th>
                         <th>Name</th>
@@ -117,7 +117,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                             let user = idea.discord_id ? usersByDiscordId[idea.discord_id] : null;
                             let formatted = moment(idea.created_at).format('L LT')
                             return (
-                                <tr key={idea.id} className=" border-y border-gray-400 text-center cursor-pointer" style={{ backgroundColor: hoveredIdea === idea ? "#eeeeee" : "#ffffff"} } onMouseEnter={()=>setHoveredIdea(idea)} onMouseLeave={()=>setHoveredIdea(null)} onClick={()=>setSelectedIdea(idea)}>
+                                <tr key={idea.id} className="border-y border-gray-400 dark:border-gray-600 dark:bg-black hover:bg-gray-200 dark:hover:bg-gray-800 dark:text-white text-center cursor-pointer"  onClick={()=>setSelectedIdea(idea)}>
                                     <td className="p-4"><img src={mod?.logoUrl} alt={mod?.name} className="w-1/2 h-full" /></td>
                                     <td className="p-4">{mod?.name}</td>
                                     <td className="p-4 w-1/4">{idea.title}</td>

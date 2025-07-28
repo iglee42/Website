@@ -29,10 +29,10 @@ export function ItemPopup(props: Props) {
                     />
                     <div className="text-center mt-2">
                         <h2 className="text-lg font-bold">{props.item.display_name}</h2>
-                        <p className="text-gray-600">Mod : {getUpperName(split(props.item.id, ':')[0], '_')}</p>
-                        <p className="text-gray-600">ID : {props.item.id}</p>
-                        <p className="text-gray-600">Type : {getUpperName(getTypeByNumber(props.item.type), '_')}</p>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400">Mod : {getUpperName(split(props.item.id, ':')[0], '_')}</p>
+                        <p className="text-gray-600 dark:text-gray-400">ID : {props.item.id}</p>
+                        <p className="text-gray-600 dark:text-gray-400">Type : {getUpperName(getTypeByNumber(props.item.type), '_')}</p>
+                        <p className="text-gray-600 dark:text-gray-400">
                             Tags : {convertStringToArray(props.item.tags).map(t => <Tag key={t} tag={t} onClick={handleCopy} />)}
                         </p>
                     </div>

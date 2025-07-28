@@ -37,7 +37,7 @@ export const ModFilterPopup: FC<ModFilterPopupProps> = ({ mods, onSelect, onClos
                     </button>
                 ))}
                 <div className="flex justify-between mt-4 ml-auto mr-2">
-                    <button className="p-2 bg-green-500 text-white rounded hover:bg-green-600" onClick={applySelection}>
+                    <button className="p-2 bg-green-500 text-white dark:text-black rounded hover:bg-green-600" onClick={applySelection}>
                         Save
                     </button>
                 </div>

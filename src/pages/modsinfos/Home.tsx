@@ -51,7 +51,7 @@ export const HomeModsInfos = () => {
 
             {/* Bouton Paramètres */}
             <button
-                className="top-4 bg-gray-200 p-2 rounded shadow-md hover:bg-gray-300 ml-auto"
+                className="top-4 bg-gray-200 dark:bg-gray-800 p-2 rounded shadow-md hover:bg-gray-300 ml-auto"
                 onClick={() => setShowFilter(!showFilter)}
             >
                 Paramètres

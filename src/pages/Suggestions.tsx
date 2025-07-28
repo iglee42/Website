@@ -81,21 +81,21 @@ export const Suggestions = () => {
         <div className="flex items-center flex-col mt-5">
             <form onSubmit={sendForm} className="w-1/2 flex items-center flex-col" id="suggest-form">
                 <ModSelect ref={modSelectRef} />
-                <div className="input-group mb-3 mt-3 w-1/2 border border-gray-300 rounded-lg flex">
-                    <span className="bg-gray-200 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300">
+                <div className="input-group mb-3 mt-3 w-1/2 border border-gray-300 dark:border-gray-700 rounded-lg flex">
+                    <span className="bg-gray-200 dark:bg-gray-800 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300 dark:border-gray-700">
                         Title
                     </span>
-                    <input type="text" className="form-control w-3/4 p-2.5  rounded-r-lg focus:outline-none" aria-label="Title" id="title" />
+                    <input type="text" className="form-control w-3/4 p-2.5 rounded-r-lg focus:outline-none" aria-label="Title" id="title" />
                 </div>
-                <div className="input-group mt-3 w-1/2 border border-gray-300 rounded-lg flex">
-                    <span className="bg-gray-200 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300">
+                <div className="input-group mt-3 w-1/2 border border-gray-300 dark:border-gray-700 rounded-lg flex">
+                    <span className="bg-gray-200 dark:bg-gray-800 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300 dark:border-gray-700">
                         Description
                     </span>
-                    <textarea className="form-control w-3/4 p-2.5 bg-white rounded-r-lg focus:outline-none" aria-label="Description" id="description" rows={4}></textarea>
+                    <textarea className="form-control w-3/4 p-2.5 bg-white dark:bg-black rounded-r-lg focus:outline-none" aria-label="Description" id="description" rows={4}></textarea>
                 </div>
                 <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>There is no formatting on the description (No markdown)</i></p>
                 <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>You can login to be notified of the changes of your suggestion</i></p>
-                <button type="submit" className={`input-group mb-3 mt-3 flex w-1/4 border border-gray-300 rounded-lg p-2.5 justify-center ${animationClass}`} id="send-suggest"><FaPaperPlane className="h-5 w-5 mr-2 mt-1" id="send-icon" /> <span id="send-text">Send</span></button>
+                <button type="submit" className={`input-group mb-3 mt-3 flex w-1/4 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center ${animationClass}`} id="send-suggest"><FaPaperPlane className="h-5 w-5 mr-2 mt-1" id="send-icon" /> <span id="send-text">Send</span></button>
             </form>
             <IdeasTable />
         </div>

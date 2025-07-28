@@ -48,7 +48,7 @@ export const ModSelect = forwardRef((props, ref) => {
     }
     const select = (
         <div className="relative w-1/2 flex items-center flex-col" >
-            <button className="form-select bg-gray-50 border border-gray-300 rounded-lg p-2.5 w-full flex justify-between items-center" aria-label="Select a mod" id="mod-sel" onClick={switchOptions}>
+            <button className="form-select bg-gray-50 dark:bg-gray-950 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 w-full flex justify-between items-center" aria-label="Select a mod" id="mod-sel" onClick={switchOptions}>
                 <div className="flex items-center">
                     {selectedMod ? (
                         <div className="flex items-center">
@@ -64,7 +64,7 @@ export const ModSelect = forwardRef((props, ref) => {
                 </div>
                 <FaChevronDown className="h-5 w-5 ml-2" />
             </button>
-            <div className=" hidden absolute mt-2 bg-white shadow-lg rounded-md w-full z-10 top-full " id="select-content">
+            <div className="hidden absolute mt-2 bg-white dark:bg-black shadow-lg rounded-md w-full z-10 top-full" id="select-content">
                 {mods.map((mod) => (
                     <div
                         key={mod.id}

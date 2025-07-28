@@ -24,13 +24,13 @@ export const ModsInfoItems = (props:Props) => {
             >
                 {/* Face avant */}
                 <div className="absolute w-full h-full backface-hidden">
-                    <img src={props.item.image_link} alt={props.item.id} className="w-full h-full object-cover border border-gray-300 rounded-lg pixelated-image" />
+                    <img src={props.item.image_link} alt={props.item.id} className="w-full h-full object-cover border border-gray-300 dark:border-gray-700 rounded-lg pixelated-image" />
                 </div>
 
                 {/* Face arrière */}
-                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-200 border border-gray-300 rounded-lg flex flex-col justify-center items-center text-center">
+                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg flex flex-col justify-center items-center text-center">
                     <p>{props.item.display_name}</p>
-                    <p className="text-gray-400 italic text-xs">Click for more details</p>
+                    <p className="text-gray-400 dark:text-gray-600 italic text-xs">Click for more details</p>
                 </div>
             </div>
         </button>
