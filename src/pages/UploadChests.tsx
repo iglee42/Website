@@ -36,7 +36,7 @@ export const UploadChests = () => {
     function sendFiles(type: string) {
         if (files.length === 0) return;
 
-        const url = "https://api.iglee.fr/textures/" + type;
+        const url = process.env.REACT_APP_API_URL + "/textures/" + type;
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
 

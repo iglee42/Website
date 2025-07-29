@@ -8,7 +8,7 @@ export const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://api.iglee.fr/mods")
+    fetch(process.env.REACT_APP_API_URL + "/mods")
       .then(res => {
         if (!res.ok) throw new Error("Fetch error");
         return res.json();
@@ -91,7 +91,7 @@ export const AdminPanel = () => {
             Images
           </h2>
         </div>
-        
+
       </div>
     </div>
 

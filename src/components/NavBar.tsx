@@ -15,14 +15,16 @@ import {
 import { FaArrowRightToBracket } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import { LoggedInfo } from "./LoggedInfo";
-import { hasUserPermission, isLogged } from "../Utils";
+import { hasPermission, isLogged } from "../Utils";
 import clsx from "clsx";
+import { useUser } from "../UserProvider";
 
 export const NavBar = () => {
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const resourcesRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const user = useUser().user;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -32,7 +34,7 @@ export const NavBar = () => {
       ) {
         setResourcesOpen(false);
       }
-      
+
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target as Node) &&
@@ -41,7 +43,7 @@ export const NavBar = () => {
         setMobileMenuOpen(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -52,7 +54,7 @@ export const NavBar = () => {
     } else {
       document.body.style.overflow = 'auto';
     }
-    
+
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -81,8 +83,8 @@ export const NavBar = () => {
         </button>
 
         {/* Logo centré */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="relative items-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 group"
         >
           <img
@@ -143,7 +145,7 @@ export const NavBar = () => {
                 <Link
                   to={
                     process.env.NODE_ENV === "production" &&
-                    !hasUserPermission(3)
+                      !hasPermission(user, 3)
                       ? "/"
                       : "/modsinfos"
                   }
@@ -164,21 +166,21 @@ export const NavBar = () => {
           {/* Login / User info */}
           {!isLogged() ? (
             <a
-              href={"https://api.iglee.fr/login" +( process.env.NODE_ENV !== "production" ? "?dev=true" : "")}
+              href={process.env.REACT_APP_API_URL + "/login" + (process.env.NODE_ENV !== "production" ? "?dev=true" : "")}
               className="flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
             >
               <FaArrowRightToBracket />
               <span className="hidden sm:inline">Login</span>
             </a>
           ) : (
-              <LoggedInfo />
+            <LoggedInfo />
           )}
         </div>
       </div>
 
       {/* Menu mobile */}
       {mobileMenuOpen && (
-        <div 
+        <div
           ref={mobileMenuRef}
           className="md:hidden fixed inset-0 z-40 bg-white dark:bg-gray-900 pt-16 overflow-y-auto"
         >
@@ -187,16 +189,16 @@ export const NavBar = () => {
               <MobileNavLink to="/suggestions" icon={<FaLightbulb />} onClick={() => setMobileMenuOpen(false)}>
                 Suggestions
               </MobileNavLink>
-              
+
               <MobileNavLink to="/projects" icon={<FaDownload />} onClick={() => setMobileMenuOpen(false)}>
                 Projects
               </MobileNavLink>
-              
+
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                 <h3 className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider mb-2">
                   Resources
                 </h3>
-                
+
                 <a
                   href="https://youtube.iglee.fr"
                   className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
@@ -205,7 +207,7 @@ export const NavBar = () => {
                   <FaYoutube className="mr-3" />
                   Youtube (🇫🇷)
                 </a>
-                
+
                 <a
                   href="https://git.iglee.fr"
                   className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
@@ -214,11 +216,11 @@ export const NavBar = () => {
                   <FaGithub className="mr-3" />
                   Github
                 </a>
-                
+
                 <Link
                   to={
                     process.env.NODE_ENV === "production" &&
-                    !hasUserPermission(3)
+                      !hasPermission(user, 3)
                       ? "/"
                       : "/modsinfos"
                   }
@@ -233,11 +235,11 @@ export const NavBar = () => {
                   Mods Infos (WIP)
                 </Link>
               </div>
-              
+
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                 {!isLogged() ? (
                   <a
-                    href="https://api.iglee.fr/login"
+                    href={process.env.REACT_APP_API_URL + "/login"}
                     className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -274,7 +276,7 @@ function CustomNavLink({
         clsx(
           "flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold text-lg",
           isActive &&
-            "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+          "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
         )
       }
     >

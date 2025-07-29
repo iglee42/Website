@@ -15,7 +15,7 @@ export const HomeModsInfos = () => {
   useEffect(() => {
     async function fetchItems() {
       showInfo("Loading Items...");
-      const response = await fetch("https://api.iglee.fr/items");
+      const response = await fetch(process.env.REACT_APP_API_URL + "/items");
       if (response.ok) {
         const data = await response.json();
         setItems(data);
@@ -34,8 +34,8 @@ export const HomeModsInfos = () => {
   const filteredItems =
     selectedMod.length > 0
       ? items.filter((item) =>
-          selectedMod.includes(split(item.id, ":")[0])
-        )
+        selectedMod.includes(split(item.id, ":")[0])
+      )
       : items;
 
   return (

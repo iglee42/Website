@@ -1,12 +1,11 @@
 import { useEffect, useState, MouseEvent } from "react";
 import {
   getUserById,
-  getUser,
   getUserAvatarUrl,
-  hasUserPermission,
   showInfo,
   showError,
   getUpperName,
+  hasPermission,
 } from "../Utils";
 import { Idea, getStatusByNumber, getIconByStatus, Status } from "../types/idea";
 import { DiscordUser } from "../types/discordUser";
@@ -14,6 +13,7 @@ import { Mod } from "../types/mod";
 import StatusSelect from "./StatusSelect";
 import { Popup } from "./Popup";
 import reactStringReplace from "react-string-replace";
+import { useUser } from "../UserProvider";
 
 interface Props {
   idea: Idea;
@@ -25,10 +25,11 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
   const [user, setUser] = useState<DiscordUser | null>(null);
   const [status, setStatus] = useState(idea.status);
   const [comment, setComment] = useState(idea.comment || "");
+  const siteUser = useUser().user;
 
   useEffect(() => {
     if (!user) getUserById(idea.discord_id).then(setUser);
-  }, [user]);
+  }, [user,idea.discord_id]);
 
   const mod = mods.find((m) => m.id === idea.mod_id);
   const statusEntries = Object.entries(Status).filter(
@@ -37,13 +38,12 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
 
   const handleStatusUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await fetch("https://api.iglee.fr/suggestion/status", {
+    const res = await fetch(process.env.REACT_APP_API_URL + "/suggestion/status", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         suggestionId: idea.id,
-        status,
-        userId: getUser()?.id,
+        status
       }),
     });
 
@@ -58,13 +58,12 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
 
   const handleCommentUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const res = await fetch("https://api.iglee.fr/suggestion/comment", {
+    const res = await fetch(process.env.REACT_APP_API_URL + "/suggestion/comment", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         suggestionId: idea.id,
-        comment,
-        userId: getUser()?.id,
+        comment
       }),
     });
 
@@ -96,7 +95,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
                 <span>{mod.name}</span>
               </div>
             )}
-            {hasUserPermission(1) && user && (
+            {hasPermission(siteUser, 1) && user && (
               <div className="flex items-center gap-2">
                 <span className="font-medium">Author:</span>
                 <img src={getUserAvatarUrl(user)} alt="" className="w-6 h-6 rounded-full" />
@@ -118,7 +117,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
               <span>{getStatusByNumber(idea.status)}</span>
             </div>
 
-            {hasUserPermission(1) && (
+            {hasPermission(siteUser, 1) && (
               <div className="flex items-center gap-4">
                 <StatusSelect
                   currentIdea={idea}
@@ -136,7 +135,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
           </div>
 
           {/* Comment */}
-          {hasUserPermission(1) && (
+          {hasPermission(siteUser, 1) && (
             <div className="space-y-3 border-t pt-4 border-gray-200 dark:border-zinc-700">
               <p className="text-xs text-gray-500 italic">
                 Hint: modify the comment <strong>before</strong> the status (no Discord message sent)

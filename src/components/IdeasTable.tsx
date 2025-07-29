@@ -3,9 +3,10 @@ import { getIconByStatus, getStatusByNumber, Idea } from "../types/idea";
 import { Mod } from "../types/mod";
 import reactStringReplace from "react-string-replace";
 import moment from "moment";
-import { getUserAvatarUrl, getUserById, hasUserPermission } from "../Utils";
+import { getUserAvatarUrl, getUserById, hasPermission } from "../Utils";
 import { DiscordUser } from "../types/discordUser";
 import { IdeaPopup } from "./IdeaPopup";
+import { useUser } from "../UserProvider";
 
 export const IdeasTable = forwardRef((props, ref) => {
   const [ideas, setIdeas] = useState<Idea[]>([]);
@@ -14,11 +15,12 @@ export const IdeasTable = forwardRef((props, ref) => {
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
   const [usersByDiscordId, setUsersByDiscordId] = useState<Record<string, DiscordUser>>({});
+  const user = useUser().user;
 
   useEffect(() => {
     Promise.all([
-      fetch("https://api.iglee.fr/ideas").then(r => r.ok ? r.json() : []),
-      fetch("https://api.iglee.fr/mods").then(r => r.ok ? r.json() : [])
+      fetch(process.env.REACT_APP_API_URL + "/suggestions").then(r => r.ok ? r.json() : []),
+      fetch(process.env.REACT_APP_API_URL + "/mods").then(r => r.ok ? r.json() : [])
     ]).then(([ideasData, modsData]) => {
       setIdeas(ideasData);
       setMods(modsData);
@@ -32,17 +34,21 @@ export const IdeasTable = forwardRef((props, ref) => {
       const map: Record<string, DiscordUser> = {};
       results.forEach(u => u && (map[u.id] = u));
       setUsersByDiscordId(map);
+      console.log(map)
     });
   }, [ideas]);
+
+
 
   if (loading) {
     return <div className="text-center py-10 text-gray-500 dark:text-gray-400">Loading Ideas…</div>;
   }
 
+
   const ideaPredicate = (i: Idea) =>
     selectedStatus === 2 ? [2, 3].includes(i.status)
-    : selectedStatus === 1 ? [1, 4, 5].includes(i.status)
-    : i.status === selectedStatus;
+      : selectedStatus === 1 ? [1, 4, 5].includes(i.status)
+        : i.status === selectedStatus;
 
   const filtered = ideas.filter(ideaPredicate);
 
@@ -59,11 +65,10 @@ export const IdeasTable = forwardRef((props, ref) => {
           <button
             key={val}
             onClick={() => setSelectedStatus(val)}
-            className={`px-5 py-2 rounded-lg border transition ${
-              selectedStatus === val
+            className={`px-5 py-2 rounded-lg border transition ${selectedStatus === val
                 ? "bg-indigo-600 text-white border-indigo-600 shadow"
                 : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900"
-            }`}
+              }`}
           >
             {label}
           </button>
@@ -80,7 +85,7 @@ export const IdeasTable = forwardRef((props, ref) => {
           <div className="space-y-4 sm:hidden">
             {filtered.map(idea => {
               const mod = mods.find(m => m.id === idea.mod_id);
-              const user = idea.discord_id ? usersByDiscordId[idea.discord_id] : null;
+              const ideaUser = idea.discord_id ? usersByDiscordId[idea.discord_id] : null;
               const date = moment(idea.created_at).format("L LT");
               return (
                 <div
@@ -110,10 +115,10 @@ export const IdeasTable = forwardRef((props, ref) => {
                       Comment: {reactStringReplace(idea.comment, "\n", (_, i) => <br key={i} />)}
                     </div>
                   )}
-                  {hasUserPermission(1) && user && (
+                  {hasPermission(user, 1) && ideaUser && (
                     <div className="mt-2 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                      <img src={getUserAvatarUrl(user)} alt="" className="w-6 h-6 rounded-full" />
-                      <span>{user.global_name}</span>
+                      <img src={getUserAvatarUrl(ideaUser)} alt="" className="w-6 h-6 rounded-full" />
+                      <span>{ideaUser.username}</span>
                     </div>
                   )}
                 </div>
@@ -134,7 +139,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                   {filtered.some(i => i.comment) && (
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Comment</th>
                   )}
-                  {hasUserPermission(1) && (
+                  {hasPermission(user, 1) && (
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase w-64">By</th>
                   )}
                 </tr>
@@ -142,7 +147,7 @@ export const IdeasTable = forwardRef((props, ref) => {
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {filtered.map(idea => {
                   const mod = mods.find(m => m.id === idea.mod_id);
-                  const user = idea.discord_id ? usersByDiscordId[idea.discord_id] : null;
+                  const ideaUser = idea.discord_id ? usersByDiscordId[idea.discord_id] : null;
                   const date = moment(idea.created_at).format("L LT");
                   return (
                     <tr
@@ -168,12 +173,12 @@ export const IdeasTable = forwardRef((props, ref) => {
                           {reactStringReplace(idea.comment || "", "\n", (_, i) => <br key={i} />)}
                         </td>
                       )}
-                      {hasUserPermission(1) && (
+                      {hasPermission(user, 1) && (
                         <td className="px-4 py-3 flex items-center gap-2">
-                          {user ? (
+                          {ideaUser ? (
                             <>
-                              <img src={getUserAvatarUrl(user)} alt="" className="w-8 h-8 rounded-full" />
-                              <span className="dark:text-gray-100 text-gray-900">{user.global_name}</span>
+                              <img src={getUserAvatarUrl(ideaUser)} alt="" className="w-8 h-8 rounded-full" />
+                              <span className="dark:text-gray-100 text-gray-900">{ideaUser.global_name}</span>
                             </>
                           ) : (
                             <span className="text-gray-500 dark:text-gray-600">Unknown</span>

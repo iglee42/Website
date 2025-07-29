@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from "react";
 import { ModSelect } from "../components/ModSelect";
 import { FaPaperPlane } from "react-icons/fa";
 import { IdeasTable } from "../components/IdeasTable";
-import { getUser, isLogged, showError } from "../Utils";
+import { showError } from "../Utils";
 
 export const Suggestions = () => {
   const [animationClass, setAnimationClass] = useState("");
@@ -38,14 +38,13 @@ export const Suggestions = () => {
       return setError("Please enter a description");
     }
 
-    fetch("https://api.iglee.fr/suggestion", {
+    fetch(process.env.REACT_APP_API_URL + "/suggestion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         modID: selectedMod.id,
         title: titleField.value,
-        description: descField.value,
-        userId: isLogged() ? getUser()?.id : -1,
+        description: descField.value
       }),
     })
       .then((res) => {

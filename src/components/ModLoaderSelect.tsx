@@ -1,4 +1,4 @@
-import { useEffect, useState, forwardRef, FormEvent, useRef, useCallback } from "react";
+import { useEffect, useState, forwardRef, useRef, useCallback } from "react";
 import { FaChevronDown, FaQuestion } from "react-icons/fa";
 import { Mod } from "../types/mod";
 import { getModLoader, ModLoader } from "../types/modloader";

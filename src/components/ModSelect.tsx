@@ -27,7 +27,7 @@ export const ModSelect = forwardRef<ModSelectHandle, Props>((_, ref) => {
 
   useEffect(() => {
     async function fetchMods() {
-      const response = await fetch("https://api.iglee.fr/mods");
+      const response = await fetch(process.env.REACT_APP_API_URL + "/mods");
       if (response.ok) {
         const data = await response.json();
         setMods(data);
@@ -104,10 +104,9 @@ export const ModSelect = forwardRef<ModSelectHandle, Props>((_, ref) => {
               tabIndex={0}
               className={`flex items-center p-2 cursor-pointer
                 hover:bg-gray-200 dark:hover:bg-blue-700
-                ${
-                  selectedMod?.id === mod.id
-                    ? "bg-blue-600 text-white"
-                    : "text-black dark:text-white"
+                ${selectedMod?.id === mod.id
+                  ? "bg-blue-600 text-white"
+                  : "text-black dark:text-white"
                 }
               `}
               onClick={() => handleSelect(mod)}

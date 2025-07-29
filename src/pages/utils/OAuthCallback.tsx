@@ -1,28 +1,32 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { showError, showInfo } from "../../Utils";
+import { logUser, showError, showInfo } from "../../Utils";
+import { useUser } from "../../UserProvider";
 
 function OAuthCallback() {
     const navigate = useNavigate();
+    const userProvider = useUser();
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const data = params.get("data");
+        async function handleOAuthCallback() {
+            const params = new URLSearchParams(window.location.search);
+            const data = params.get("token");
+            if (data && data.length > 0) {
 
-        if (data && data.length > 0) {
-            try {
-                const json = atob(data);
-                const user = JSON.parse(json);
-                localStorage.setItem("user", JSON.stringify(user));
+                try {
+                    const token = data
+                    localStorage.setItem("authToken", token);
 
-                showInfo("Logged as " + user.username);
-                navigate("/");
-            } catch (err) {
-                console.error("Erreur de décodage", err);
-                showError("Decoding error");
-                navigate("/");
+                    await userProvider.reloadUser();
+                    navigate("/");
+                    showInfo("Logged as "+userProvider.user?.username);
+                } catch (err) {
+                    showError("Token Error");
+                    navigate("/");
+                }
             }
         }
+        handleOAuthCallback();
     }, [navigate]);
 
     return <p>Login...</p>;

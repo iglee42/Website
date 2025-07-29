@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 
 interface Props {

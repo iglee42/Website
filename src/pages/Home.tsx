@@ -14,7 +14,7 @@ export const Home = () => {
 
   useEffect(() => {
     //showInfo("Loading...");
-    fetch("https://api.iglee.fr/mods?featured=true")
+    fetch(process.env.REACT_APP_API_URL + "/mods?featured=true")
       .then(res => res.ok ? res.json() : Promise.reject())
       .then((data: Mod[]) => {
         setMods(data);
@@ -117,7 +117,7 @@ export const Home = () => {
             </div>
           ) : (
             <div className="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {mods.sort((a, b) => b.downloads - a.downloads).map(mod => (
+              {mods.sort((a, b) => b.downloads - a.downloads).map(mod => (
                 <ModInfo key={mod.id} mod={mod} onClick={() => setCurrentMod(mod)} />
               ))}
             </div>

@@ -41,7 +41,7 @@ function App() {
           <NavBar />
         </header>
         <div className="fixed z-50 bottom-6 right-6 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center cursor-pointer transition-all hover:scale-105 hover:shadow-xl" onClick={toggleDarkMode} title="Toggle Dark Mode">
-          { isDarkMode ? <FaSun className="text-yellow-400 w-6 h-6 transition-colors duration-300" /> : <FaMoon className="text-gray-700 dark:text-white w-6 h-6 transition-colors duration-300" />}
+          {isDarkMode ? <FaSun className="text-yellow-400 w-6 h-6 transition-colors duration-300" /> : <FaMoon className="text-gray-700 dark:text-white w-6 h-6 transition-colors duration-300" />}
         </div>
         <div>
           <Router />

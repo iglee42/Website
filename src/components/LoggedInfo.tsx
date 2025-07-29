@@ -1,13 +1,27 @@
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
-import { Navigate } from "react-router-dom";
-import { getUser, getUserAvatarUrl, hasUserPermission, isLogged } from "../Utils";
+import { getUserAvatarUrl, hasPermission, isLogged } from "../Utils";
+import { useUser } from "../UserProvider";
 
 export const LoggedInfo = () => {
-  const menuItems = hasUserPermission(3) ? 3 : ( hasUserPermission(2) ? 2 : 1);
-  const { buttonProps, itemProps, isOpen } = useDropdownMenu(menuItems);
+  const userProvider = useUser();
+  
+  const { user, loading } = userProvider;
 
-  if (!isLogged()) {
+  const menuItems = hasPermission(user, 3) ? 3 : (hasPermission(user, 2) ? 2 : 1);
+  const { buttonProps, itemProps, isOpen } = useDropdownMenu(menuItems);
+  
+
+  // Tant que l'utilisateur n'est pas chargé, on ne fait rien (ou un loading state si tu veux)
+  if (loading) {
+    return (
+      <span className="text-3xl flex navItem transi-all select-none text-gray-600 dark:text-gray-400">
+        Loading...
+      </span>
+    );
+  }
+
+  if (!isLogged() || !user) {
     return (
       <span className="text-3xl flex navItem transi-all select-none text-gray-600 dark:text-gray-400">
         Logged
@@ -15,8 +29,8 @@ export const LoggedInfo = () => {
     );
   }
 
-  const user = getUser();
-  if (!user) return <Navigate to="/" />;
+
+
 
   function fixEncoding(str: string): string {
     const bytes = new Uint8Array(Array.from(str).map((ch) => ch.charCodeAt(0)));
@@ -24,8 +38,8 @@ export const LoggedInfo = () => {
     return decoder.decode(bytes);
   }
 
-  const username = user.username;
-  const displayName = fixEncoding(user.global_name);
+  const username = user?.username;
+  const displayName = fixEncoding(user?.username);
 
 
   let currentProps = 0;
@@ -49,16 +63,15 @@ export const LoggedInfo = () => {
 
       {/* Dropdown menu */}
       <div
-        className={`${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        } absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-900 ring-1 ring-black ring-opacity-5 transition-opacity z-50`}
+        className={`${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          } absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-900 ring-1 ring-black ring-opacity-5 transition-opacity z-50`}
         style={{ bottom: "calc(-70px * " + menuItems + " - " + 10 * (menuItems - 1) + "px)" }}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
       >
         <div className="py-1">
-          {hasUserPermission(2) && (
+          {hasPermission(user, 2) && (
             <a
               {...getItemProps()}
               href="/uploadChests"
@@ -67,14 +80,14 @@ export const LoggedInfo = () => {
               tabIndex={-1}
             >
               <img
-                src="https://api.iglee.fr/gif/nec"
+                src={process.env.REACT_APP_API_URL + "/gif/nec"}
                 alt=""
                 className="mr-3 w-12 rounded-sm object-contain"
               />
               Upload Chest Textures
             </a>
           )}
-          {hasUserPermission(3) && (
+          {hasPermission(user, 3) && (
             <a
               {...getItemProps()}
               href="/adminPanel"

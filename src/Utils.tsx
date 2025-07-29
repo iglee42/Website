@@ -1,7 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { DiscordUser, parseDiscordUser } from "./types/discordUser";
 import { Files } from "./types/files";
 import { Mod } from "./types/mod";
-import { setGlobalState } from "./Vars";
+import { getGlobalState, setGlobalState } from "./Vars";
 
 // String utilities
 export function split(str: string, sep = ":"): string[] {
@@ -22,7 +23,7 @@ export function convertStringToArray(str: string): string[] {
     if (Array.isArray(parsed) && parsed.every(item => typeof item === "string")) {
       return parsed;
     }
-  } catch {}
+  } catch { }
   console.error("convertStringToArray: invalid input", str);
   return [];
 }
@@ -36,17 +37,12 @@ export function formatDownloads(n: number): string {
 }
 
 // Discord user utilities
-export function getUser(): DiscordUser | null {
-  const data = localStorage.getItem("user");
-  return data ? parseDiscordUser(JSON.parse(data)) : null;
-}
-
 export function isLogged(): boolean {
-  return getUser() !== null;
+  return localStorage.getItem("authToken") !== null;
 }
 
-export function hasUserPermission(level: number): boolean {
-  const user = getUser();
+export function hasPermission(user: DiscordUser | null, level: number): boolean {
+  if (!user) return false;
   return user ? user.permission >= level : false;
 }
 
@@ -82,7 +78,7 @@ export async function getUserById(id: string): Promise<DiscordUser | null> {
   if (cached) {
     return cached;
   }
-  const res = await fetch(`https://api.iglee.fr/discordUser?id=${id}`);
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/discordUser?id=${id}`);
   if (res.ok) {
     const user = parseDiscordUser(await res.json());
     cacheUser(user);
@@ -136,9 +132,51 @@ export async function getFiles(
     ...(loader ? { loader } : {}),
   });
 
-  const res = await fetch(`https://api.iglee.fr/mod-files?${params.toString()}`);
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/mod-files?${params.toString()}`);
   if (!res.ok) return null;
 
   const data = (await res.json()).versions as Files;
   return await saveFilesToStore(mod, key, store, data);
 }
+
+export async function fetchUserFromToken() {
+  const token = localStorage.getItem("authToken");
+  if (!token) return null;
+
+  try {
+    console.log(process.env)
+    const res = await fetch(process.env.REACT_APP_API_URL + "/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!res.ok) throw new Error("Unauthorized");
+
+    const user = await res.json();
+    return user;
+  } catch (err) {
+    console.error("Erreur lors de la récupération des infos utilisateur :", err);
+    return null;
+  }
+}
+
+export async function logUser(navigate: ReturnType<typeof useNavigate>) {
+  try {
+
+    let user = await fetchUserFromToken();
+    if (!user) {
+      navigate("/");
+      return;
+    }
+    setGlobalState('user', user);
+    showInfo("Logged as " + user.username);
+    navigate("/");
+  } catch (err) {
+    showError("Token Error");
+    navigate("/");
+  }
+}
+
+

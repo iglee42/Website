@@ -11,7 +11,7 @@ export const Projects = () => {
 
   useEffect(() => {
     showInfo("Loading mods...");
-    fetch("https://api.iglee.fr/mods?featured=true")
+    fetch(process.env.REACT_APP_API_URL + "/mods?featured=true")
       .then(res => {
         if (!res.ok) throw new Error("Fetch error");
         return res.json();
