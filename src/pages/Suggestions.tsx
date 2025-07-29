@@ -63,7 +63,7 @@ export const Suggestions = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 px-4">
+    <div className=" mt-12 px-4">
       <form
         onSubmit={sendForm}
         id="suggest-form"
@@ -124,7 +124,7 @@ export const Suggestions = () => {
         </div>
       </form>
 
-      <div className="mt-14">
+      <div className="mt-14 mx-auto">
         <IdeasTable />
       </div>
     </div>

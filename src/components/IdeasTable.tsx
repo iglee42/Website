@@ -47,7 +47,7 @@ export const IdeasTable = forwardRef((props, ref) => {
   const filtered = ideas.filter(ideaPredicate);
 
   return (
-    <div className="max-w-screen-xl mx-auto p-6">
+    <div className=" p-6">
       {selectedIdea && <IdeaPopup idea={selectedIdea} mods={mods} onClose={() => setSelectedIdea(null)} />}
 
       <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -122,7 +122,7 @@ export const IdeasTable = forwardRef((props, ref) => {
           </div>
 
           {/* Desktop table layout */}
-          <div className="hidden sm:block overflow-x-auto">
+          <div className="hidden sm:block">
             <table className="min-w-full table-auto bg-white dark:bg-gray-900 rounded-lg shadow-md">
               <thead className="bg-gray-50 dark:bg-gray-800">
                 <tr>
@@ -135,7 +135,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Comment</th>
                   )}
                   {hasUserPermission(1) && (
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">By</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase w-64">By</th>
                   )}
                 </tr>
               </thead>

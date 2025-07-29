@@ -59,7 +59,7 @@ export const NavBar = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800">
+    <nav className="top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800">
       <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
         {/* Menu gauche - version desktop */}
         <div className="hidden md:flex space-x-8">
@@ -83,17 +83,17 @@ export const NavBar = () => {
         {/* Logo centré */}
         <Link 
           to="/" 
-          className="flex items-center space-x-2 md:absolute md:left-1/2 md:transform md:-translate-x-1/2"
+          className="relative items-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 group"
         >
           <img
             src={logo}
             alt="Logo"
-            className="h-10 w-10 object-contain transition-opacity duration-300"
+            className="absolute h-10 w-10 object-contain translate-x-[calc(50%+1.125rem)] transition-all duration-200 group-hover:opacity-0 group-hover:translate-x-0"
           />
           <img
             src={logoName}
             alt="Logo name"
-            className="hidden sm:block h-8 object-contain"
+            className="sm:block opacity-0 h-10 -z-10 object-contain transition-all duration-[450ms] delay-[100ms] group-hover:opacity-100"
           />
         </Link>
 
@@ -164,14 +164,14 @@ export const NavBar = () => {
           {/* Login / User info */}
           {!isLogged() ? (
             <a
-              href="https://api.iglee.fr/login"
+              href={"https://api.iglee.fr/login" +( process.env.NODE_ENV !== "production" ? "?dev=true" : "")}
               className="flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
             >
               <FaArrowRightToBracket />
               <span className="hidden sm:inline">Login</span>
             </a>
           ) : (
-            <LoggedInfo />
+              <LoggedInfo />
           )}
         </div>
       </div>

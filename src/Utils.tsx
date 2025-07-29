@@ -51,14 +51,15 @@ export function hasUserPermission(level: number): boolean {
 }
 
 export function showInfo(message: string): void {
+  setGlobalState("isInfoError", false);
   setGlobalState("info", message);
   setGlobalState("showInfo", true);
   setTimeout(() => setGlobalState("showInfo", false), 3000);
 }
 
 export function showError(message: string): void {
-  setGlobalState("isInfoError", true);
   showInfo(message);
+  setGlobalState("isInfoError", true);
   setTimeout(() => setGlobalState("isInfoError", false), 3200);
 }
 

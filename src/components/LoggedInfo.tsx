@@ -78,6 +78,22 @@ export const LoggedInfo = () => {
               Upload Chest Textures
             </a>
           )}
+          {hasUserPermission(3) && (
+            <a
+              {...getItemProps()}
+              href="/adminPanel"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition cursor-pointer"
+              role="menuitem"
+              tabIndex={-1}
+            >
+              <img
+                src="https://miro.medium.com/v2/resize:fit:1400/1*5Hnnv0awfSv0BGcq1C522w.png"
+                alt=""
+                className="mr-3 w-12 rounded-sm object-contain"
+              />
+              Admin Panel (In Dev)
+            </a>
+          )}
 
           <a
             {...getItemProps()}
