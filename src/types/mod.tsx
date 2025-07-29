@@ -7,4 +7,5 @@ export type Mod = {
     modrinthId: string;
     downloads: number;
     wiki: string;
+    featured: boolean;
 }

@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { getUser, getUserAvatarUrl, hasUserPermission, isLogged } from "../Utils";
 
 export const LoggedInfo = () => {
-  const menuItems = hasUserPermission(2) ? 2 : 1;
+  const menuItems = hasUserPermission(3) ? 3 : ( hasUserPermission(2) ? 2 : 1);
   const { buttonProps, itemProps, isOpen } = useDropdownMenu(menuItems);
 
   if (!isLogged()) {
@@ -27,10 +27,6 @@ export const LoggedInfo = () => {
   const username = user.username;
   const displayName = fixEncoding(user.global_name);
 
-  const logout = async () => {
-    localStorage.removeItem("user");
-    window.location.reload();
-  };
 
   let currentProps = 0;
   function getItemProps() {
@@ -97,16 +93,12 @@ export const LoggedInfo = () => {
 
           <a
             {...getItemProps()}
-            onClick={(e) => {
-              e.preventDefault();
-              logout();
-            }}
-            href="#"
+            href="/logout"
             className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition cursor-pointer"
             role="menuitem"
             tabIndex={-1}
           >
-            <FaArrowRightFromBracket className="mr-3 rotate-180" />
+            <FaArrowRightFromBracket className="mr-3 rotate-180 w-12 text-3xl" />
             Logout
           </a>
         </div>

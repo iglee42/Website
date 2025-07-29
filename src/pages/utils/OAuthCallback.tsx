@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { showError, showInfo } from "../Utils";
+import { showError, showInfo } from "../../Utils";
 
 function OAuthCallback() {
     const navigate = useNavigate();
@@ -22,10 +22,6 @@ function OAuthCallback() {
                 showError("Decoding error");
                 navigate("/");
             }
-        } else {
-            // Si pas de data, redirection avec message
-            showError("No login data found");
-            navigate("/");
         }
     }, [navigate]);
 

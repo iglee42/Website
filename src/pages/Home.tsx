@@ -4,7 +4,7 @@ import { FaDownload, FaLightbulb, FaUsers, FaPuzzlePiece, FaSpinner } from "reac
 import { Mod } from "../types/mod";
 import { ModInfo } from "../components/ModInfo";
 import { DownloadPopup } from "../components/DownloadPopup";
-import { showInfo } from "../Utils";
+import { formatDownloads } from "../Utils";
 
 export const Home = () => {
   const [mods, setMods] = useState<Mod[]>([]);
@@ -13,13 +13,13 @@ export const Home = () => {
   const [stats, setStats] = useState({ mods: 0, downloads: 0, contributors: 0 });
 
   useEffect(() => {
-    showInfo("Loading...");
+    //showInfo("Loading...");
     fetch("https://api.iglee.fr/mods?featured=true")
       .then(res => res.ok ? res.json() : Promise.reject())
       .then((data: Mod[]) => {
         setMods(data);
         setStats({
-          mods: data.length - 1,
+          mods: data.length,
           downloads: data.reduce((sum, m) => sum + m.downloads, 0),
           contributors: 128,
         });
@@ -56,7 +56,7 @@ export const Home = () => {
             </div>
             <div className="text-center">
               <FaDownload className="mx-auto text-green-600 text-4xl mb-2" />
-              <p className="text-3xl font-bold">{(stats.downloads / 1000).toFixed(1)}K+</p>
+              <p className="text-3xl font-bold">{formatDownloads(stats.downloads)}+</p>
               <p className="text-gray-600 dark:text-gray-400">Downloads</p>
             </div>
             <div className="text-center">
@@ -117,7 +117,7 @@ export const Home = () => {
             </div>
           ) : (
             <div className="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {mods.map(mod => (
+                {mods.sort((a, b) => b.downloads - a.downloads).map(mod => (
                 <ModInfo key={mod.id} mod={mod} onClick={() => setCurrentMod(mod)} />
               ))}
             </div>

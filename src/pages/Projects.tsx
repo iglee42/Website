@@ -11,7 +11,7 @@ export const Projects = () => {
 
   useEffect(() => {
     showInfo("Loading mods...");
-    fetch("https://api.iglee.fr/mods")
+    fetch("https://api.iglee.fr/mods?featured=true")
       .then(res => {
         if (!res.ok) throw new Error("Fetch error");
         return res.json();
@@ -36,7 +36,6 @@ export const Projects = () => {
   }
 
   const sorted = mods
-    .filter(m => m.curseforgeId > 0 || m.modrinthId.length > 0)
     .map(m => ({ ...m }))
     .sort((a, b) => b.downloads - a.downloads);
 
