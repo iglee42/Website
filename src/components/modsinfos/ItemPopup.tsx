@@ -1,44 +1,58 @@
-import { MouseEventHandler } from "react";
-import { getTypeByNumber, Item } from "../../types/item";
-import { convertStringToArray, getUpperName, showError, showInfo, split } from "../../Utils";
-import { Tag } from "../Tag";
-import { Popup } from "../Popup";
+import { useEffect, useRef } from "react";
+import { FaTimes } from "react-icons/fa";
+import { Item } from "../../types/item";
 
 interface Props {
-    item: Item;
-    onClose: MouseEventHandler<HTMLButtonElement>;
+  onClose: () => void;
+  item: Item;
 }
 
-export function ItemPopup(props: Props) {
-    const handleCopy = async (tag: string) => {
-        try {
-            await navigator.clipboard.writeText('#'+tag);
-            showInfo('Copied to Clipboard')
-        } catch (error) {
-            showError('Unable to copy to Clipboard')
-        }
+export function ItemPopup({ onClose, item }: Props) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
     };
-    return (
-        <Popup onClose={props.onClose}>
-            
-                <div className="relative p-4 flex flex-col items-center min-w-max w-full max-w-full">
-                    <img
-                        src={props.item.image_link}
-                        alt={props.item.display_name}
-                        className="w-1/2 h-full object-cover rounded-t-lg pixelated-image"
-                    />
-                    <div className="text-center mt-2">
-                        <h2 className="text-lg font-bold">{props.item.display_name}</h2>
-                        <p className="text-gray-600 dark:text-gray-400">Mod : {getUpperName(split(props.item.id, ':')[0], '_')}</p>
-                        <p className="text-gray-600 dark:text-gray-400">ID : {props.item.id}</p>
-                        <p className="text-gray-600 dark:text-gray-400">Type : {getUpperName(getTypeByNumber(props.item.type), '_')}</p>
-                        <p className="text-gray-600 dark:text-gray-400">
-                            Tags : {convertStringToArray(props.item.tags).map(t => <Tag key={t} tag={t} onClick={handleCopy} />)}
-                        </p>
-                    </div>
-                </div>
-        </Popup>
-    )
-}
-    
 
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+    >
+      <div
+        ref={modalRef}
+        className="relative bg-white dark:bg-black rounded-xl shadow-xl p-4 inline-block max-w-full max-h-[90vh] overflow-auto"
+        tabIndex={-1}
+      >
+        <button
+          ref={closeButtonRef}
+          onClick={onClose}
+          className="absolute top-2 right-2 p-2 bg-gray-100 dark:bg-gray-900 rounded hover:bg-gray-200"
+          aria-label="Fermer la fenêtre modale"
+        >
+          <FaTimes />
+        </button>
+        <h2 id="popup-title" className="sr-only">Détails de l’item</h2>
+
+        {/* Affichez ici les infos de votre item */}
+        <div>
+          <h3 className="text-lg font-bold mb-2">{item.id}</h3>
+          <p>ID : {item.id}</p>
+          {/* Ajoutez d’autres détails selon votre modèle */}
+        </div>
+      </div>
+    </div>
+  );
+}

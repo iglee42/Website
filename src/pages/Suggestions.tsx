@@ -1,103 +1,132 @@
 import { FormEvent, useRef, useState } from "react";
 import { ModSelect } from "../components/ModSelect";
 import { FaPaperPlane } from "react-icons/fa";
-import '../css/suggestion.css'
 import { IdeasTable } from "../components/IdeasTable";
 import { getUser, isLogged, showError } from "../Utils";
 
-
 export const Suggestions = () => {
+  const [animationClass, setAnimationClass] = useState("");
+  const modSelectRef = useRef<any>();
 
+  function setError(error: string) {
+    showError(error);
+  }
 
+  function triggerAnimation(success: boolean) {
+    setAnimationClass(`animate-${success ? "pulse" : "shake"}`);
+    if (!success) setTimeout(() => setAnimationClass(""), 500);
+  }
 
-    const [animationClass, setAnimationClass] = useState('');
+  function sendForm(event: FormEvent) {
+    event.preventDefault();
 
-    const modSelectRef = useRef<any>();
+    const form = event.currentTarget as HTMLFormElement;
+    const titleField = form.querySelector("#title") as HTMLInputElement;
+    const descField = form.querySelector("#description") as HTMLTextAreaElement;
+    const selectedMod = modSelectRef.current?.getSelectedMod();
 
-
-    function setError(error: string) {
-        showError(error)
+    if (!selectedMod) {
+      triggerAnimation(false);
+      return setError("Please choose a mod");
+    }
+    if (!titleField.value.trim()) {
+      triggerAnimation(false);
+      return setError("Please enter a title");
+    }
+    if (!descField.value.trim()) {
+      triggerAnimation(false);
+      return setError("Please enter a description");
     }
 
-    function sendForm(event: FormEvent<any>) {
-        event.preventDefault()
-        clearTimeout(0)
-
-        let form: HTMLFormElement = document.querySelector("#suggest-form")!
-        if (modSelectRef.current) {
-            if (!modSelectRef.current.getSelectedMod()) {
-                sendAnimation(false)
-                setError("Please choose a mod")
-                return;
-            }
+    fetch("https://api.iglee.fr/suggestion", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        modID: selectedMod.id,
+        title: titleField.value,
+        description: descField.value,
+        userId: isLogged() ? getUser()?.id : -1,
+      }),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          triggerAnimation(true);
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          throw new Error();
         }
-        let titleField: HTMLInputElement = form.querySelector("#title")!
-        if (titleField.value.length === 0) {
-            sendAnimation(false)
-            setError("Please enter a title")
-            return;
-        }
-        let descField: HTMLTextAreaElement = form.querySelector("#description")!
-        if (descField.value.length === 0) {
-            sendAnimation(false)
-            setError("Please enter a description")
-            return;
-        }
-        var http = new XMLHttpRequest();
-        var url = "https://api.iglee.fr/suggestion";
-        http.open("POST", url, true);
-        http.setRequestHeader("Content-type", "application/json");
+      })
+      .catch(() => {
+        setError("Internal Error, Try Later");
+        triggerAnimation(false);
+      });
+  }
 
-        http.onreadystatechange = function () {
-            if (http.readyState === 4 && http.status === 201) {
-                sendAnimation(true)
-                setTimeout(() => window.location.reload(), 1000)
-            }
-        }
-        http.onerror = function () {
-            setError('Internal Error, Try Later')
-            sendAnimation(false)
-        }
-        http.send(JSON.stringify({
-            modID: modSelectRef.current.getSelectedMod().id,
-            title: titleField.value,
-            description: descField.value,
-            userId: isLogged() ? getUser()?.id : -1
-        }));
-    }
+  return (
+    <div className="max-w-4xl mx-auto mt-12 px-4">
+      <form
+        onSubmit={sendForm}
+        id="suggest-form"
+        className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-2xl p-8 space-y-6"
+      >
+        <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
+          Submit a Suggestion
+        </h2>
 
-    function sendAnimation(success: boolean) {
-        setAnimationClass('animation-send-' + (success ? 'success' : 'fail'))
-        if (!success) {
-            setTimeout(() => {
-                setAnimationClass('');
-            }, 500);
-        }
-    }
+        <div className="space-y-4">
+          <ModSelect ref={modSelectRef} />
 
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+            >
+              Title
+            </label>
+            <input
+              id="title"
+              type="text"
+              placeholder="Enter a short title"
+              className="w-full mt-1 px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
 
-
-    return (
-        <div className="flex items-center flex-col mt-5">
-            <form onSubmit={sendForm} className="w-1/2 flex items-center flex-col" id="suggest-form">
-                <ModSelect ref={modSelectRef} />
-                <div className="input-group mb-3 mt-3 w-1/2 border border-gray-300 dark:border-gray-700 rounded-lg flex">
-                    <span className="bg-gray-200 dark:bg-gray-800 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300 dark:border-gray-700">
-                        Title
-                    </span>
-                    <input type="text" className="form-control w-3/4 p-2.5 rounded-r-lg focus:outline-none" aria-label="Title" id="title" />
-                </div>
-                <div className="input-group mt-3 w-1/2 border border-gray-300 dark:border-gray-700 rounded-lg flex">
-                    <span className="bg-gray-200 dark:bg-gray-800 w-1/4 p-2.5 flex items-center justify-center rounded-l-lg border-r border-gray-300 dark:border-gray-700">
-                        Description
-                    </span>
-                    <textarea className="form-control w-3/4 p-2.5 bg-white dark:bg-black rounded-r-lg focus:outline-none" aria-label="Description" id="description" rows={4}></textarea>
-                </div>
-                <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>There is no formatting on the description (No markdown)</i></p>
-                <p className={`input-group transi-all flex w-2/4 text-sm p-2.5 justify-center text-gray-500`}><i>You can login to be notified of the changes of your suggestion</i></p>
-                <button type="submit" className={`input-group mb-3 mt-3 flex w-1/4 border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center ${animationClass}`} id="send-suggest"><FaPaperPlane className="h-5 w-5 mr-2 mt-1" id="send-icon" /> <span id="send-text">Send</span></button>
-            </form>
-            <IdeasTable />
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              rows={5}
+              placeholder="Describe your idea in detail"
+              className="w-full mt-1 px-4 py-2 border rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
         </div>
-    );
-}
+
+        <div className="text-sm text-center text-gray-500 dark:text-gray-400 italic space-y-1">
+          <p>No markdown formatting supported.</p>
+          <p>You can login to be notified of your suggestion’s status.</p>
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            id="send-suggest"
+            className={`flex items-center gap-2 px-6 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow ${animationClass}`}
+          >
+            <FaPaperPlane />
+            <span>Send</span>
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-14">
+        <IdeasTable />
+      </div>
+    </div>
+  );
+};

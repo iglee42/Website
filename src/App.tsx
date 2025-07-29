@@ -22,19 +22,19 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
     if (saved !== null) return saved === "true";
-    let dark = /*window.matchMedia("(prefers-color-scheme: dark)").matches*/false;
+    let dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     localStorage.setItem("darkMode", dark.toString());
     return dark;
   });
 
-  /*useEffect(() => {
+  useEffect(() => {
     const root = document.querySelector('body');
     if (isDarkMode) {
       root?.classList.add("dark");
     } else {
       root?.classList.remove("dark");
     }
-  }, [isDarkMode]);*/
+  }, [isDarkMode]);
 
   const toggleDarkMode = () => {
     const newValue = !isDarkMode;
@@ -49,7 +49,7 @@ function App() {
       <header>
         <NavBar/>
       </header>
-      {/*<div
+      {<div
         className="fixed z-50 bottom-6 right-6 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center cursor-pointer transition-all hover:scale-105 hover:shadow-xl"
         onClick={toggleDarkMode}
         title="Toggle Dark Mode"
@@ -60,7 +60,7 @@ function App() {
             : <FaMoon className="text-gray-700 dark:text-white w-6 h-6 transition-colors duration-300" />
         }
         </div>
-        */}
+        }
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/suggestions' element={<Suggestions />} />

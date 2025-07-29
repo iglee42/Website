@@ -9,20 +9,24 @@ function OAuthCallback() {
         const params = new URLSearchParams(window.location.search);
         const data = params.get("data");
 
-        if (data && data !== null && data.length > 0) {
+        if (data && data.length > 0) {
             try {
                 const json = atob(data);
                 const user = JSON.parse(json);
                 localStorage.setItem("user", JSON.stringify(user));
 
-                navigate("/");
                 showInfo("Logged as " + user.username);
+                navigate("/");
             } catch (err) {
                 console.error("Erreur de décodage", err);
-                navigate("/");
                 showError("Decoding error");
+                navigate("/");
             }
-        } 
+        } else {
+            // Si pas de data, redirection avec message
+            showError("No login data found");
+            navigate("/");
+        }
     }, [navigate]);
 
     return <p>Login...</p>;
