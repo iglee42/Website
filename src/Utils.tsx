@@ -89,8 +89,12 @@ export async function getUserById(id: string): Promise<DiscordUser | null> {
 }
 
 export function getUserAvatarUrl(user: DiscordUser): string {
-  return user.avatar
-    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`
+  return getAvatarUrl(user.id,user.avatar);
+}
+
+export function getAvatarUrl(id: string, avatar: string | null): string {
+  return avatar && id
+    ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png?size=64`
     : "https://cdn.discordapp.com/embed/avatars/0.png";
 }
 

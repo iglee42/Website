@@ -54,8 +54,8 @@ export const IdeasTable = forwardRef((props, ref) => {
       : statusFilter === 1 ? [1, 4, 5].includes(i.status)
         : i.status === statusFilter;
 
-  const filtered = ideas.filter(predicate);
-  const showCommentCol = filtered.some(i => Boolean(i.comment))
+  let filtered = ideas.filter(ideaPredicate);
+  filtered = filtered.sort((a, b) => a.status - b.status);
 
   return (
     <div className="max-w-screen-2xl mx-auto p-6">
