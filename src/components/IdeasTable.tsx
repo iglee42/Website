@@ -49,13 +49,16 @@ export const IdeasTable = forwardRef((props, ref) => {
     return <div className="text-center py-10 text-gray-500 dark:text-gray-400">Loading ideas…</div>;
   }
 
-  const predicate = (i: Idea) =>
+  const ideaPredicate = (i: Idea) =>
     statusFilter === 2 ? [2, 3].includes(i.status)
       : statusFilter === 1 ? [1, 4, 5].includes(i.status)
         : i.status === statusFilter;
 
-  const filtered = ideas.filter(predicate);
+  let filtered = ideas.filter(ideaPredicate);
+  filtered = filtered.sort((a, b) => a.status - b.status);
+  
   const showCommentCol = filtered.some(i => Boolean(i.comment))
+
 
   return (
     <div className="max-w-screen-2xl mx-auto p-6">
