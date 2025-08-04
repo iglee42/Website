@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { formatDownloads, showInfo } from "../../Utils";
+import { formatDownloads, getUserAvatarUrl, getUserById, getUserPermission, showInfo } from "../../Utils";
 import { Mod } from "../../types/mod";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSave } from "react-icons/fa";
+import { DiscordUser } from "../../types/discordUser";
 
 export const AdminPanel = () => {
   const [mods, setMods] = useState<Mod[]>([]);
+  const [users, setUsers] = useState<DiscordUser[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,11 +20,40 @@ export const AdminPanel = () => {
       })
       .catch(() => {
         setMods([]);
+      });
+  }, []);
+  useEffect(() => {
+    fetch(process.env.REACT_APP_API_URL + "/users/all", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Fetch error");
+        return res.json();
+      })
+      .then(async data => {
+        const users = await Promise.all(
+          data.map(async (id: any) => {
+            const user = await getUserById(id.user);
+            const permissionRes = await getUserPermission(id.user);
+            const permission = permissionRes.permission;
+            return { ...user, permission };
+          })
+        );
+        console.log(users);
+        setUsers(users);
+      })
+      .catch(() => {
+        setUsers([]);
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
+
+
 
   if (loading) {
     return (
@@ -32,6 +63,8 @@ export const AdminPanel = () => {
     );
   }
 
+  console.log(users)
+
 
   return (
     <div className="w-full max-w-full px-4 py-10">
@@ -39,8 +72,8 @@ export const AdminPanel = () => {
         Admin Panel
       </h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 text-gray-900 dark:text-white border border-gray-800 dark:border-gray-200 rounded-lg">
-        <div className="flex flex-col m-4 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
+      <div className="grid grid-cols-3 gap-6 text-gray-900 dark:text-white border border-gray-800 dark:border-gray-200 rounded-lg">
+        <div className="flex flex-col col-span-2 m-4 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
           <h2 className="text-xl font-bold text-center mb-4 mt-4 text-gray-800 dark:text-white">
             Mods
           </h2>
@@ -81,10 +114,58 @@ export const AdminPanel = () => {
             <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64">Add Mod</button>
           </div>
         </div>
-        <div className="flex flex-col m-4 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
+        <div className="flex flex-col m-4 col-span-1 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
           <h2 className="text-xl font-bold text-center mb-4 mt-4 text-gray-800 dark:text-white">
             Users
           </h2>
+          <div className="flex mb-6 flex-row justify-self-start w-full ml-4">
+            <h3 className="w-64 text-lg text-gray-800 dark:text-white">
+              User
+            </h3>
+            <span className="w-16 text-lg text-gray-800 dark:text-white">Permission</span>
+            <div className="w-12 text-lg text-gray-800 dark:text-white ml-4"></div>
+          </div>
+          {
+            users.map(user =>
+              <div className="flex mb-6 flex-row justify-self-start w-full ml-4">
+                <h3 className="w-64 text-lg text-gray-800 dark:text-white">
+                  <img src={getUserAvatarUrl(user)} alt={user.username} className="inline-block w-10 h-10 mr-2 rounded" />
+                  {user.username}
+                </h3>
+                <input type="number" id={"perm-"+user.id} className="no-spinner w-12 text-lg text-gray-800 dark:text-white bg-transparent " min="0" max="3" defaultValue={user.permission}></input>
+                <div className="w-16 text-lg text-gray-800 dark:text-white ml-4  hover:text-green-500 hover:dark:text-green-500 transition-colors duration-500">
+                  <button className="text-whitepx-5 py-2 rounded-md" onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const permInput = document.getElementById("perm-"+user.id) as HTMLInputElement;
+                    const newPerm = parseInt(permInput.value);
+                    if (isNaN(newPerm) || newPerm < 0 || newPerm > 3) {
+                      showInfo("Invalid permission value. Must be between 0 and 3.");
+                      return;
+                    }
+                    fetch(process.env.REACT_APP_API_URL + "/users/permission", {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+                      },
+                      body: JSON.stringify({ userId: user.id, permission: newPerm })
+                    })
+                      .then(res => {
+                        if (!res.ok) throw new Error("Failed to update permission");
+                        showInfo("Permission updated successfully.");
+                        user.permission = newPerm;
+                        setUsers([...users]);
+                      })
+                      .catch(err => {
+                        console.error(err);
+                        showInfo("Failed to update permission.");
+                      });
+                  }}><FaSave></FaSave></button>
+                </div>
+              </div>
+            )
+          }
         </div>
         <div className="flex flex-col m-4 mb-4 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
           <h2 className="text-xl font-bold text-center mb-4 mt-4 text-gray-800 dark:text-white">

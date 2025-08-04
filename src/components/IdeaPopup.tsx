@@ -40,7 +40,10 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
     e.preventDefault();
     const res = await fetch(process.env.REACT_APP_API_URL + "/suggestion/status", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+      },
       body: JSON.stringify({
         suggestionId: idea.id,
         status
@@ -60,7 +63,10 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
     e.preventDefault();
     const res = await fetch(process.env.REACT_APP_API_URL + "/suggestion/comment", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+      },
       body: JSON.stringify({
         suggestionId: idea.id,
         comment

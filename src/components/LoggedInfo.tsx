@@ -58,7 +58,7 @@ export const LoggedInfo = () => {
           alt={username}
           className="rounded-full w-10 h-10 mr-3 object-cover"
         />
-        <span className="select-none text-gray-900 dark:text-gray-100">{displayName}</span>
+        <span className="select-none text-gray-900 dark:text-gray-100">{username}</span>
       </button>
 
       {/* Dropdown menu */}

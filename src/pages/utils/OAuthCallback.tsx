@@ -27,7 +27,7 @@ function OAuthCallback() {
             }
         }
         handleOAuthCallback();
-    }, [navigate]);
+    }, [navigate,userProvider]);
 
     return <p>Login...</p>;
 }
