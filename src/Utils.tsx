@@ -182,12 +182,12 @@ export async function logUser(navigate: ReturnType<typeof useNavigate>) {
 export async function getUserPermission(userId: string) {
   const res = await fetch(process.env.REACT_APP_API_URL+`/permission?id=${encodeURIComponent(userId)}`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`, // si c’est une route sécurisée
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`, // si c'est une route sécurisée
     },
   });
 
   if (!res.ok) {
-    throw new Error(`Erreur lors de la récupération de la permission pour l’utilisateur ${userId}`);
+    throw new Error(`Error while retrieving permission for user ${userId}`);
   }
 
   return res.json();
