@@ -56,10 +56,6 @@ export default function StatusSelect({
     isDisabled: value === currentIdea.status,
   }));
 
-  const selectedOption = options.find(
-    (option) => option.value === currentIdea.status
-  ) ?? null;
-
   const formatOptionLabel = (option: StatusOption) => (
     <div className="flex items-center">
       {option.icon}
@@ -77,7 +73,6 @@ export default function StatusSelect({
       styles={customStyles}
       formatOptionLabel={formatOptionLabel}
       onChange={handleChange}
-      value={selectedOption}
       className="mb-1 mt-1"
       aria-label="Select a Status"
     />

@@ -50,7 +50,8 @@ export const IdeasTable = forwardRef((props, ref) => {
       : selectedStatus === 1 ? [1, 4, 5].includes(i.status)
         : i.status === selectedStatus;
 
-  const filtered = ideas.filter(ideaPredicate);
+  let filtered = ideas.filter(ideaPredicate);
+  filtered = filtered.sort((a, b) => a.status - b.status);
 
   return (
     <div className=" p-6">
