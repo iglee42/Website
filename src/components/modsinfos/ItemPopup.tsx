@@ -44,13 +44,13 @@ export function ItemPopup({ onClose, item }: Props) {
         >
           <FaTimes />
         </button>
-        <h2 id="popup-title" className="sr-only">Détails de l’item</h2>
+        <h2 id="popup-title" className="sr-only">Item details</h2>
 
         {/* Affichez ici les infos de votre item */}
         <div>
           <h3 className="text-lg font-bold mb-2">{item.id}</h3>
           <p>ID : {item.id}</p>
-          {/* Ajoutez d’autres détails selon votre modèle */}
+          {/* Ajoutez d'autres détails selon votre modèle */}
         </div>
       </div>
     </div>
