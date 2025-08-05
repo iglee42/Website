@@ -62,66 +62,70 @@ export const Suggestions = () => {
   }
 
   return (
-    <div className=" mt-12 px-4">
-      <form
-        onSubmit={sendForm}
-        id="suggest-form"
-        className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-2xl p-8 space-y-6"
-      >
-        <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
-          Submit a Suggestion
-        </h2>
+    <div className="mt-12 px-4">
+      <div className="flex justify-center min-w-screen-2xl">
+        <form
+          onSubmit={sendForm}
+          id="suggest-form"
+          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl rounded-2xl p-4 space-y-4 max-w-2xl w-full"
+        >
+          <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white ">
+            Submit a Suggestion
+          </h2>
 
-        <div className="space-y-4">
-          <ModSelect ref={modSelectRef} />
+          <div className="space-y-3 ">
+            <div className="flex justify-center">
+              <ModSelect ref={modSelectRef} />
+            </div>
 
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
-            >
-              Title
-            </label>
-            <input
-              id="title"
-              type="text"
-              placeholder="Enter a short title"
-              className="w-full mt-1 px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            />
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+              >
+                Title
+              </label>
+              <input
+                id="title"
+                type="text"
+                placeholder="Enter a short title"
+                className="w-full mt-1 px-3 py-1.5 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="description"
+                className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                rows={3}
+                placeholder="Describe your idea in detail"
+                className="w-full mt-1 px-3 py-1.5 border rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+              />
+            </div>
           </div>
 
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-semibold text-gray-700 dark:text-gray-300"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              rows={5}
-              placeholder="Describe your idea in detail"
-              className="w-full mt-1 px-4 py-2 border rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            />
+          <div className="text-xs text-center text-gray-500 dark:text-gray-400 italic space-y-1">
+            <p>No markdown formatting supported.</p>
+            <p>You can login to be notified of your suggestion's status.</p>
           </div>
-        </div>
 
-        <div className="text-sm text-center text-gray-500 dark:text-gray-400 italic space-y-1">
-          <p>No markdown formatting supported.</p>
-          <p>You can login to be notified of your suggestion’s status.</p>
-        </div>
-
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            id="send-suggest"
-            className={`flex items-center gap-2 px-6 py-2 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow ${animationClass}`}
-          >
-            <FaPaperPlane />
-            <span>Send</span>
-          </button>
-        </div>
-      </form>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              id="send-suggest"
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow ${animationClass} text-sm`}
+            >
+              <FaPaperPlane />
+              <span>Send</span>
+            </button>
+          </div>
+        </form>
+      </div>
 
       <div className="mt-14 mx-auto">
         <IdeasTable />

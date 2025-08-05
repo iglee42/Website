@@ -15,7 +15,7 @@ export function ItemPopup({ onClose, item }: Props) {
       
         <div>
           <p>ID : {item.id}</p>
-          {/* Ajoutez d’autres détails selon votre modèle */}
+          {/* Ajoutez d'autres détails selon votre modèle */}
         </div>
     </Popup>
   );

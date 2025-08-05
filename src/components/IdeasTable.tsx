@@ -3,7 +3,7 @@ import { getIconByStatus, getStatusByNumber, Idea } from "../types/idea";
 import { Mod } from "../types/mod";
 import reactStringReplace from "react-string-replace";
 import moment from "moment";
-import { getUserAvatarUrl, getUserById, hasPermission } from "../Utils";
+import { getUserAvatarUrl, getUserById, hasPermission, getAvatarUrl } from "../Utils";
 import { DiscordUser } from "../types/discordUser";
 import { IdeaPopup } from "./IdeaPopup";
 import { useUser } from "../UserProvider";
@@ -99,14 +99,15 @@ export const IdeasTable = forwardRef((props, ref) => {
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">Description</th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">Created</th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400"></th>
                 {showCommentCol && (
                   <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">Comment</th>
                 )}
                 {hasPermission(user, 1) && (
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400 w-1/6"></th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">By</th>
                 )}
                 {hasPermission(user, 1) && (
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400 w-1/6">By</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400 w-1/6"></th>
                 )}
               </tr>
             </thead>
@@ -121,8 +122,8 @@ export const IdeasTable = forwardRef((props, ref) => {
                     onClick={() => setSelectedIdea(idea)}
                     className="cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900 transition"
                   >
-                    <td className="px-2 py-3 items-center w-16">
-                      {mod?.logoUrl && <img src={mod.logoUrl} alt={mod.name || ""} className="w-auto rounded" />}
+                    <td className="px-2 py-3 items-center w-12">
+                      {mod?.logoUrl && <img src={mod.logoUrl} alt={mod.name || ""} className="w-10 rounded" />}
                     </td>
                     <td className="px-4 py-3 items-center gap-2 gap-y-64">
                       <span className="font-semibold text-gray-900 dark:text-gray-100">{mod?.name}</span>
@@ -132,8 +133,10 @@ export const IdeasTable = forwardRef((props, ref) => {
                       {reactStringReplace(idea.description, "\n", (_, i) => <br key={i} />)}
                     </td>
                     <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{formatted}</td>
-                    <td className="px-4 py-3 flex items-center gap-2 text-gray-900 dark:text-gray-100">
-                      {getIconByStatus(idea.status, "w-5 h-5")}
+                    <td className="px-8 py-3 items-center gap-2">
+                      {getIconByStatus(idea.status, "w-4 h-4")}
+                    </td>
+                    <td className="px-4 py-3 items-center gap-2 text-gray-900 dark:text-gray-100">
                       <span>{getStatusByNumber(idea.status)}</span>
                     </td>
                     {showCommentCol && (
@@ -142,16 +145,20 @@ export const IdeasTable = forwardRef((props, ref) => {
                       </td>
                     )}
                     {hasPermission(user, 1) && (
-                      <td className="px-4 py-3 flex items-center gap-2">
+                      <td className="px-2 py-3 items-center w-12">
                         {ideaUser ? (
-                          <>
-                            <img src={getUserAvatarUrl(ideaUser)} alt={ideaUser.global_name} className="w-8 h-8 rounded-full" />
-                            <span className="text-gray-900 dark:text-gray-100">{ideaUser.global_name}</span>
-                          </>
+                          <img src={getUserAvatarUrl(ideaUser)} alt={ideaUser.global_name} className="w-10 rounded-full" />
                         ) : (
-                          <>
-                            <span className="text-gray-600 dark:text-gray-500">Unknown</span>
-                          </>
+                          <img src={getAvatarUrl("", "")} alt={"Unknown"} className="w-10 rounded-full" />
+                        )}
+                      </td>
+                    )}
+                    {hasPermission(user, 1) && (
+                      <td className="px-2 py-3 items-center w-12">
+                        {ideaUser ? (
+                          <span className="text-gray-900 dark:text-gray-100">{ideaUser.global_name}</span>
+                        ) : (
+                          <span className="text-gray-600 dark:text-gray-500">Unknown</span>
                         )}
                       </td>
                     )}
