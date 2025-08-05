@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { ReactHTMLElement, useEffect, useRef, useState } from "react";
 import { formatDownloads, getUserAvatarUrl, getUserById, getUserPermission, showInfo } from "../../Utils";
 import { Mod } from "../../types/mod";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { DiscordUser } from "../../types/discordUser";
+import { ModEditPopup } from "../../components/adminpanel/EditModPopup";
 
 export const AdminPanel = () => {
   const [mods, setMods] = useState<Mod[]>([]);
   const [users, setUsers] = useState<DiscordUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isEditingMod, setIsEditingMod] = useState(false)
+  const [editedMod, setEditedMod] = useState<Mod>()
 
   useEffect(() => {
     fetch(process.env.REACT_APP_API_URL + "/mods")
@@ -68,6 +71,11 @@ export const AdminPanel = () => {
 
   return (
     <div className="w-full max-w-full px-4 py-10">
+      {
+        isEditingMod && (
+          <ModEditPopup onClose={() => { setEditedMod(undefined); setIsEditingMod(false) }} mod={editedMod} />
+        )
+      }
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
         Admin Panel
       </h1>
@@ -105,13 +113,13 @@ export const AdminPanel = () => {
                 <span className="w-24 text-lg text-gray-800 dark:text-white">{mod.featured ? "True" : "False"}</span>
                 <span className="w-44 text-lg text-gray-800 dark:text-white truncate">{mod.wiki === "" ? "-" : mod.wiki}</span>
                 <div className="w-12 text-lg text-gray-800 dark:text-white ml-4">
-                  <button className="text-whitepx-5 py-2 rounded-md"><FaEdit></FaEdit></button>
+                  <button className="text-whitepx-5 py-2 rounded-md" onClick={() => { setIsEditingMod(true); setEditedMod(mod) }}><FaEdit></FaEdit></button>
                 </div>
               </div>
             )
           }
           <div className="flex mb-6 flex-row justify-self-center justify-center min-w-full ml-4">
-            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64">Add Mod</button>
+            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64" onClick={()=>setIsEditingMod(true)}>Add Mod</button>
           </div>
         </div>
         <div className="flex flex-col m-4 col-span-1 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">

@@ -83,15 +83,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
   };
 
   return (
-    <Popup onClose={onClose}>
-      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-800 w-[40rem] max-w-full">
-        {/* Header */}
-        <div className="bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 px-5 py-3 rounded-t-xl border-b border-gray-200 dark:border-zinc-700 text-center text-lg font-semibold">
-          {getUpperName(idea.title, " ")}
-        </div>
-
-        {/* Body */}
-        <div className="p-5 space-y-6 text-zinc-900 dark:text-zinc-100 text-sm">
+    <Popup onClose={onClose} title={idea.title}>
           {/* Mod info + Author */}
           <div className="flex justify-center flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
             {mod && (
@@ -164,8 +156,6 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
               </div>
             </div>
           )}
-        </div>
-      </div>
     </Popup>
   );
 }
