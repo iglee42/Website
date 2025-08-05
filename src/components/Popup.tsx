@@ -1,12 +1,14 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
+import { getUpperName } from "../Utils";
 
 interface Props {
   onClose: () => void;
   children: ReactNode;
+  title: string;
 }
 
-export function Popup({ onClose, children }: Props) {
+export function Popup({ onClose, children, title }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -48,7 +50,15 @@ export function Popup({ onClose, children }: Props) {
         <div id="popup-title" className="sr-only">
           Modal
         </div>
-        {children}
+        <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-800 w-[40rem] max-w-full">
+          {/* Header */}
+          <div className="bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 px-5 py-3 rounded-t-xl border-b border-gray-200 dark:border-zinc-700 text-center text-lg font-semibold">
+            {getUpperName(title, " ")}
+          </div>
+          <div className="p-5 space-y-6 text-zinc-900 dark:text-zinc-100 text-sm">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );

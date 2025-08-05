@@ -133,10 +133,10 @@ export const IdeasTable = forwardRef((props, ref) => {
                       {reactStringReplace(idea.description, "\n", (_, i) => <br key={i} />)}
                     </td>
                     <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{formatted}</td>
-                    <td className="px-8 py-3 items-center gap-2">
+                    <td className="px-6 py-3 items-center gap-2 w-12">
                       {getIconByStatus(idea.status, "w-4 h-4")}
                     </td>
-                    <td className="px-4 py-3 items-center gap-2 text-gray-900 dark:text-gray-100">
+                    <td className="px-2 py-3 items-center text-gray-900 dark:text-gray-100 w-12">
                       <span>{getStatusByNumber(idea.status)}</span>
                     </td>
                     {showCommentCol && (

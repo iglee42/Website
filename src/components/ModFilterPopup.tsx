@@ -31,7 +31,7 @@ export const ModFilterPopup: FC<ModFilterPopupProps> = ({
   };
 
   return (
-    <Popup onClose={onClose}>
+    <Popup onClose={onClose} title="Mods">
       <div className="flex flex-col p-4 min-w-[280px] max-w-full">
         <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
           Mods

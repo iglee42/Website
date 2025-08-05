@@ -23,6 +23,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const reloadUser = async () => {
         setLoading(true);
         const u = await fetchUserFromToken();
+        if (u === null) {
+            console.log("Invalid Token")
+            logout()
+            setLoading(false)
+            return;
+        }
         setUser(u);
         setLoading(false);
     };

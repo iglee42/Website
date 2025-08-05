@@ -80,3 +80,6 @@
 .no-spinner[type="number"] {
   -moz-appearance: textfield;
 }
+.react-toggle:not(.react-toggle--checked) .react-toggle-track {
+  background-color: #ff0000 !important;
+}

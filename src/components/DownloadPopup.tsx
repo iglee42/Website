@@ -75,12 +75,7 @@ export function DownloadPopup({ mod, onClose }: Props) {
   }
 
   return (
-    <Popup onClose={onClose}>
-      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-gray-200 dark:border-zinc-800 w-[40rem] max-w-full">
-        <div className="bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 px-5 py-3 rounded-t-xl border-b border-gray-200 dark:border-zinc-700 font-semibold text-lg">
-          Download {mod.name}
-        </div>
-        <div className="p-5 space-y-6 text-zinc-900 dark:text-zinc-100">
+    <Popup onClose={onClose} title={`Download ${mod.name}`}>
           <div className="flex items-center space-x-4">
             <span className="font-medium w-32">Version:</span>
             <VersionSelect mod={mod} onChange={setVersion} />
@@ -139,8 +134,6 @@ export function DownloadPopup({ mod, onClose }: Props) {
               <ModrinthSVG className="size-5" fill="ffffff" /> Modrinth
             </a>
           </div>
-        </div>
-      </div>
     </Popup>
   );
 }

@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../images/logo.png";
 import logoName from "../images/logo_name.png";
 import curseforge from "../images/curseforge.svg";
+import { FR } from 'country-flag-icons/react/3x2'
 import {
   FaDownload,
   FaCode,
@@ -132,7 +133,7 @@ export const NavBar = () => {
                   className="flex items-center px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <FaYoutube className="mr-2" />
-                  Youtube (🇫🇷)
+                  Youtube (<FR title="France" className="w-4 mt-1"/>)
                 </a>
                 <a
                   href="https://git.iglee.fr"
@@ -205,7 +206,7 @@ export const NavBar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <FaYoutube className="mr-3" />
-                  Youtube (🇫🇷)
+                  Youtube (<FR title="France" className="w-4 mt-1" />)
                 </a>
 
                 <a
