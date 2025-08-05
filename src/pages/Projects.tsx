@@ -42,14 +42,7 @@ export const Projects = () => {
       <div className="flex flex-wrap justify-center gap-12">
         {mods.map((mod) => (
           <div
-            key={mod.id}
-            className="
-              basis-[10%] max-w-[350px]
-              sm:basis-1/2 sm:max-w-none
-              md:basis-1/3
-              lg:basis-1/4
-              xl:basis-1/5
-            "
+            key={mod.id} className="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
           >
             <ModInfo mod={mod} onClick={() => setCurrent(mod)} />
           </div>
