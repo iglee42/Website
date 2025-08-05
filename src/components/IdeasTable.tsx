@@ -89,7 +89,7 @@ export const IdeasTable = forwardRef((props, ref) => {
           No ideas in this category.
         </h2>
       ) : (
-        <div className="hidden sm:block overflow-x-auto overflow-y-visible">
+        <div className="hidden sm:block overflow-x-auto overflow-y-visible rounded-lg shadow-lg">
           <table className="min-w-full table-auto bg-white dark:bg-gray-900 rounded-lg shadow-md">
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
