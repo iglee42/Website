@@ -109,7 +109,7 @@ export const ModLoaderSelect = forwardRef<HTMLDivElement, Props>(({ mod, onChang
               role="option"
               aria-selected={selectedVersion === version}
               className={`flex items-center p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 ${
-                selectedVersion === version ? "bg-blue-500 text-white" : ""
+                selectedVersion === version ? "bg-emerald-500 text-white" : ""
               }`}
               onClick={() => handleSelect(version)}
               onKeyDown={(e) => {

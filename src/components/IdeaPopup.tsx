@@ -124,7 +124,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
                 />
                 <button
                   onClick={handleStatusUpdate}
-                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition text-sm"
+                  className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition text-sm"
                 >
                   Update the status
                 </button>

@@ -53,11 +53,12 @@ export const Home = () => {
   return (
     <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className={`flex flex-col items-center justify-center min-h-[80vh] bg-white dark:bg-black text-center px-4 py-20 bg-no-repeat bg-cover`} style={{
-        backgroundImage: `linear-gradient(to top, rgba(0,0,0,1), transparent), url(${background})`
-      }}>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">Iglee – Minecraft Modding</h1>
-        <p className="text-lg md:text-xl mb-8 max-w-2xl">
+      <section
+        className={`flex flex-col items-center justify-center min-h-[80vh] bg-white dark:bg-black text-center px-4 py-20 bg-no-repeat bg-cover`}
+        style={{ backgroundImage: `linear-gradient(to top, ${localStorage.getItem('darkMode') === "true" ? "rgba(0,0,0,1)" : "rgba(255,255,255,1)"}, transparent 50%,transparent), url(${background})` }}
+      >
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-white">Iglee - Minecraft Modding</h1>
+        <p className="text-lg md:text-xl mb-8 max-w-2xl text-white">
           Discover, download, and help shape the future of my Minecraft mods.
         </p>
         <Link
@@ -74,7 +75,7 @@ export const Home = () => {
         <section className="py-12">
           <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row justify-around items-center space-y-6 sm:space-y-0 px-4">
             <div className="text-center">
-              <FaPuzzlePiece className="mx-auto text-indigo-600 text-4xl mb-2" />
+              <FaPuzzlePiece className="mx-auto text-green-600 text-4xl mb-2" />
               <p className="text-3xl font-bold">{stats.mods}</p>
               <p className="text-gray-600 dark:text-gray-400">Featured Mods</p>
             </div>
@@ -101,7 +102,7 @@ export const Home = () => {
           </div>
           <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-              <FaLightbulb className="text-indigo-600 text-3xl mb-4" />
+              <FaLightbulb className="text-green-600 text-3xl mb-4" />
               <h3 className="text-xl font-medium mb-2">Innovative Ideas</h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Suggest your ideas to shape my mods as you like.
@@ -149,7 +150,7 @@ export const Home = () => {
           </div>
           <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="inline-block p-4 bg-indigo-600 text-white rounded-full mb-4">
+              <div className="inline-block p-4 bg-green-600 text-white rounded-full mb-4">
                 <FaMagnifyingGlass className="text-2xl" />
               </div>
               <h3 className="text-xl font-medium mb-2">Find a Mod</h3>
