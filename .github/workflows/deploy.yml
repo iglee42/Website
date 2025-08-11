@@ -6,6 +6,8 @@ on:
 jobs:
   web-deploy:
     name: Deploy
+    env:
+      REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
     runs-on: ubuntu-latest
     steps:
     - name: Get the latest code
