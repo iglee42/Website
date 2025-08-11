@@ -175,12 +175,6 @@ export const AdminPanel = () => {
             )
           }
         </div>
-        <div className="flex flex-col m-4 mb-4 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
-          <h2 className="text-xl font-bold text-center mb-4 mt-4 text-gray-800 dark:text-white">
-            Images
-          </h2>
-        </div>
-
       </div>
     </div>
 
