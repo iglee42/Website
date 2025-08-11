@@ -5,6 +5,8 @@ import { Mod } from "../types/mod";
 import { ModInfo } from "../components/ModInfo";
 import { DownloadPopup } from "../components/DownloadPopup";
 import { formatDownloads } from "../Utils";
+import background from "../images/background.png"
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export const Home = () => {
   const [mods, setMods] = useState<Mod[]>([]);
@@ -16,29 +18,51 @@ export const Home = () => {
     //showInfo("Loading...");
     fetch(process.env.REACT_APP_API_URL + "/mods?featured=true")
       .then(res => res.ok ? res.json() : Promise.reject())
-      .then((data: Mod[]) => {
-        setMods(data);
+      .then((modData: Mod[]) => {
+        setMods(modData);
         setStats({
-          mods: data.length,
-          downloads: data.reduce((sum, m) => sum + m.downloads, 0),
+          mods: modData.length,
+          downloads: modData.reduce((sum, m) => sum + m.downloads, 0),
           contributors: 128,
         });
+        fetch(process.env.REACT_APP_API_URL + "/contributors")
+          .then(res => res.ok ? res.json() : Promise.reject())
+          .then((data: any) => {
+            setStats({
+              mods: modData.length,
+              downloads: modData.reduce((sum, m) => sum + m.downloads, 0),
+              contributors: data.count,
+            })
+          })
+          .finally(() => setLoading(false));
       })
       .catch(() => setMods([]))
-      .finally(() => setLoading(false));
+    
+
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
+        <FaSpinner className="animate-spin mr-2" />
+        <span>Loading…</span>
+      </div>
+    ) 
+  }
 
   return (
     <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center min-h-[80vh] bg-white dark:bg-black text-center px-4 py-20">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">Unleash Your Minecraft Creativity</h1>
+      <section className={`flex flex-col items-center justify-center min-h-[80vh] bg-white dark:bg-black text-center px-4 py-20 bg-no-repeat bg-cover`} style={{
+        backgroundImage: `linear-gradient(to top, rgba(0,0,0,1), transparent), url(${background})`
+      }}>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4">Iglee – Minecraft Modding</h1>
         <p className="text-lg md:text-xl mb-8 max-w-2xl">
-          Browse, download, and contribute amazing mods built by our vibrant community.
+          Discover, download, and help shape the future of my Minecraft mods.
         </p>
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-lg transition"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-full text-lg transition"
         >
           Explore Projects
         </Link>
@@ -61,7 +85,7 @@ export const Home = () => {
             </div>
             <div className="text-center">
               <FaUsers className="mx-auto text-yellow-500 text-4xl mb-2" />
-              <p className="text-3xl font-bold">{stats.contributors}+</p>
+              <p className="text-3xl font-bold">{stats.contributors}</p>
               <p className="text-gray-600 dark:text-gray-400">Contributors</p>
             </div>
           </div>
@@ -70,9 +94,9 @@ export const Home = () => {
         {/* Core Features */}
         <section className="py-16 px-4">
           <div className="max-w-screen-xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-semibold">Why Choose Our Platform?</h2>
+            <h2 className="text-3xl font-semibold">Why Supports Me?</h2>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
-              We empower you with tools and community support to create and enjoy the best Minecraft mods.
+              I empower your Minecraft experience with Innovative Minecraft mods.
             </p>
           </div>
           <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -80,14 +104,14 @@ export const Home = () => {
               <FaLightbulb className="text-indigo-600 text-3xl mb-4" />
               <h3 className="text-xl font-medium mb-2">Innovative Ideas</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Suggest and vote on mod ideas to shape our roadmap.
+                Suggest your ideas to shape my mods as you like.
               </p>
             </div>
             <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
               <FaUsers className="text-yellow-500 text-3xl mb-4" />
               <h3 className="text-xl font-medium mb-2">Collaborative Community</h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Connect with modders and share feedback.
+                Connected with modders and share feedback.
               </p>
             </div>
             <div className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
@@ -107,36 +131,29 @@ export const Home = () => {
               Featured Mods
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Our community's top picks, updated regularly.
+              My populars mods which are updated regularly.
             </p>
           </div>
-          {loading ? (
-            <div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
-              <FaSpinner className="animate-spin mr-2" />
-              <span>Loading featured mods…</span>
-            </div>
-          ) : (
             <div className="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {mods.sort((a, b) => b.downloads - a.downloads).map(mod => (
-                <ModInfo key={mod.id} mod={mod} onClick={() => setCurrentMod(mod)} />
-              ))}
+            {mods.sort((a, b) => b.downloads - a.downloads).map(mod => (
+              <ModInfo key={mod.id} mod={mod} onClick={() => setCurrentMod(mod)} />
+            ))}
             </div>
-          )}
         </section>
 
         {/* How It Works */}
         <section className="py-16 px-4">
           <div className="max-w-screen-xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-semibold">How It Works</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Get started in just a few clicks.</p>
+            <h2 className="text-3xl font-semibold">Download My Projects</h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">How It Works</p>
           </div>
           <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="inline-block p-4 bg-indigo-600 text-white rounded-full mb-4">
-                <FaDownload className="text-2xl" />
+                <FaMagnifyingGlass className="text-2xl" />
               </div>
               <h3 className="text-xl font-medium mb-2">Find a Mod</h3>
-              <p className="text-gray-600 dark:text-gray-400">Browse or search for mods that match your style.</p>
+              <p className="text-gray-600 dark:text-gray-400">Browse for mods that match your style.</p>
             </div>
             <div className="text-center">
               <div className="inline-block p-4 bg-green-600 text-white rounded-full mb-4">

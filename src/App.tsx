@@ -47,7 +47,7 @@ function App() {
           <Router />
         </div>
         <div className='fixed left-0 z-50 w-full flex justify-center h-10 items-center transi-all' style={{ bottom: (showInfo ? '32px' : '-50px'), opacity: (showInfo ? 1 : 0) }}>
-          <p className={[isInfoError ? 'bg-red-700' : 'bg-gray-200', isInfoError ? 'text-white' : 'text-black', 'shadow-xl rounded-lg px-6 mx-auto h-10 text-center max-w-fit lh-8'].join(' ')}>{info}</p>
+          <p className={[isInfoError ? 'bg-red-700' : 'bg-gray-200 dark:bg-gray-800', isInfoError ? 'text-white' : 'text-black dark:text-white', 'shadow-xl rounded-lg px-6 mx-auto h-10 text-center max-w-fit lh-8'].join(' ')}>{info}</p>
         </div>
         <footer className='bottom-0 right-0 left-0 text-center border-t-2 border-t-black dark:border-t-white border-t-solid flex justify-center items-center'>
           <Rights />
