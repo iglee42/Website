@@ -1,9 +1,10 @@
 import { createGlobalState } from "react-hooks-global-state";
 
-const { setGlobalState, useGlobalState } = createGlobalState({
+const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
     'info': '',
     'isInfoError': false,
     'showInfo': false,
+    'user': null
 })
 
-export { useGlobalState, setGlobalState}
+export { useGlobalState, setGlobalState, getGlobalState }

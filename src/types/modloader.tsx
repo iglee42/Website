@@ -9,7 +9,7 @@ export enum ModLoader {
     LITELOADER = "liteloader",
 }
 export async function getModLoader(mod: Mod, type: string): Promise<ModLoader[]> {
-    const resp = await fetch("https://api.iglee.fr/mod-loaders?curseforgeId=" + mod.curseforgeId + "&modrinthId=" + mod.modrinthId)
+    const resp = await fetch(process.env.REACT_APP_API_URL + "/mod-loaders?curseforgeId=" + mod.curseforgeId + "&modrinthId=" + mod.modrinthId)
     if (!resp.ok) return [];
     const data = await resp.json();
     if (data && data.versions) {
@@ -17,10 +17,10 @@ export async function getModLoader(mod: Mod, type: string): Promise<ModLoader[]>
         if (type === "curseforge" || type === "both") {
             if (!data.versions.curseforge && type !== "both") return [];
             versions.push(...data.versions.curseforge);
-        } 
+        }
         if (type === "modrinth" || type === "both") {
             if (!data.versions.modrinth && type !== "both") return [];
-            versions.push(...data.versions.modrinth.filter((v: string)=>!versions.includes(v)));
+            versions.push(...data.versions.modrinth.filter((v: string) => !versions.includes(v)));
         }
         return versions.length > 0
             ? versions
@@ -36,4 +36,3 @@ function getEnumKeyByEnumValue<T extends { [index: string]: string }>(myEnum: T,
     let keys = Object.keys(myEnum).filter(x => myEnum[x] === enumValue);
     return keys.length > 0 ? keys[0] : null;
 }
-  
