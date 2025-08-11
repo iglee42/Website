@@ -74,8 +74,8 @@ export const IdeasTable = forwardRef((props, ref) => {
             className={`
               px-5 py-2 rounded-lg border transition
               ${statusFilter === val
-                ? "bg-indigo-600 text-white border-indigo-600 shadow"
-                : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900"
+                ? "bg-green-600 text-white border-green-600 shadow"
+                : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900"
               }
             `}
           >
@@ -120,7 +120,7 @@ export const IdeasTable = forwardRef((props, ref) => {
                   <tr
                     key={idea.id}
                     onClick={() => setSelectedIdea(idea)}
-                    className="cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900 transition"
+                    className="cursor-pointer hover:bg-green-50 dark:hover:bg-green-900 transition"
                   >
                     <td className="px-2 py-3 items-center w-12">
                       {mod?.logoUrl && <img src={mod.logoUrl} alt={mod.name || ""} className="w-10 rounded" />}

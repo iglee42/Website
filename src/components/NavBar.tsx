@@ -109,8 +109,8 @@ export const NavBar = () => {
               aria-haspopup="true"
               aria-expanded={resourcesOpen}
               className={clsx(
-                "flex items-center space-x-2 text-gray-800 dark:text-gray-200 font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors",
-                resourcesOpen && "text-blue-600 dark:text-blue-400"
+                "flex items-center space-x-2 text-gray-800 dark:text-gray-200 font-semibold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors",
+                resourcesOpen && "text-emerald-600 dark:text-emerald-400"
               )}
             >
               <FaCode className="text-lg" />
@@ -168,7 +168,7 @@ export const NavBar = () => {
           {!isLogged() ? (
             <a
               href={process.env.REACT_APP_API_URL + "/login" + (process.env.NODE_ENV !== "production" ? "?dev=true" : "")}
-              className="flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold"
+              className="flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
             >
               <FaArrowRightToBracket />
               <span className="hidden sm:inline">Login</span>
@@ -202,7 +202,7 @@ export const NavBar = () => {
 
                 <a
                   href="https://youtube.iglee.fr"
-                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <FaYoutube className="mr-3" />
@@ -211,7 +211,7 @@ export const NavBar = () => {
 
                 <a
                   href="https://git.iglee.fr"
-                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <FaGithub className="mr-3" />
@@ -225,7 +225,7 @@ export const NavBar = () => {
                       ? "/"
                       : "/modsinfos"
                   }
-                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                  className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <img
@@ -241,7 +241,7 @@ export const NavBar = () => {
                 {!isLogged() ? (
                   <a
                     href={process.env.REACT_APP_API_URL + "/login"}
-                    className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                    className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <FaArrowRightToBracket className="mr-3" />
@@ -275,9 +275,9 @@ function CustomNavLink({
       to={to}
       className={({ isActive }) =>
         clsx(
-          "flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-semibold text-lg",
+          "flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold text-lg",
           isActive &&
-          "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+          "text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400"
         )
       }
     >
@@ -305,7 +305,7 @@ function MobileNavLink({
         clsx(
           "flex items-center py-3 text-xl font-medium border-l-4 pl-4",
           isActive
-            ? "text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20"
+            ? "text-emerald-600 dark:text-emerald-400 border-emerald-600 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20"
             : "text-gray-800 dark:text-gray-200 border-transparent hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"
         )
       }

@@ -89,7 +89,7 @@ export const Suggestions = () => {
                 id="title"
                 type="text"
                 placeholder="Enter a short title"
-                className="w-full mt-1 px-3 py-1.5 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                className="w-full mt-1 px-3 py-1.5 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
               />
             </div>
 
@@ -104,7 +104,7 @@ export const Suggestions = () => {
                 id="description"
                 rows={3}
                 placeholder="Describe your idea in detail"
-                className="w-full mt-1 px-3 py-1.5 border rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm"
+                className="w-full mt-1 px-3 py-1.5 border rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
               />
             </div>
           </div>
@@ -118,7 +118,7 @@ export const Suggestions = () => {
             <button
               type="submit"
               id="send-suggest"
-              className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow ${animationClass} text-sm`}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-white bg-green-600 hover:bg-green-700 transition-all shadow ${animationClass} text-sm`}
             >
               <FaPaperPlane />
               <span>Send</span>
