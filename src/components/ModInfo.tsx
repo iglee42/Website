@@ -47,7 +47,7 @@ export const ModInfo = (props: Props) => {
         </button>
         {mod.wiki ? (
           <a
-            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-5 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors"
+            className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-5 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors"
             href={mod.wiki}
             target="_blank"
             rel="noopener noreferrer"

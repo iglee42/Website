@@ -51,7 +51,7 @@ export const LoggedInfo = () => {
     <div className="relative inline-block text-left">
       <button
         {...buttonProps}
-        className={`navItem flex items-center text-2xl rounded-lg px-3 py-1 bg-white dark:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+        className={`navItem flex items-center text-2xl rounded-lg px-3 py-1 bg-white dark:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900 transition focus:outline-none focus:ring-2 focus:ring-green-500`}
       >
         <img
           src={getUserAvatarUrl(user)}
@@ -75,7 +75,7 @@ export const LoggedInfo = () => {
             <a
               {...getItemProps()}
               href="/uploadChests"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition cursor-pointer"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-green-600 hover:text-white transition cursor-pointer"
               role="menuitem"
               tabIndex={-1}
             >
@@ -91,7 +91,7 @@ export const LoggedInfo = () => {
             <a
               {...getItemProps()}
               href="/adminPanel"
-              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition cursor-pointer"
+              className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-green-600 hover:text-white transition cursor-pointer"
               role="menuitem"
               tabIndex={-1}
             >
@@ -107,7 +107,7 @@ export const LoggedInfo = () => {
           <a
             {...getItemProps()}
             href="/logout"
-            className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-indigo-600 hover:text-white transition cursor-pointer"
+            className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-green-600 hover:text-white transition cursor-pointer"
             role="menuitem"
             tabIndex={-1}
           >
