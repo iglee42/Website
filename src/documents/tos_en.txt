@@ -1,0 +1,64 @@
+
+Terms of Use & Privacy Policy
+(Last updated: August 11, 2025)
+
+1. Website Overview
+This document governs the use of Iglee's Website, accessible at https://iglee.fr (the "Site").
+The Site is operated by:
+Owner: Iglee
+Hosting country: France
+Contact: contact@iglee.fr
+
+By accessing the Site, you fully accept these Terms of Use and Privacy Policy.
+
+2. Use of the Site
+- You agree to use the Site lawfully and in compliance with French and international laws.
+- You may not use the Site to publish, transmit, or share illegal, defamatory, offensive, or infringing content.
+- The operator reserves the right to suspend or terminate access for any user violating these rules.
+
+3. Content and Intellectual Property
+- All content on the Site (texts, images, logos, code, etc.) is protected by copyright and may not be used without permission.
+- Trademarks, logos, and other protected elements remain the property of their respective owners.
+
+4. Liability
+- The Site is provided “as is” without warranty of accuracy or continuous availability.
+- The operator cannot be held liable for service interruptions, data loss, or damages related to the use of the Site.
+
+5. Data Collection and Processing
+In compliance with the General Data Protection Regulation (GDPR) and the French “Informatique et Libertés” law:
+- The Site only collects the Discord ID of users (unique Discord account identifier) when using certain features.
+- This data is used solely to identify the user on the Site and provide the associated services.
+- No other personal data is collected without your knowledge.
+
+6. Legal Basis and Retention Period
+- The collection of the Discord ID is based on your consent when using Discord-related features.
+- Data is retained as long as your account is active on the Site, and deleted within 12 months after account deletion or inactivity.
+
+7. Data Sharing
+- The collected data is not sold, exchanged, or shared with third parties, except when required by law.
+- The Discord ID may be sent to the Discord API only for technical purposes related to the service.
+
+8. Cookies and Trackers
+- The Site does not use advertising tracking cookies.
+- Technical cookies may be used for the proper functioning of the Site (user sessions, preferences, etc.).
+
+9. Data Security
+- Technical and organizational measures are implemented to protect your data (encrypted communications via HTTPS, secured access).
+
+10. Your Rights
+In accordance with applicable regulations, you have the following rights:
+- Access: Know what data we hold about you.
+- Rectification: Correct inaccurate data.
+- Deletion: Request deletion of your data.
+- Objection: Object to certain processing.
+- Portability: Receive your data in a reusable format.
+
+To exercise these rights: contact@iglee.fr
+
+11. Changes
+The operator reserves the right to modify these terms and the privacy policy at any time. The date at the top of the document indicates the latest revision.
+
+12. Governing Law
+These terms are governed by French law. Any disputes shall be subject to the exclusive jurisdiction of French courts.
+
+How to publish: Create a page named "Legal & Privacy" on your site, paste this text, and link it from your footer.
