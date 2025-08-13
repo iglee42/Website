@@ -29,7 +29,6 @@ export function Router() {
             <span>Loading…</span>
         </div>);
     }
-    console.log(hasPermission(user, 3));
 
     return (
         <Routes>

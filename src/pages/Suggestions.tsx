@@ -37,10 +37,18 @@ export const Suggestions = () => {
       triggerAnimation(false);
       return setError("Please enter a description");
     }
+    let headers = {
+      "Content-Type": "application/json",
+      "Authorization": ""
+    }
+
+    if (localStorage.getItem('authToken')) {
+      headers.Authorization = "Bearer " + localStorage.getItem('authToken')
+    }
 
     fetch(process.env.REACT_APP_API_URL + "/suggestion", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
       body: JSON.stringify({
         modID: selectedMod.id,
         title: titleField.value,

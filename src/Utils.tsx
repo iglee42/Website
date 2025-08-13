@@ -148,7 +148,6 @@ export async function fetchUserFromToken() {
   if (!token) return null;
 
   try {
-    console.log(process.env)
     const res = await fetch(process.env.REACT_APP_API_URL + "/me", {
       method: "GET",
       headers: {
