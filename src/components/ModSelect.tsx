@@ -103,9 +103,9 @@ export const ModSelect = forwardRef<ModSelectHandle, Props>((_, ref) => {
               aria-selected={selectedMod?.id === mod.id}
               tabIndex={0}
               className={`flex items-center p-2 cursor-pointer
-                hover:bg-gray-200 dark:hover:bg-blue-700
+                hover:bg-gray-200 dark:hover:bg-emerald-700
                 ${selectedMod?.id === mod.id
-                  ? "bg-blue-600 text-white"
+                  ? "bg-emerald-600 text-white"
                   : "text-black dark:text-white"
                 }
               `}
