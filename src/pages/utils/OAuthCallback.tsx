@@ -19,7 +19,6 @@ function OAuthCallback() {
 
                     await userProvider.reloadUser();
                     navigate("/");
-                    showInfo("Logged as "+userProvider.user?.username);
                 } catch (err) {
                     showError("Token Error");
                     navigate("/");

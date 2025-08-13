@@ -45,7 +45,6 @@ export const AdminPanel = () => {
             return { ...user, permission };
           })
         );
-        console.log(users);
         setUsers(users);
       })
       .catch(() => {
@@ -65,8 +64,6 @@ export const AdminPanel = () => {
       </div>
     );
   }
-
-  console.log(users)
 
 
   return (
