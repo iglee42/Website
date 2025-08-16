@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { logUser, showError, showInfo } from "../../Utils";
+import { showError } from "../../Utils";
 import { useUser } from "../../UserProvider";
 
 function OAuthCallback() {

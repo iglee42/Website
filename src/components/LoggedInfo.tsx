@@ -31,15 +31,7 @@ export const LoggedInfo = () => {
 
 
 
-
-  function fixEncoding(str: string): string {
-    const bytes = new Uint8Array(Array.from(str).map((ch) => ch.charCodeAt(0)));
-    const decoder = new TextDecoder("utf-8");
-    return decoder.decode(bytes);
-  }
-
   const username = user?.username;
-  const displayName = fixEncoding(user?.username);
 
 
   let currentProps = 0;
@@ -63,9 +55,9 @@ export const LoggedInfo = () => {
 
       {/* Dropdown menu */}
       <div
-        className={`${isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        className={`${isOpen ? "opacity-100" : "opacity-0"
           } absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-900 ring-1 ring-black ring-opacity-5 transition-opacity z-50`}
-        style={{ bottom: "calc(-70px * " + menuItems + " - " + 10 * (menuItems - 1) + "px)" }}
+        style={{ bottom: "calc(-55px * " + menuItems + " - " + 10 * (menuItems - 1) + "px)" }}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
@@ -80,7 +72,7 @@ export const LoggedInfo = () => {
               tabIndex={-1}
             >
               <img
-                src={process.env.REACT_APP_API_URL + "/gif/nec"}
+                src={process.env.REACT_APP_API_URL + "/image/nec.gif"}
                 alt=""
                 className="mr-3 w-12 rounded-sm object-contain"
               />
@@ -100,7 +92,7 @@ export const LoggedInfo = () => {
                 alt=""
                 className="mr-3 w-12 rounded-sm object-contain"
               />
-              Admin Panel (In Dev)
+              Admin Panel
             </a>
           )}
 

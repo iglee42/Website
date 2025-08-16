@@ -41,6 +41,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         reloadUser(); // chargement initial
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
