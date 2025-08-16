@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { DiscordUser, parseDiscordUser } from "./types/discordUser";
 import { Files } from "./types/files";
 import { Mod } from "./types/mod";
-import { getGlobalState, setGlobalState } from "./Vars";
+import { setGlobalState } from "./Vars";
 
 // String utilities
 export function split(str: string, sep = ":"): string[] {
