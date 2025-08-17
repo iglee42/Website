@@ -189,7 +189,7 @@ export const AdminPanel = () => {
             )
           }
           <div className="flex mb-6 flex-row justify-self-center justify-center min-w-full ml-4">
-            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64" onClick={()=>setIsEditingMod(true)}>Add Mod</button>
+            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64  text-white" onClick={()=>setIsEditingMod(true)}>Add Mod</button>
           </div>
         </div>
         <div className="flex flex-col m-4 col-span-1 mb-0 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
@@ -253,7 +253,7 @@ export const AdminPanel = () => {
             <Tree tree={tree} onOpen={img=>setShownImg(img)} />
           </div>
           <div className="flex mb-6 flex-row justify-self-center justify-center min-w-full ml-4">
-            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64" onClick={() => setCreatingImage(true)}>Add Image</button>
+            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64  text-white" onClick={() => setCreatingImage(true)}>Add Image</button>
           </div>
         </div>
       </div>
