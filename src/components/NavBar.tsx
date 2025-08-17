@@ -27,7 +27,10 @@ export const NavBar = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const user = useUser().user;
 
+
   useEffect(() => {
+    let touchStartX = 0;
+    let touchEndX = 0;
     function handleClickOutside(event: MouseEvent) {
       if (
         resourcesRef.current &&
@@ -45,25 +48,46 @@ export const NavBar = () => {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+    function handleTouchStart(event: TouchEvent) {
+      touchStartX = event.touches[0].clientX;
     }
 
+    function handleTouchEnd(event: TouchEvent) {
+      touchEndX = event.changedTouches[0].clientX;
+      handleSwipeGesture();
+    }
+
+    function handleSwipeGesture() {
+      const swipeThreshold = 50; 
+      const deltaX = touchEndX - touchStartX;
+
+      if (deltaX > swipeThreshold) {
+        setMobileMenuOpen(true);
+      } else if (deltaX < -swipeThreshold) {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleTouchStart);
+    document.addEventListener("touchend", handleTouchEnd);
     return () => {
-      document.body.style.overflow = 'auto';
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchend", handleTouchEnd);
     };
+  }, []);
+  
+
+
+  useEffect(() => {
+
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800">
-      <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+    <nav className="top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-800" >
+      <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4" >
         {/* Menu gauche - version desktop */}
         <div className="hidden md:flex space-x-8">
           <CustomNavLink to="/suggestions" icon={<FaLightbulb />}>
@@ -143,7 +167,7 @@ export const NavBar = () => {
                   <FaGithub className="mr-2" />
                   Github
                 </a>
-                <Link
+                {(hasPermission(user, 3) && <Link
                   to={
                     process.env.NODE_ENV === "production" &&
                       !hasPermission(user, 3)
@@ -159,7 +183,7 @@ export const NavBar = () => {
                     className="mr-2 h-5 w-5 object-contain"
                   />
                   Mods Infos (WIP)
-                </Link>
+                </Link>)}
               </div>
             )}
           </div>
@@ -180,11 +204,20 @@ export const NavBar = () => {
       </div>
 
       {/* Menu mobile */}
-      {mobileMenuOpen && (
+      {(
         <div
+          
           ref={mobileMenuRef}
-          className="md:hidden fixed inset-0 z-40 bg-white dark:bg-gray-900 pt-16 overflow-y-auto"
+          className={`md:hidden fixed inset-0 z-40 bg-white dark:bg-gray-900 pt-16 overflow-y-auto transi-all max-w-[75%] ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
         >
+          <button
+            className="mobile-menu-button md:hidden text-gray-800 dark:text-gray-200 mr-4 mt-2 ml-4"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Toggle menu"
+          >
+           <FaTimes size={24} />
+          </button>
+
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col space-y-6">
               <MobileNavLink to="/suggestions" icon={<FaLightbulb />} onClick={() => setMobileMenuOpen(false)}>
@@ -218,7 +251,7 @@ export const NavBar = () => {
                   Github
                 </a>
 
-                <Link
+                {hasPermission(user,3) && (<Link
                   to={
                     process.env.NODE_ENV === "production" &&
                       !hasPermission(user, 3)
@@ -234,7 +267,7 @@ export const NavBar = () => {
                     className="mr-3 h-5 w-5 object-contain"
                   />
                   Mods Infos (WIP)
-                </Link>
+                </Link>)}
               </div>
 
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -303,7 +336,7 @@ function MobileNavLink({
       to={to}
       className={({ isActive }) =>
         clsx(
-          "flex items-center py-3 text-xl font-medium border-l-4 pl-4",
+          "flex items-center py-3 text-xl font-medium border-l-4",
           isActive
             ? "text-emerald-600 dark:text-emerald-400 border-emerald-600 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20"
             : "text-gray-800 dark:text-gray-200 border-transparent hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800"

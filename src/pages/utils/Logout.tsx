@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { showInfo } from "../../Utils";
-import { setGlobalState } from "../../Vars";
 import { useUser } from "../../UserProvider";
 
 function Logout() {
@@ -11,6 +10,7 @@ function Logout() {
     useEffect(() => {
         userProvider.logout();
         showInfo("You have been logged out successfully.");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
 
     return <p>Logout...</p>;

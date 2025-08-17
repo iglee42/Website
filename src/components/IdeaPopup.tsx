@@ -4,7 +4,6 @@ import {
   getUserAvatarUrl,
   showInfo,
   showError,
-  getUpperName,
   hasPermission,
 } from "../Utils";
 import { Idea, getStatusByNumber, getIconByStatus, Status } from "../types/idea";

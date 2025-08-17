@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import { Item } from "../../types/item";
+import { useState } from "react";
 import { Popup } from "../Popup";
 import { Mod } from "../../types/mod";
 import Toggle from "react-toggle";
 import 'react-toggle/style.css'
 import { showError, showInfo } from "../../Utils";
-import { useUser } from "../../UserProvider";
 
 interface Props {
   onClose: () => void;

@@ -1,9 +1,12 @@
-import { ReactHTMLElement, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDownloads, getUserAvatarUrl, getUserById, getUserPermission, showInfo } from "../../Utils";
 import { Mod } from "../../types/mod";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { DiscordUser } from "../../types/discordUser";
 import { ModEditPopup } from "../../components/adminpanel/EditModPopup";
+import { PreviewImgPopup } from "../../components/adminpanel/PreviewImgPopup";
+import { Consumer } from "../../types/consumer";
+import { CreateImgPopup } from "../../components/adminpanel/CreateImgPopup";
 
 export const AdminPanel = () => {
   const [mods, setMods] = useState<Mod[]>([]);
@@ -11,6 +14,12 @@ export const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [isEditingMod, setIsEditingMod] = useState(false)
   const [editedMod, setEditedMod] = useState<Mod>()
+  const [shownImg, setShownImg] = useState<string>('')
+  const [images, setImages] = useState<String[]>([])
+  const [folders, setFolders] = useState<Set<string>>(new Set<string>())
+  const [isCreatingImage, setCreatingImage] = useState(false)
+
+  
 
   useEffect(() => {
     fetch(process.env.REACT_APP_API_URL + "/mods")
@@ -49,10 +58,43 @@ export const AdminPanel = () => {
       })
       .catch(() => {
         setUsers([]);
+      });
+    
+  }, []);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_API_URL + "/images", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Fetch error");
+        return res.json();
+      })
+      .then(async data => {
+        setImages(data.files);
+        const folders = new Set<string>();
+        folders.add("")
+
+        for (const path of data.files) {
+          const parts = path.split("/");
+          if (parts.length > 1) {
+            folders.add(parts[0]);
+          }
+        }
+
+        setFolders(folders);
+        console.log(folders)
+      })
+      .catch(() => {
+        setImages([]);
       })
       .finally(() => {
         setLoading(false);
       });
+
   }, []);
 
 
@@ -60,10 +102,31 @@ export const AdminPanel = () => {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center text-gray-600 dark:text-gray-400">
-        <span className="animate-pulse">Loading mods...</span>
+        <span className="animate-pulse">Loading infos...</span>
       </div>
     );
   }
+
+  function buildTree(paths: String[]) {
+    const root: TreeNodeType = {};
+    for (const path of paths) {
+      const parts = path.split("/");
+      let current = root;
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (i === parts.length - 1) {
+          current[part] = null; // fichier
+        } else {
+          current[part] = current[part] || {}; // dossier
+          current = current[part] as TreeNodeType ;
+        }
+      }
+    }
+    return root;
+  }
+
+  const tree = buildTree(images)
+
 
 
   return (
@@ -71,6 +134,16 @@ export const AdminPanel = () => {
       {
         isEditingMod && (
           <ModEditPopup onClose={() => { setEditedMod(undefined); setIsEditingMod(false) }} mod={editedMod} />
+        )
+      }
+      {
+        shownImg && (
+          <PreviewImgPopup onClose={() => { setShownImg('') }} img={shownImg} folders={folders} />
+        )
+      }
+      {
+        isCreatingImage && (
+          <CreateImgPopup onClose={() => { setCreatingImage(false) }} folders={folders} />
         )
       }
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
@@ -172,8 +245,101 @@ export const AdminPanel = () => {
             )
           }
         </div>
+        <div className="flex flex-col m-4 col-span-1 mb-2 justify-items-start items-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl shadow-md">
+          <h2 className="text-xl font-bold text-center mb-4 mt-4 text-gray-800 dark:text-white">
+            Images
+          </h2>
+          <div className="w-full pb-2 overflow-auto">
+            <Tree tree={tree} onOpen={img=>setShownImg(img)} />
+          </div>
+          <div className="flex mb-6 flex-row justify-self-center justify-center min-w-full ml-4">
+            <button className="bg-green-600 text-whitepx-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors min-w-64" onClick={() => setCreatingImage(true)}>Add Image</button>
+          </div>
+        </div>
       </div>
+      
     </div>
 
+  );
+};
+interface TreeNodeType {
+  [key: string]: TreeNodeType | null;
+}
+
+interface TreeProps {
+  tree: TreeNodeType;
+  onOpen: Consumer<string>
+}
+
+const Tree: React.FC<TreeProps> = ({ tree, onOpen }) => {
+  return (
+    <div className="font-mono text-gray-800 dark:text-gray-200">
+      {Object.entries(tree).map(([name, node], index, arr) => (
+        <TreeNode
+          key={name}
+          name={name}
+          node={node}
+          isLast={index === arr.length - 1}
+          onOpen={onOpen}
+          parent=''
+        />
+      ))}
+    </div>
+  );
+};
+
+interface TreeNodeProps {
+  name: string;
+  node: TreeNodeType | null;
+  isLast?: boolean;
+  onOpen: Consumer<string>
+  parent: string
+}
+
+const TreeNode: React.FC<TreeNodeProps> = ({ name, node, isLast = false , onOpen, parent}) => {
+  const [open, setOpen] = useState(false);
+  const isFolder = node !== null && Object.keys(node).length > 0;
+  const children = isFolder ? Object.entries(node!) : [];
+
+  return (
+    <div className="relative pl-6 ml-2">
+      {!isLast && (
+        <span className="absolute left-0 top-0 h-full border-l border-gray-400 dark:border-gray-600"></span>
+      )}
+      {isLast && (
+        <span className="absolute left-0 top-0 h-1/2 border-l border-gray-400 dark:border-gray-600"></span>
+      )}
+      <span className="absolute left-0 top-3 w-4 border-t border-gray-400 dark:border-gray-600"></span>
+      <div
+        className={`flex items-center cursor-pointer select-none ${isFolder ? "" : ""
+          }`}
+        onClick={() => {
+          if (isFolder) setOpen(!open)
+          else onOpen((parent ? parent + "/" : "") + name)
+        }}
+      >
+        {isFolder ? (
+          <span className="mr-2 w-6 h-6 text-center">{open ? "📂" : "📁"}</span>
+        ) : (
+            <span className="mr-2 w-6 h-6 flex items-center justify-center text-center"><img className="w-6 h-6 " alt={name} src={ process.env.REACT_APP_API_URL + "/image/"+(parent? parent+"/" : "") + name } /></span>
+        )}
+        {name}
+      </div>
+
+      {isFolder && open && (
+        <div className="">
+          {children.map(([childName, childNode], index) => (
+            <TreeNode
+              key={childName}
+              name={childName}
+              node={childNode}
+              isLast={index === children.length - 1}
+              onOpen={onOpen}
+              parent={(parent ? parent + "/" : "") + name}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };

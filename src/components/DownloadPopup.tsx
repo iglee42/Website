@@ -1,4 +1,6 @@
-import { MouseEventHandler, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useEffect, useState } from "react";
 import { formatDownloads, getFiles } from "../Utils";
 import { Popup } from "./Popup";
 import { Mod } from "../types/mod";
@@ -18,9 +20,6 @@ interface Props {
 export function DownloadPopup({ mod, onClose }: Props) {
   const [version, setVersionInternal] = useState<Version | null>(null);
   const [modLoader, setModLoaderInternal] = useState<ModLoader | null>(null);
-  const [disableCurseforge, setDisableCurseforge] = useState(false);
-  const [disableModrinth, setDisableModrinth] = useState(false);
-  const [disableDl, setDisableDl] = useState(false);
   const [response, setResponse] = useState<Files | null>(null);
 
   useEffect(() => update(null, null), []);
@@ -35,29 +34,23 @@ export function DownloadPopup({ mod, onClose }: Props) {
       const dlBtn = document.getElementById("dlBtn");
 
       if (data?.curseforge && curseBtn) {
-        setDisableCurseforge(false);
         curseBtn.setAttribute("href", `curseforge://install?addonId=${data.curseforge.modId}&fileId=${data.curseforge.id}&source=cf_website`);
         curseBtn.classList.remove("pointer-events-none");
       } else {
-        setDisableCurseforge(true);
         curseBtn?.classList.add("pointer-events-none");
       }
 
       if (data?.modrinth && modrinthBtn) {
-        setDisableModrinth(false);
         modrinthBtn.setAttribute("href", `modrinth://mod/${data.modrinth.project_id}`);
         modrinthBtn.classList.remove("pointer-events-none");
       } else {
-        setDisableModrinth(true);
         modrinthBtn?.classList.add("pointer-events-none");
       }
 
       if (data?.jar && dlBtn) {
-        setDisableDl(false);
         dlBtn.setAttribute("href", data.jar);
         dlBtn.classList.remove("pointer-events-none", "bg-gray-400");
       } else {
-        setDisableDl(true);
         dlBtn?.classList.add("pointer-events-none", "bg-gray-400");
       }
     }

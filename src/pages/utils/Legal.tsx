@@ -1,6 +1,5 @@
 import { FR, GB } from "country-flag-icons/react/3x2";
 import { useEffect, useState } from "react"
-import { FaFlag } from "react-icons/fa";
 import Toggle from "react-toggle";
 
 export const Legal = () => {

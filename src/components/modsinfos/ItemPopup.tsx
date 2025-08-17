@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-import { FaTimes } from "react-icons/fa";
 import { Item } from "../../types/item";
 import { Popup } from "../Popup";
 
