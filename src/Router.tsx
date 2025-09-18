@@ -12,6 +12,8 @@ import { AdminPanel } from "./pages/utils/AdminPanel";
 import { useUser } from "./UserProvider";
 import { FaSpinner } from "react-icons/fa";
 import { Legal } from "./pages/utils/Legal";
+import { Contests } from "./pages/contests/Contests";
+import { ContestPage } from "./pages/contests/Contest";
 
 export function Router() {
     let userProvider = useUser();
@@ -41,6 +43,8 @@ export function Router() {
             <Route path='/phpmyadmin' element={hasPermission(user, 3) ? <Redirect href="https://api.iglee.fr/phpmyadmin" /> : <Navigate to='/' />} />
             <Route path='/adminPanel' element={hasPermission(user, 3) ? <AdminPanel /> : <p>{hasPermission(user, 3)}</p>} />
             <Route path='/logout' element={isLogged() ? <Logout /> : <Navigate to='/' />} />
+            <Route path='/contests' element={<Contests />} />
+            <Route path='/contest/*' element={<ContestPage />} />
             <Route path="/legals" element={ <Legal/> } />
         </Routes>
     )

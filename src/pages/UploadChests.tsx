@@ -99,7 +99,7 @@ export const UploadChests = () => {
             </h1>
             <div className="flex justify-center">
                 <div
-                    className="flex border-dashed border-2 border-slate-400 dark:border-slate-600 w-fit font-sans m-24 p-8 text-center justify-center items-center"
+                    className="flex border-dashed border-2 border-slate-400 dark:border-slate-600 w-fittext-gray-800 dark:text-whitefont-sans m-24 p-8 text-center justify-center items-center"
                     onDragOver={stopOver}
                     onDrop={handleDrop}
                 >
@@ -117,10 +117,10 @@ export const UploadChests = () => {
                             onChange={handleChangeFiles}
                         />
 
-                        <label>Tu peux drag-and-drop (Uniquement .zip)</label>
+                        <label className="text-gray-800 dark:text-white">Tu peux drag-and-drop (Uniquement .zip)</label>
 
                         <button
-                            className={`${hasFile ? "hidden" : ""} input-group mb-1 mt-1 flex w-full border border-gray-300 dark:border-gray-700 rounded-lg p-2.5 justify-center`}
+                            className={`${hasFile ? "hidden" : ""} input-group mb-1 mt-1 flex w-full border border-gray-300 dark:border-gray-700  rounded-lg p-2.5 justify-center`}
                             onClick={chooseFile}
                             disabled={uploading}
                         >
