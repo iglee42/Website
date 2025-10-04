@@ -148,7 +148,7 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
               <div className="flex justify-end">
                 <button
                   onClick={handleCommentUpdate}
-                  className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition text-sm"
+                  className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition text-sm"
                 >
                   Update the comment
                 </button>
