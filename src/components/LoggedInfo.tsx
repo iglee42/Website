@@ -1,5 +1,5 @@
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { FaArrowRightFromBracket, FaCalendarDays } from "react-icons/fa6";
 import { getUserAvatarUrl, hasPermission, isLogged } from "../Utils";
 import { useUser } from "../UserProvider";
 
@@ -8,7 +8,7 @@ export const LoggedInfo = () => {
   
   const { user, loading } = userProvider;
 
-  const menuItems = hasPermission(user, 3) ? 3 : (hasPermission(user, 2) ? 2 : 1);
+  const menuItems = hasPermission(user, 3) ? 4 : (hasPermission(user, 2) ? 3 : 2);
   const { buttonProps, itemProps, isOpen } = useDropdownMenu(menuItems);
   
 
@@ -63,6 +63,16 @@ export const LoggedInfo = () => {
         aria-labelledby="menu-button"
       >
         <div className="py-1">
+           <a
+            {...getItemProps()}
+            href="/contests"
+            className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-green-600 hover:text-white transition cursor-pointer"
+            role="menuitem"
+            tabIndex={-1}
+          >
+            <FaCalendarDays className="mr-3 w-12 text-3xl" />
+            Contests
+          </a>
           {hasPermission(user, 2) && (
             <a
               {...getItemProps()}

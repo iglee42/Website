@@ -95,7 +95,7 @@ export function getUserAvatarUrl(user: DiscordUser): string {
 export function getAvatarUrl(id: string, avatar: string | null): string {
   return avatar && id
     ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png?size=64`
-    : `https://cdn.discordapp.com/embed/avatars/${Math.ceil(Math.random() * 5)}.png?size=64`;
+    : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(id) % BigInt(5)) }.png?size=64`;
 }
 
 // File fetching with localStorage cache
