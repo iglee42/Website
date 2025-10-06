@@ -13,4 +13,15 @@ export type Contest = {
     end_at: Date;
     ask_file: boolean;
     file_type: FileType;
+    private_submissions: boolean;
+}
+
+export type Submission = {
+    id: number;
+    contest: Contest;
+    name: string;
+    description: string;
+    created_at: Date;
+    file_path: string;
+    discord_id: string;
 }
