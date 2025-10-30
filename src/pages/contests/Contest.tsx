@@ -477,27 +477,29 @@ export const ContestPage = () => {
             Private submissions : {contest.private_submissions ? "✅" : "❌"}
           </p>
         </div>
-        <div
-          className="flex w-full font-sans p-4 text-center justify-center items-center"
-        >
-          {selectBodyToShow()}
+        <div className="flex w-full font-sans px-4 py-6 text-center justify-center items-start">
+          <div className="w-full max-w-3xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm">
+            {selectBodyToShow()}
+          </div>
         </div>
 
-        {submissions.length > 0 && (!contest.private_submissions || hasPermission(userProvider.user!, 2)) && <div className={`mt-4 px-4 py-4 w-full border-t-solid  text-center justify-center items-center dark:border-t-white ${new Date(contest.submissions_open) < new Date() ? "" : "hidden"} ${new Date(contest.end_at) > new Date() ? "" : "border-t-2"}`}>
-          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white mt-2">Submissions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {submissions.map((submission) => {
-              const user = users.find(u => u.id === submission.discord_id);
-              if (!user) return (<></>)
-              return (
-                <div key={submission.id} className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
-                  <h3 className="text-xl font-semibold mb-2">{submission.name}</h3>
-                  <p className="text-sm mb-2">{submission.description}</p>
-                  <p className="text-sm text-gray-500 mb-2">Submitted by <img alt="" className="size-6 rounded-full inline-block mr-2 -mt-1" src={getUserAvatarUrl(user!)} />{user?.username}</p>
-                  {contest.ask_file && <button onClick={() => setPreviewedSubmission(submission)} className="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-300">Preview File</button>}
-                </div>
-              )
-            })}
+        {submissions.length > 0 && (!contest.private_submissions || hasPermission(userProvider.user!, 2)) && <div className={`mt-6 px-4 py-6 w-full border-t-solid text-center justify-center items-center dark:border-t-white ${new Date(contest.submissions_open) < new Date() ? "" : "hidden"} ${new Date(contest.end_at) > new Date() ? "" : "border-t-2"}`}>
+          <div className="w-full max-w-screen-xl mx-auto">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white mt-2">Submissions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {submissions.map((submission) => {
+                const user = users.find(u => u.id === submission.discord_id);
+                if (!user) return (<></>)
+                return (
+                  <div key={submission.id} className="border rounded-xl p-5 bg-white/60 dark:bg-gray-900/60 hover:shadow-lg transition-shadow duration-300 text-left">
+                    <h3 className="text-lg font-semibold mb-1">{submission.name}</h3>
+                    <p className="text-sm mb-2 line-clamp-4">{submission.description}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Submitted by <img alt="" className="size-5 rounded-full inline-block mr-2 -mt-1" src={getUserAvatarUrl(user!)} />{user?.username}</p>
+                    {contest.ask_file && <button onClick={() => setPreviewedSubmission(submission)} className="mt-2 inline-flex bg-green-600 text-white px-3 py-2 rounded-md hover:bg-green-700 transition-colors duration-300">Preview File</button>}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
         }

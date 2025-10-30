@@ -78,19 +78,42 @@ export const Contests = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {contests.map((contest) => (
-              <div key={contest.id} className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-300">
-                <h2 className="text-xl font-semibold mb-2">{contest.name}</h2>
-                <p className="text-sm mb-4">{contest.description}</p>
-                {new Date(contest.end_at) > new Date() && <p className="text-sm text-gray-500">{(new Date(contest.submissions_open) < new Date() ? "In Progress " : "Submissions Open : " + new Date(contest.submissions_open).toLocaleString())}</p>}
-                <p className="text-sm text-gray-500">{(new Date(contest.end_at) < new Date() ? "Ended " : "End : " + new Date(contest.end_at).toLocaleString()) }</p>
-                <a href={`/contest/${contest.id}`} className="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-300">View Contest</a>
-                {hasPermission(userProvider.user!, 2) && <button onClick={e => { setEditingContest(contest); setIsEditingContest(true) }} className="mt-4 ml-2 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300">Edit Contest</button>}
-              </div>
-            ))}
+            {contests.map((contest) => {
+              const now = new Date();
+              const openAt = new Date(contest.submissions_open);
+              const endAt = new Date(contest.end_at);
+              const isUpcoming = openAt > now;
+              const isEnded = endAt < now;
+              const status = isEnded ? "Ended" : isUpcoming ? "Upcoming" : "In progress";
+              const badgeColor = isEnded ? "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300" : isUpcoming ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200" : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+
+              return (
+                <div key={contest.id} className="border rounded-xl p-5 hover:shadow-lg transition-shadow duration-300 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <h2 className="text-xl font-semibold leading-snug">{contest.name}</h2>
+                    <span className={`px-2.5 py-1 text-xs rounded-full whitespace-nowrap ${badgeColor}`}>{status}</span>
+                  </div>
+                  <p className="text-sm mt-2 mb-4 line-clamp-3">{contest.description}</p>
+
+                  <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                    {!isEnded && (
+                      <p>{isUpcoming ? ("Submissions open: " + openAt.toLocaleString()) : "Submissions open"}</p>
+                    )}
+                    <p>{isEnded ? "Ended" : ("End: " + endAt.toLocaleString())}</p>
+                  </div>
+
+                  <div className="mt-4 flex items-center gap-2">
+                    <a href={`/contest/${contest.id}`} className="inline-flex items-center justify-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-300">View Contest</a>
+                    {hasPermission(userProvider.user!, 2) && (
+                      <button onClick={e => { setEditingContest(contest); setIsEditingContest(true) }} className="inline-flex items-center justify-center bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Edit</button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
         </div>
         )}
-        {hasPermission(userProvider.user!, 2) && <button onClick={e => { setIsEditingContest(true) }} className="mt-4 ml-2 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-300">Create a Contest</button>}
+        {hasPermission(userProvider.user!, 2) && <button onClick={e => { setIsEditingContest(true) }} className="mt-6 inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-300">Create a Contest</button>}
       </div>
     </div>
   );
