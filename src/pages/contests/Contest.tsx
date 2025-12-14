@@ -444,7 +444,7 @@ export const ContestPage = () => {
           </p>
 
           <p className="text-xl text-center mb-3">
-            <span className={`font-semibold transition-colors ${moment.duration(moment(contest!.end_at).diff(moment(now))).minutes() < 5 ? "text-red-600" : ""}`}>{message} {targetDate && (
+            <span className={`font-semibold transition-colors ${(moment.duration(moment(contest!.end_at).diff(moment(now))).minutes() < 5 && moment.duration(moment(contest!.end_at).diff(moment(now))).days() === 0 && moment.duration(moment(contest!.end_at).diff(moment(now))).hours() === 0) ? "text-red-500" : ""}`}>{message} {targetDate && (
               <div className={`grid grid-flow-col gap-3 mt-2 text-center auto-cols-max text-lg `}>
                 <div className="flex flex-col">
                   <span className="countdown font-mono text-3xl">
