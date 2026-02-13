@@ -11,7 +11,7 @@
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "boostrap": "^2.0.0",
-    "bootstrap": "^5.3.6",
+    "bootstrap": "^5.3.8",
     "clsx": "^2.1.1",
     "country-flag-icons": "^1.5.19",
     "deepslate": "^0.24.0",
