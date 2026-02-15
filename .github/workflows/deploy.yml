@@ -18,11 +18,14 @@ jobs:
     - name: Building the project
       run: npm run build
     - name: 📂 Sync files
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-      with:
-          username: ${{ secrets.FTP_USERNAME }}
-          server: ${{ secrets.SERVER_IP }}
-          port: ${{ secrets.FTP_PORT }}
-          local_path: './build/*'
-          remote_path: '/var/www/html'
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      uses: up9cloud/action-rsync@master
+      env:
+        USER: ${{ secrets.FTP_USERNAME }}
+        HOST: ${{ secrets.SERVER_IP }}
+        PORT: ${{ secrets.FTP_PORT }}
+        TARGET: '/var/www/html'
+        SOURCE: './build/'
+        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: -azv --delete --exclude=/.htaccess
+        PRE_SCRIPT: "echo 🏁 Start at: && date -u"
+        POST_SCRIPT: "echo ✅ Done at: && date -u"
