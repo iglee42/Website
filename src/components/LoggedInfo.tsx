@@ -55,8 +55,8 @@ export const LoggedInfo = () => {
 
       {/* Dropdown menu */}
       <div
-        className={`${isOpen ? "opacity-100" : "opacity-0"
-          } absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-900 ring-1 ring-black ring-opacity-5 transition-opacity z-50`}
+        className={`${isOpen ? "" : "hidden"
+          } absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-900 ring-1 ring-black ring-opacity-5 transition-all z-50`}
         style={{ bottom: "calc(-55px * " + menuItems + " - " + 10 * (menuItems - 1) + "px)" }}
         role="menu"
         aria-orientation="vertical"
