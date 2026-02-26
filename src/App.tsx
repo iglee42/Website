@@ -27,10 +27,36 @@ function App() {
     }
   }, [isDarkMode]);
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const newValue = !isDarkMode;
-    setIsDarkMode(newValue);
-    localStorage.setItem("darkMode", newValue.toString());
+    if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsDarkMode(newValue);
+      localStorage.setItem("darkMode", newValue.toString());
+      return;
+    }
+
+    await document.startViewTransition(() => {
+      setIsDarkMode(newValue);
+      localStorage.setItem("darkMode", newValue.toString());
+    }).ready
+
+    const { top, left, width, height } = (e.target as HTMLElement).getBoundingClientRect()
+
+    const x = left + width / 2
+    const y = top + height / 2
+
+    const right = window.innerWidth - x
+    const bottom = window.innerHeight - y;
+    const diagonal = Math.hypot(Math.max(x,right) ,Math.max(y,bottom))
+    
+
+    document.documentElement.animate({
+      clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${diagonal}px at ${x}px ${y}px)`]
+    }, {
+      duration: 1000,
+      easing: 'ease-in-out',
+      pseudoElement: '::view-transition-new(root)'
+    })
   };
 
 
@@ -40,7 +66,7 @@ function App() {
         <header>
           <NavBar />
         </header>
-        <div className="fixed z-50 bottom-6 right-6 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center cursor-pointer transition-all hover:scale-105 hover:shadow-xl" onClick={toggleDarkMode} title="Toggle Dark Mode">
+        <div className="fixed z-50 bottom-6 right-6 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center cursor-pointer transition-all hover:scale-105 hover:shadow-xl" onClick={e => toggleDarkMode(e)} title="Toggle Dark Mode">
           {isDarkMode ? <FaSun className="text-yellow-400 w-6 h-6 transition-colors duration-300" /> : <FaMoon className="text-gray-700 dark:text-white w-6 h-6 transition-colors duration-300" />}
         </div>
         <div>

@@ -132,3 +132,9 @@
       text-align: center;
       transition: all 1s cubic-bezier(1, 0, 0, 1);
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
