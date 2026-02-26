@@ -94,17 +94,17 @@ export const UploadChests = () => {
 
     return (
         <div className="mt-5" id="main-div">
-            <h1 className="text-center">
+            <h1 className="text-center dark:text-white text-2xl">
                 <b>Upload Chest Textures Page</b>
             </h1>
             <div className="flex justify-center">
                 <div
-                    className="flex border-dashed border-2 border-slate-400 dark:border-slate-600 w-fittext-gray-800 dark:text-whitefont-sans m-24 p-8 text-center justify-center items-center"
+                    className="flex border-dashed border-2 border-slate-400 dark:border-slate-600 w-fittext-gray-800 dark:text-whitefont-sans mx-24 my-8 p-8 text-center justify-center items-center"
                     onDragOver={stopOver}
                     onDrop={handleDrop}
                 >
                     <form className="grid grid-cols-1">
-                        <h2 className="text-xl font-bold">Chest Textures</h2>
+                        <h2 className="text-xl font-bold dark:text-white">Chest Textures</h2>
 
                         <label className={`${hasFile ? "" : "hidden"}`}>
                             Fichier sélectionné : {files[0]?.name || ""}
@@ -120,7 +120,7 @@ export const UploadChests = () => {
                         <label className="text-gray-800 dark:text-white">Tu peux drag-and-drop (Uniquement .zip)</label>
 
                         <button
-                            className={`${hasFile ? "hidden" : ""} input-group mb-1 mt-1 flex w-full border border-gray-300 dark:border-gray-700  rounded-lg p-2.5 justify-center`}
+                            className={`${hasFile ? "hidden" : ""} input-group mb-1 mt-1 flex w-full border border-gray-300 dark:border-gray-700  rounded-lg p-2.5 justify-center dark:text-white`}
                             onClick={chooseFile}
                             disabled={uploading}
                         >

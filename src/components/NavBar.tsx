@@ -13,10 +13,10 @@ import {
   FaTimes,
   FaBars,
 } from "react-icons/fa";
-import { FaArrowRightToBracket } from "react-icons/fa6";
+import { FaArrowRightToBracket, FaCalendarDays } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import { LoggedInfo } from "./LoggedInfo";
-import { hasPermission, isLogged } from "../Utils";
+import { getUserAvatarUrl, hasPermission, isLogged } from "../Utils";
 import clsx from "clsx";
 import { useUser } from "../UserProvider";
 
@@ -59,7 +59,7 @@ export const NavBar = () => {
     }
 
     function handleSwipeGesture() {
-      const swipeThreshold = 50; 
+      const swipeThreshold = 50;
       const deltaX = touchEndX - touchStartX;
 
       if (deltaX > swipeThreshold) {
@@ -78,7 +78,7 @@ export const NavBar = () => {
       document.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
-  
+
 
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export const NavBar = () => {
 
         {/* Bouton burger - version mobile */}
         <button
-          className="mobile-menu-button md:hidden text-gray-800 dark:text-gray-200 mr-4"
+          className={`mobile-menu-button md:hidden text-gray-800 dark:text-gray-200 mr-4 transition-all ${mobileMenuOpen ? "z-50" : ""}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -133,7 +133,7 @@ export const NavBar = () => {
               aria-haspopup="true"
               aria-expanded={resourcesOpen}
               className={clsx(
-                "flex items-center space-x-2 text-gray-800 dark:text-gray-200 font-semibold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors",
+                "hidden md:flex items-center space-x-2 text-gray-800 dark:text-gray-200 font-semibold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors ",
                 resourcesOpen && "text-emerald-600 dark:text-emerald-400"
               )}
             >
@@ -157,7 +157,7 @@ export const NavBar = () => {
                   className="flex items-center px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <FaYoutube className="mr-2" />
-                  Youtube (<FR title="France" className="w-4 mt-1"/>)
+                  Youtube (<FR title="France" className="w-4 mt-1" />)
                 </a>
                 <a
                   href="https://git.iglee.fr"
@@ -194,7 +194,8 @@ export const NavBar = () => {
               href={process.env.REACT_APP_API_URL + "/login" + (process.env.NODE_ENV !== "production" ? "?dev=true" : "")}
               className="flex items-center space-x-1 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-semibold"
             >
-              <FaArrowRightToBracket />
+              <FaArrowRightToBracket size={24} className="sm:hidden" />
+              <FaArrowRightToBracket className="hidden sm:block" />
               <span className="hidden sm:inline">Login</span>
             </a>
           ) : (
@@ -206,17 +207,17 @@ export const NavBar = () => {
       {/* Menu mobile */}
       {(
         <div
-          
+
           ref={mobileMenuRef}
           className={`md:hidden fixed inset-0 z-40 bg-white dark:bg-gray-900 pt-16 overflow-y-auto transi-all max-w-[75%] ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
         >
-          <button
+          {/*  <button
             className="mobile-menu-button md:hidden text-gray-800 dark:text-gray-200 mr-4 mt-2 ml-4"
             onClick={() => setMobileMenuOpen(false)}
             aria-label="Toggle menu"
           >
            <FaTimes size={24} />
-          </button>
+          </button> */}
 
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col space-y-6">
@@ -251,7 +252,7 @@ export const NavBar = () => {
                   Github
                 </a>
 
-                {hasPermission(user,3) && (<Link
+                {hasPermission(user, 3) && (<Link
                   to={
                     process.env.NODE_ENV === "production" &&
                       !hasPermission(user, 3)
@@ -271,7 +272,7 @@ export const NavBar = () => {
               </div>
 
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                {!isLogged() ? (
+                {!isLogged() || user == null ? (
                   <a
                     href={process.env.REACT_APP_API_URL + "/login"}
                     className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
@@ -282,7 +283,60 @@ export const NavBar = () => {
                   </a>
                 ) : (
                   <div className="py-3">
-                    <LoggedInfo />
+                    {/* <LoggedInfo /> */}
+                    <h3 className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider mb-2 flex items-center">
+                      <img
+                        src={getUserAvatarUrl(user)}
+                        alt={user.username}
+                        className="rounded-full w-5 h-5 mr-2 object-cover"
+                      />
+                      {user.username}
+                    </h3>
+                    <a
+                      href="/contests"
+                      className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <FaCalendarDays className="mr-3" />
+                      Contests
+                    </a>
+                    {hasPermission(user, 2) && (
+                      <a
+                        href="/uploadChests"
+                        className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <img
+                          src={process.env.REACT_APP_API_URL + "/image/nec.gif"}
+                          alt=""
+                          className="mr-3 w-[1em] rounded-sm object-contain"
+                        />
+                        Upload Chest Textures
+                      </a>
+                    )}
+                    {hasPermission(user, 3) && (
+                      <a
+                        href="/adminPanel"
+                        className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <img
+                          src="https://miro.medium.com/v2/resize:fit:1400/1*5Hnnv0awfSv0BGcq1C522w.png"
+                          alt=""
+                          className="mr-3 rounded-sm w-[1em] object-contain"
+                        />
+                        Admin Panel
+                      </a>
+                    )}
+
+                    <a
+                      href="/logout"
+                      className="flex items-center py-3 text-gray-800 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <FaArrowRightToBracket className="mr-3 rotate-180 " />
+                      Logout
+                    </a>
                   </div>
                 )}
               </div>

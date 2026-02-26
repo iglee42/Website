@@ -60,5 +60,3 @@ The operator reserves the right to modify these terms and the privacy policy at 
 
 12. Governing Law
 These terms are governed by French law. Any disputes shall be subject to the exclusive jurisdiction of French courts.
-
-How to publish: Create a page named "Legal & Privacy" on your site, paste this text, and link it from your footer.

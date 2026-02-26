@@ -60,5 +60,3 @@ L’éditeur se réserve le droit de modifier ces conditions et la politique de 
 
 12. Loi applicable
 Ces conditions sont soumises au droit français. Tout litige sera soumis à la compétence exclusive des tribunaux français.
-
-À afficher sur ton site : Mets ce texte dans une page dédiée "Mentions légales & Confidentialité" et ajoute un lien dans le footer.
