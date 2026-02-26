@@ -43,14 +43,14 @@ export const LoggedInfo = () => {
     <div className="relative inline-block text-left">
       <button
         {...buttonProps}
-        className={`navItem flex items-center text-2xl rounded-lg px-3 py-1 bg-white dark:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900 transition focus:outline-none focus:ring-2 focus:ring-green-500`}
+        className={`navItem flex items-center text-2xl rounded-full md:rounded-lg px-1 py-1 md:px-3 bg-white dark:bg-gray-800 shadow-sm border border-gray-300 dark:border-gray-700 hover:bg-green-50 dark:hover:bg-green-900 transition focus:outline-none focus:ring-2 focus:ring-green-500`}
       >
         <img
           src={getUserAvatarUrl(user)}
           alt={username}
-          className="rounded-full w-10 h-10 mr-3 object-cover"
+          className="rounded-full w-10 h-10 md:mr-3 object-cover"
         />
-        <span className="select-none text-gray-900 dark:text-gray-100">{username}</span>
+        <span className="select-none text-gray-900 dark:text-gray-100 hidden md:block">{username}</span>
       </button>
 
       {/* Dropdown menu */}
