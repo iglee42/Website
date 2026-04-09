@@ -1,13 +1,14 @@
 import { FaClone, FaScrewdriverWrench, FaXmark } from "react-icons/fa6";
 import { getUpperName } from "../Utils";
 import { FaBookmark, FaCheck, FaClock } from "react-icons/fa";
+import { DiscordUser } from "./discordUser";
 
 export type Idea = {
     id: number;
     title: string;
     description: string;
     mod_id: number;
-    discord_id: string;
+    user: DiscordUser | null;
     created_at: Date;
     status: number;
     comment: string;

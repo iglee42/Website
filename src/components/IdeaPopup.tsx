@@ -1,13 +1,11 @@
-import { useEffect, useState, MouseEvent } from "react";
+import { useState, MouseEvent } from "react";
 import {
-  getUserById,
   getUserAvatarUrl,
   showInfo,
   showError,
   hasPermission,
 } from "../Utils";
 import { Idea, getStatusByNumber, getIconByStatus, Status } from "../types/idea";
-import { DiscordUser } from "../types/discordUser";
 import { Mod } from "../types/mod";
 import StatusSelect from "./StatusSelect";
 import { Popup } from "./Popup";
@@ -21,14 +19,10 @@ interface Props {
 }
 
 export function IdeaPopup({ idea, mods, onClose }: Props) {
-  const [user, setUser] = useState<DiscordUser | null>(null);
   const [status, setStatus] = useState(idea.status);
   const [comment, setComment] = useState(idea.comment || "");
   const siteUser = useUser().user;
 
-  useEffect(() => {
-    if (!user) getUserById(idea.discord_id).then(setUser);
-  }, [user,idea.discord_id]);
 
   const mod = mods.find((m) => m.id === idea.mod_id);
   const statusEntries = Object.entries(Status).filter(
@@ -92,11 +86,11 @@ export function IdeaPopup({ idea, mods, onClose }: Props) {
                 <span>{mod.name}</span>
               </div>
             )}
-            {hasPermission(siteUser, 1) && user && (
+            {idea.user && (
               <div className="flex items-center gap-2">
                 <span className="font-medium">Author:</span>
-                <img src={getUserAvatarUrl(user)} alt="" className="w-6 h-6 rounded-full" />
-                <span>{user.global_name}</span>
+                <img src={getUserAvatarUrl(idea.user)} alt="" className="w-6 h-6 rounded-full" />
+                <span>{idea.user.username}</span>
               </div>
             )}
           </div>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useUser } from "../../UserProvider";
-import { FaSpinner, FaTimes } from "react-icons/fa";
+import { FaDownload, FaSpinner, FaTimes } from "react-icons/fa";
 import { Contest } from "../../types/contest";
 import { hasPermission } from "../../Utils";
 import { ContestEditPopup } from "../../components/contests/EditContestPopup";
@@ -21,7 +21,7 @@ export const Contests = () => {
   useEffect(() => {
     if (userProvider.user !== null) setLogged(true)
   }, [])
-  
+
   useEffect(() => {
     fetch(process.env.REACT_APP_API_URL + "/contests", {
       method: "GET"
@@ -40,8 +40,37 @@ export const Contests = () => {
       .finally(() => {
         setLoading(false);
       });
-  },[])
+  }, [])
 
+
+  function downloadAllSubmissions(e: React.MouseEvent<SVGElement>, contest: Contest) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    fetch(process.env.REACT_APP_API_URL + `/contest/${contest.id}/submissions/download`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Fetch error");
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${contest.name}_submissions.zip`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      })
+      .catch(() => {
+        console.error("Download error");
+      });
+  }
 
   if (!logged) {
     return (
@@ -72,13 +101,14 @@ export const Contests = () => {
         Available Contests
       </h1>
       <div>
-      {contests.length === 0 ? (
-        <div className="text-center text-gray-600 dark:text-gray-400">
-          No contests available at the moment.
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {contests.length === 0 ? (
+          <div className="text-center text-gray-600 dark:text-gray-400">
+            No contests available at the moment.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {contests.map((contest) => {
+              const tags = contest.tags || [];
               const now = new Date();
               const openAt = new Date(contest.submissions_open);
               const endAt = new Date(contest.end_at);
@@ -93,7 +123,14 @@ export const Contests = () => {
                     <h2 className="text-xl font-semibold leading-snug">{contest.name}</h2>
                     <span className={`px-2.5 py-1 text-xs rounded-full whitespace-nowrap ${badgeColor}`}>{status}</span>
                   </div>
-                  <p className="text-sm mt-2 mb-4 line-clamp-3">{contest.description}</p>
+                  <p className="text-sm mt-2 mb-2 line-clamp-3">{contest.description}</p>
+                  {tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {tags.map((tag, index) => (
+                        <span key={index} className="bg-green-500 text-white px-3 py-1 rounded-full text-sm">{tag}</span>
+                      ))}
+                    </div>
+                  )}
 
                   <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
                     {!isEnded && (
@@ -107,11 +144,14 @@ export const Contests = () => {
                     {hasPermission(userProvider.user!, 2) && (
                       <button onClick={e => { setEditingContest(contest); setIsEditingContest(true) }} className="inline-flex items-center justify-center bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300">Edit</button>
                     )}
+                    {hasPermission(userProvider.user!, 2) && (
+                      <FaDownload onClick={e => downloadAllSubmissions(e, contest)} className="inline-flex items-center justify-center bg-blue-600 text-white size-10 p-3 rounded-md hover:bg-blue-700 transition-colors duration-300 cursor-pointer" />
+                    )}
                   </div>
                 </div>
               );
             })}
-        </div>
+          </div>
         )}
         {hasPermission(userProvider.user!, 2) && <button onClick={e => { setIsEditingContest(true) }} className="mt-6 inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-300">Create a Contest</button>}
       </div>

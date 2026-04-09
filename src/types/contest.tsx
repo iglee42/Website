@@ -1,3 +1,5 @@
+import { DiscordUser } from "./discordUser";
+
 export type FileType = {
     id: number;
     name: string;
@@ -8,6 +10,7 @@ export type Contest = {
     id: number;
     name: string;
     description: string;
+    tags: string[];
     created_at: Date;
     submissions_open: Date;
     end_at: Date;
@@ -23,5 +26,5 @@ export type Submission = {
     description: string;
     created_at: Date;
     file_path: string;
-    discord_id: string;
+    user: DiscordUser | null;
 }
