@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Popup } from "../Popup";
 import { Mod } from "../../types/mod";
 import Toggle from "react-toggle";
@@ -17,6 +17,7 @@ interface Props {
 export function ContestEditPopup({ onClose, contest }: Props) {
   const [name, setName] = useState(contest ? contest.name : "");
   const [description, setDescription] = useState(contest ? contest.description : "");
+  const [tags, setTags] = useState(contest ? contest.tags : [] as string[]);
   const [submissionsOpen, setSubmissionsOpen] = useState<number>(
     contest ? new Date(contest.submissions_open).getTime() : Date.now()
   );
@@ -26,6 +27,8 @@ export function ContestEditPopup({ onClose, contest }: Props) {
   const [askFile, setAskFile] = useState(contest ? contest.ask_file : false);
   const [fileType, setFileType] = useState(contest ? contest.file_type : null);
   const [privateSubmissions, setPrivateSubmissions] = useState(contest ? contest.private_submissions : false);
+  const [tagInput, setTagInput] = useState("");
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
   const [fileTypes, setFileTypes] = useState([] as FileType[]);
@@ -67,7 +70,10 @@ export function ContestEditPopup({ onClose, contest }: Props) {
       return;
     }
 
-    console.log({ submissionsOpen, end });
+    if (!tags || tags.length === 0) {
+      showError("At least one tag is required");
+      return;
+    }
 
     if (!submissionsOpen || !end || isNaN(submissionsOpen) || isNaN(end)) {
       showError("Please set valid start and end dates");
@@ -89,8 +95,9 @@ export function ContestEditPopup({ onClose, contest }: Props) {
         id: contest ? contest.id : null,
         name,
         description,
-        submissions_open: Math.floor(submissionsOpen/1000),
-        end_at: Math.floor(end/1000),
+        tags,
+        submissions_open: Math.floor(submissionsOpen / 1000),
+        end_at: Math.floor(end / 1000),
         ask_file: askFile,
         file_type: fileType?.id || null,
         private_submissions: privateSubmissions
@@ -132,6 +139,17 @@ export function ContestEditPopup({ onClose, contest }: Props) {
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 
+  const addTag = () => {
+    const nextTag = tagInput.trim();
+    if (!nextTag) return;
+
+    const alreadyExists = tags.some(tag => tag.toLowerCase() === nextTag.toLowerCase());
+    if (!alreadyExists) {
+      setTags([...tags, nextTag]);
+    }
+    setTagInput("");
+  };
+
 
 
   return (
@@ -157,6 +175,52 @@ export function ContestEditPopup({ onClose, contest }: Props) {
             className=" mt-0 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-gray-800 resize"
             placeholder="Set the contest description"
           />
+        </div>
+
+        <div className="pt-4 border-gray-200 dark:border-zinc-700 flex justify-center items-center">
+          <span className="text-lg mr-2 w-28 ">Tags:</span>
+
+          <div
+            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-gray-800 flex flex-wrap items-center gap-2"
+            onClick={() => tagInputRef.current?.focus()}
+          >
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className="bg-green-500 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2"
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => setTags(tags.filter((_, i) => i !== index))}
+                  className="hover:text-gray-300 font-bold"
+                  aria-label={`Remove tag ${tag}`}
+                >
+                  x
+                </button>
+              </span>
+            ))}
+
+            <input
+              ref={tagInputRef}
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                console.log(e.key);
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  addTag();
+                }
+
+                if (e.key === "Backspace" && !tagInput.trim() && tags.length > 0) {
+                  setTags(tags.slice(0, -1));
+                }
+              }}
+              className="min-w-[160px] flex-1 bg-transparent border-0 outline-none focus:ring-0 p-0"
+              placeholder={tags.length === 0 ? "Type a tag and press Enter" : "Add another tag"}
+            />
+          </div>
         </div>
 
         <div className="pt-4 border-gray-200 dark:border-zinc-700 flex justify-center items-center">

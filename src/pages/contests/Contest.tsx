@@ -19,7 +19,6 @@ export const ContestPage = () => {
   const [files, setFiles] = useState<File | null>(null)
   const [loading, setLoading] = useState(true);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [users, setUsers] = useState<DiscordUser[]>([]);
   const [previewSubmission, setPreviewedSubmission] = useState<Submission | null>(null);
   const [progress, setProgress] = useState<number>(-1);
   const [now, setNow] = useState(new Date());
@@ -80,11 +79,6 @@ export const ContestPage = () => {
           })
           .then((data: Submission[]) => {
             setSubmissions(data)
-            const userIds = Array.from(new Set(data.map(sub => sub.discord_id)));
-            Promise.all(userIds.map(id => getUserById(id)))
-              .then(users => {
-                setUsers(users.filter((user): user is DiscordUser => user !== null));
-              });
           })
           .catch(() => {
             showError("Failed to fetch submissions")
@@ -425,7 +419,7 @@ export const ContestPage = () => {
       <div className="w-full z-10 text-gray-800 dark:text-white">
         {
           previewSubmission && (
-            <FileViewerPopup file={process.env.REACT_APP_API_URL + "/contest/" + contest.id + "/submission/" + previewSubmission.id + "/file"} downloadFileName={(users.find(u => u.id === previewSubmission.discord_id)?.username + "'s Submission") || ""} download={hasPermission(userProvider.user!, 2)} onClose={() => setPreviewedSubmission(null)} />
+            <FileViewerPopup file={process.env.REACT_APP_API_URL + "/contest/" + contest.id + "/submission/" + previewSubmission.id + "/file"} downloadFileName={(previewSubmission.user?.username + "'s Submission") || ""} download={hasPermission(userProvider.user!, 2)} onClose={() => setPreviewedSubmission(null)} />
           )
         }
 
@@ -488,7 +482,7 @@ export const ContestPage = () => {
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white mt-2">Submissions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {submissions.map((submission) => {
-                const user = users.find(u => u.id === submission.discord_id);
+                const user = submission.user
                 if (!user) return (<></>)
                 return (
                   <div key={submission.id} className="border rounded-xl p-5 bg-white/60 dark:bg-gray-900/60 hover:shadow-lg transition-shadow duration-300 text-left">

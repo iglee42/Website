@@ -14,22 +14,31 @@ import { FaSpinner } from "react-icons/fa";
 import { Legal } from "./pages/utils/Legal";
 import { Contests } from "./pages/contests/Contests";
 import { ContestPage } from "./pages/contests/Contest";
+import FailedLogin from "./pages/utils/FailedLogin";
+import NotFound from "./pages/utils/404";
 
 export function Router() {
-    let userProvider = useUser();
-    if (userProvider.loading) {
-        console.log("Loading user data...");
-        return (<div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
-            <FaSpinner className="animate-spin mr-2" />
-            <span>Loading…</span>
-        </div>);
+    const { user, loading } = useUser();
+    const logged = isLogged();
+
+    // Si on charge et qu'on n'a pas de user
+    if (loading && !user) {
+        return (
+            <div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
+                <FaSpinner className="animate-spin mr-2" />
+                <span>Loading…</span>
+            </div>
+        );
     }
-    const user = userProvider.user;
-    if (!user && isLogged()) {
-        return (<div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
-            <FaSpinner className="animate-spin mr-2" />
-            <span>Loading…</span>
-        </div>);
+
+    // Si on est censé être connecté mais user absent → log out / message
+    if (!loading && logged && !user) {
+        return (
+            <div className="flex justify-center items-center h-40 text-gray-600 dark:text-gray-400">
+                <FaSpinner className="animate-spin mr-2" />
+                <span>Loading…</span>
+            </div>
+        );
     }
 
     return (
@@ -45,7 +54,9 @@ export function Router() {
             <Route path='/logout' element={isLogged() ? <Logout /> : <Navigate to='/' />} />
             <Route path='/contests' element={<Contests />} />
             <Route path='/contest/*' element={<ContestPage />} />
-            <Route path="/legals" element={ <Legal/> } />
+            <Route path="/legals" element={<Legal />} />
+            <Route path="/failed-login" element={<FailedLogin />} />
+            <Route path='*' element={<NotFound />} />
         </Routes>
     )
 }
