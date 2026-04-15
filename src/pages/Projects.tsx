@@ -51,7 +51,7 @@ export const Projects = () => {
               xl:basis-1/5
             "
           >
-            <ModInfo mod={mod} onClick={() => setCurrent(mod)} />
+            <ModInfo mod={mod} onClick={() => setCurrent(mod)} downloadOnly={false} />
           </div>
         ))}
       </div>

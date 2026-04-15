@@ -30,7 +30,9 @@ export const ModSelect = forwardRef<ModSelectHandle, Props>((_, ref) => {
       const response = await fetch(process.env.REACT_APP_API_URL + "/mods");
       if (response.ok) {
         const data = await response.json();
-        setMods(data);
+        let modsTemp = data as Mod[];
+        modsTemp = modsTemp.filter((m) => !m.disabled);
+        setMods(modsTemp);
       }
       setLoading(false);
     }
