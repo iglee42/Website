@@ -8,4 +8,5 @@ export type Mod = {
     downloads: number;
     wiki: string;
     featured: boolean;
+    source_link: string;
 }

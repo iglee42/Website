@@ -166,6 +166,7 @@ export const AdminPanel = () => {
             <span className="w-24 text-lg text-gray-800 dark:text-white">Disabled</span>
             <span className="w-24 text-lg text-gray-800 dark:text-white">Featured</span>
             <span className="w-44 text-lg text-gray-800 dark:text-white">Wiki</span>
+            <span className="w-44 text-lg text-gray-800 dark:text-white">Source</span>
             <div className="w-12 text-lg text-gray-800 dark:text-white ml-4"></div>
           </div>
           {
@@ -182,6 +183,7 @@ export const AdminPanel = () => {
                 <span className="w-24 text-lg text-gray-800 dark:text-white">{mod.disabled ? "True" : "False"}</span>
                 <span className="w-24 text-lg text-gray-800 dark:text-white">{mod.featured ? "True" : "False"}</span>
                 <span className="w-44 text-lg text-gray-800 dark:text-white truncate">{mod.wiki === "" ? "-" : mod.wiki}</span>
+                <span className="w-44 text-lg text-gray-800 dark:text-white truncate">{mod.source_link === "" ? "-" : mod.source_link}</span>
                 <div className="w-12 text-lg text-gray-800 dark:text-white ml-4">
                   <button className="text-whitepx-5 py-2 rounded-md" onClick={() => { setIsEditingMod(true); setEditedMod(mod) }}><FaEdit></FaEdit></button>
                 </div>

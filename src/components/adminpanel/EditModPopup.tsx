@@ -18,6 +18,7 @@ export function ModEditPopup({ onClose, mod }: Props) {
   const [disabled, setDisabled] = useState(mod ? mod.disabled : false);
   const [featured, setFeatured] = useState(mod ? mod.featured : false);
   const [wiki, setWiki] = useState(mod ? mod.wiki : "");
+  const [source, setSource] = useState(mod ? mod.source_link : "");
 
   const sendModUpdate = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -44,7 +45,8 @@ export function ModEditPopup({ onClose, mod }: Props) {
         modrinthId: mrId,
         disabled,
         featured,
-        wiki
+        wiki,
+        source_link: source
       })
     })
     if (res.ok) {
@@ -150,6 +152,15 @@ export function ModEditPopup({ onClose, mod }: Props) {
             onChange={(e) => setWiki(e.target.value)}
             className=" mt-0 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-gray-800 resize-none"
             placeholder="Set the Wiki URL"
+          />
+        </div>
+        <div className="pt-4 border-gray-200 dark:border-zinc-700 flex justify-center items-center">
+          <span className="text-lg mr-2 w-28 ">Source URL:</span>
+          <input
+            defaultValue={source}
+            onChange={(e) => setSource(e.target.value)}
+            className=" mt-0 w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-gray-800 resize-none"
+            placeholder="Set the Source URL"
           />
         </div>
         <div className="pt-4 border-gray-200 dark:border-zinc-700 flex justify-center items-center">
