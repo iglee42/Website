@@ -95,7 +95,7 @@ export const Home = () => {
         {/* Core Features */}
         <section className="py-16 px-4">
           <div className="max-w-screen-xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-semibold">Why Supports Me?</h2>
+            <h2 className="text-3xl font-semibold">Why Support Me?</h2>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               I empower your Minecraft experience with Innovative Minecraft mods.
             </p>
